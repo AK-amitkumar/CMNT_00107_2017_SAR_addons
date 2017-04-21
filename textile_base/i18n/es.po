@@ -1,0 +1,224 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#       * textile_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-21 15:01+0000\n"
+"PO-Revision-Date: 2017-04-21 15:01+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_account_analytic_tag_active
+msgid "Active"
+msgstr "Activo"
+
+#. module: textile_base
+#: model:ir.model,name:textile_base.model_account_analytic_tag
+msgid "Analytic Tags"
+msgstr "Etiquetas analíticas"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_approve_date
+msgid "Approvation date"
+msgstr "Fecha aprobación"
+
+#. module: textile_base
+#: model:ir.ui.view,arch_db:textile_base.color_refs_form_view
+#: model:ir.ui.view,arch_db:textile_base.color_refs_tree_view
+msgid "Approve"
+msgstr "Aprobar"
+
+#. module: textile_base
+#: selection:product.attribute.value.color.refs,state:0
+msgid "Approved"
+msgstr "Aprobado"
+
+#. module: textile_base
+#: model:ir.ui.view,arch_db:textile_base.color_refs_form_view
+msgid "Approved data"
+msgstr "Datos aprobación"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_approve_user
+msgid "Approver"
+msgstr "Aprobado por"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_attribute_value
+msgid "Attribute"
+msgstr "Atributo"
+
+#. module: textile_base
+#: model:ir.model.fields,help:textile_base.field_product_attribute_value_color
+msgid "Choose your color"
+msgstr "Seleccione color"
+
+#. module: textile_base
+#: model:ir.actions.act_window,help:textile_base.account_analytic_tag_season_action
+msgid "Click to add a new season."
+msgstr "Click para añadir una nueva temporada."
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color
+#: model:ir.ui.view,arch_db:textile_base.colors_form_view
+#: model:product.attribute,name:textile_base.color_attribute
+msgid "Color"
+msgstr "Color"
+
+#. module: textile_base
+#: model:ir.actions.act_window,name:textile_base.product_attribute_value_color_action
+#: model:ir.ui.menu,name:textile_base.menu_product_attribute_value_colors
+#: model:ir.ui.view,arch_db:textile_base.colors_tree_view
+msgid "Colors"
+msgstr "Colores"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_composition
+#: model:ir.ui.view,arch_db:textile_base.color_refs_form_view
+msgid "Composition"
+msgstr "Composición"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_customer
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: textile_base
+#: selection:product.attribute.value.color.refs,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_id
+msgid "ID"
+msgstr "ID"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_is_color
+msgid "Is color"
+msgstr "Es color"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_lapdip
+msgid "Lapdip"
+msgstr "Lapdip"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_name
+#: model:ir.ui.view,arch_db:textile_base.account_analytic_tag_form_view
+#: model:ir.ui.view,arch_db:textile_base.account_analytic_tag_tree_view_change_name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: textile_base
+#: model:ir.model.fields,help:textile_base.field_product_attribute_value_color_refs_name
+msgid "Name in customer"
+msgstr "Nombre en el cliente"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_pantone
+msgid "Pantone"
+msgstr "Pantone"
+
+#. module: textile_base
+#: model:ir.ui.view,arch_db:textile_base.color_refs_form_view
+msgid "Properties"
+msgstr "Propiedades"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_code
+msgid "Ref."
+msgstr "Ref."
+
+#. module: textile_base
+#: model:ir.model.fields,help:textile_base.field_product_attribute_value_color_refs_code
+msgid "Ref. in customer"
+msgstr "Referencia en el cliente"
+
+#. module: textile_base
+#: model:ir.ui.view,arch_db:textile_base.color_refs_form_view
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs
+#: model:ir.ui.view,arch_db:textile_base.color_refs_tree_view
+#: model:ir.ui.view,arch_db:textile_base.colors_form_view
+msgid "References"
+msgstr "Referencias"
+
+#. module: textile_base
+#: selection:account.analytic.tag,type:0
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_season
+msgid "Season"
+msgstr "Temporada"
+
+#. module: textile_base
+#: model:ir.actions.act_window,name:textile_base.account_analytic_tag_season_action
+#: model:ir.ui.menu,name:textile_base.menu_account_analytic_tag_season
+msgid "Seasons"
+msgstr "Temporadas"
+
+#. module: textile_base
+#: model:ir.ui.view,arch_db:textile_base.color_refs_form_view
+#: model:ir.ui.view,arch_db:textile_base.color_refs_tree_view
+msgid "Set to Draft"
+msgstr "Cambiar a borrador"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_state
+msgid "State"
+msgstr "Estado"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_account_analytic_tag_type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: textile_base
+#: model:ir.model,name:textile_base.model_product_attribute_value
+msgid "product.attribute.value"
+msgstr "product.attribute.value"
+
+#. module: textile_base
+#: model:ir.model,name:textile_base.model_product_attribute_value_color_refs
+msgid "product.attribute.value.color.refs"
+msgstr "product.attribute.value.color.refs"
