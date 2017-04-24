@@ -17,7 +17,8 @@
     "data": [
         'data/textile_base_data.xml',
         'views/season_view.xml',
-        'views/color_view.xml'
+        'views/color_view.xml',
+        'security/ir.model.access.csv'
     ],
     "installable": True
 }

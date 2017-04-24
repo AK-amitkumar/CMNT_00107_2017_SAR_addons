@@ -55,5 +55,16 @@ class ProductAttributeValue(models.Model):
     color = fields.Char("Color", help="Choose your color", size=7)
     color_refs = fields.One2many("product.attribute.value.color.refs",
                                  "attribute_value", "References")
+    active_color_refs = fields.One2many("product.attribute.value.color.refs",
+                                        "attribute_value", "References",
+                                        domain=[("season.active", '=', True)])
     is_color = fields.Boolean("Is color", compute="_get_is_color",
                               readonly=True)
+
+    @api.multi
+    def open_refs_history(self):
+        action = self.env.ref('textile_base.color_refs_action')
+        result = action.read()[0]
+        result['domain'] = [('attribute_value', 'in', self.ids)]
+        result['flags'] = {'action_buttons': False}
+        return result

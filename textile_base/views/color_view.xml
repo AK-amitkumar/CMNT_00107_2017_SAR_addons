@@ -43,14 +43,20 @@
         <field name="priority">200</field>
         <field name="arch" type="xml">
             <form string="Color">
-                <group>
-                    <field name="name"/>
-                    <field name="is_color" invisble="1"/>
-                    <field name="attribute_id" readonly="1"/>
-                    <field name="color" widget="color"/>
-                </group>
-                <separator string="References" colspan="4"/>
-                <field name="color_refs" nolabel="1" colspan="4" context="{'default_name': name}"/>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="open_refs_history" type="object" string="All refs"
+                                class="oe_stat_button" icon="fa-archive"/>
+                    </div>
+                    <group>
+                        <field name="name"/>
+                        <field name="is_color" invisble="1"/>
+                        <field name="attribute_id" readonly="1"/>
+                        <field name="color" widget="color"/>
+                    </group>
+                    <separator string="References" colspan="4"/>
+                    <field name="active_color_refs" nolabel="1" colspan="4" context="{'default_name': name}"/>
+                </sheet>
             </form>
         </field>
     </record>
@@ -133,6 +139,14 @@
                 </sheet>
             </form>
         </field>
+    </record>
+
+    <record id="color_refs_action" model="ir.actions.act_window">
+        <field name="name">References</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.attribute.value.color.refs</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
     </record>
 
 </odoo>
