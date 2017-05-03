@@ -1,3 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_product_attribute_value_color_refs,product.attribute value color refs,model_product_attribute_value_color_refs,base.group_user,1,0,0,0
 access_product_attribute_value_color_refs_sale_manager,product.attribute manager value color refs,model_product_attribute_value_color_refs,sales_team.group_sale_manager,1,1,1,1
+access_product_composition,product_composition,model_product_composition,base.group_user,1,0,0,0
+access_product_composition_sale_manager,product_composition manager,model_product_composition,sales_team.group_sale_manager,1,1,1,1
+access_product_attribute_value_size_refs,product.attribute value size refs,model_product_attribute_value_size_refs,base.group_user,1,0,0,0
+access_product_attribute_value_size_refs_sale_manager,product.attribute manager value size refs,model_product_attribute_value_size_refs,sales_team.group_sale_manager,1,1,1,1

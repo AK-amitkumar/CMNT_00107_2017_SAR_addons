@@ -23,7 +23,7 @@ class ProductAttributeValueColorRefs(models.Model):
     approve_date = fields.Date("Approvation date", readonly=True)
     pantone = fields.Char("Pantone")
     lapdip = fields.Char("Lapdip")
-    composition = fields.Text("Composition")
+    composition_id = fields.Many2one("product.composition", "Composition")
 
     @api.multi
     def action_approve(self):

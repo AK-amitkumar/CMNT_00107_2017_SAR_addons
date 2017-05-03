@@ -12,12 +12,15 @@
     "depends": [
         'analytic',
         'sale',
-        'web_widget_color'
+        'web_widget_color',
+        'product_harmonized_system_extend'
     ],
     "data": [
         'data/textile_base_data.xml',
         'views/season_view.xml',
         'views/color_view.xml',
+        'views/composition_view.xml',
+        'views/size_view.xml',
         'security/ir.model.access.csv'
     ],
     "installable": True

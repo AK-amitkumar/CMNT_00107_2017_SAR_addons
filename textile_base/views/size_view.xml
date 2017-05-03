@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_attribute_view_form_add_is_size" model="ir.ui.view">
+        <field name="name">product.attribute.form.add_is_size</field>
+        <field name="inherit_id" ref="product.product_attribute_view_form"/>
+        <field name="model">product.attribute</field>
+        <field name="arch" type="xml">
+            <field name="create_variant" position="after">
+                <field name="is_size"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="attribute_tree_view_add_is_size" model="ir.ui.view">
+        <field name="name">product.attribute.tree.add_is_size</field>
+        <field name="model">product.attribute</field>
+        <field name="inherit_id" ref="product.attribute_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="create_variant" position="after">
+                <field name="is_size"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="size_tree_view" model="ir.ui.view">
+        <field name="name">product.attribute.value.tree.sizes</field>
+        <field name="model">product.attribute.value</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <tree string="Sizes">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="attribute_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="size_form_view" model="ir.ui.view">
+        <field name="name">product.attribute.value.form.sizes</field>
+        <field name="model">product.attribute.value</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <form string="Size">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="is_size" invisible="1"/>
+                        <field name="attribute_id" domain="[('is_size', '=', True)]"/>
+                    </group>
+                    <separator string="References" colspan="4"/>
+                    <field name="size_refs" nolabel="1" colspan="4" context="{'default_name': name}"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_attribute_value_size_action" model="ir.actions.act_window">
+        <field name="name">Sizes</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.attribute.value</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="domain" eval="[('is_size', '=', True)]"/>
+    </record>
+
+    <record id="product_attribute_value_size_action_tree" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="size_tree_view"/>
+        <field name="act_window_id" ref="product_attribute_value_size_action"/>
+    </record>
+
+    <record id="product_attribute_value_size_action_form" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="size_form_view"/>
+        <field name="act_window_id" ref="product_attribute_value_size_action"/>
+    </record>
+
+    <menuitem parent="sale.prod_config_main" id="menu_product_attribute_value_sizes" action="product_attribute_value_size_action"/>
+
+    <record id="size_refs_tree_view" model="ir.ui.view">
+        <field name="name">product.attribute.value.size.refs.tree</field>
+        <field name="model">product.attribute.value.size.refs</field>
+        <field name="arch" type="xml">
+            <tree string="References">
+                <field name="customer"/>
+                <field name="code"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="size_refs_form_view" model="ir.ui.view">
+        <field name="name">product.attribute.value.size.refs.form</field>
+        <field name="model">product.attribute.value.size.refs</field>
+        <field name="arch" type="xml">
+            <form string="Reference">
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="customer"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

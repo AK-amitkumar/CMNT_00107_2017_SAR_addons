@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="composition_tree_view" model="ir.ui.view">
+        <field name="name">product.composition.tree</field>
+        <field name="model">product.composition</field>
+        <field name="arch" type="xml">
+            <tree string="Compositions">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="fabric_type"/>
+                <field name="hs_code_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="composition_form_view" model="ir.ui.view">
+        <field name="name">product.composition.form</field>
+        <field name="model">product.composition</field>
+        <field name="arch" type="xml">
+            <form string="Composition">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="fabric_type"/>
+                        <field name="hs_code_id"/>
+                    </group>
+                    <separator string="Description" colspan="4"/>
+                    <field name="description" nolabel="1" colspan="4"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_composition_action" model="ir.actions.act_window">
+        <field name="name">Compositions</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.composition</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+    </record>
+
+    <menuitem parent="sale.prod_config_main" id="menu_product_compositions" action="product_composition_action"/>
+
+</odoo>

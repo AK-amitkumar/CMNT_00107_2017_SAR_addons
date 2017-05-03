@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-21 15:01+0000\n"
-"PO-Revision-Date: 2017-04-21 15:01+0000\n"
+"POT-Creation-Date: 2017-05-03 17:13+0000\n"
+"PO-Revision-Date: 2017-05-03 17:13+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:textile_base.field_account_analytic_tag_active
 msgid "Active"
 msgstr "Activo"
+
+#. module: textile_base
+#: model:ir.ui.view,arch_db:textile_base.colors_form_view
+msgid "All refs"
+msgstr "Todas las referencias"
 
 #. module: textile_base
 #: model:ir.model,name:textile_base.model_account_analytic_tag
@@ -53,8 +58,14 @@ msgstr "Aprobado por"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_attribute_value
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_size_refs_attribute_value
 msgid "Attribute"
 msgstr "Atributo"
+
+#. module: textile_base
+#: model:ir.model.fields,help:textile_base.field_product_attribute_is_size
+msgid "Check it if attribute will contain sizes"
+msgstr "Márcalo si el atributo va a contener tallas"
 
 #. module: textile_base
 #: model:ir.model.fields,help:textile_base.field_product_attribute_value_color
@@ -81,28 +92,47 @@ msgid "Colors"
 msgstr "Colores"
 
 #. module: textile_base
-#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_composition
-#: model:ir.ui.view,arch_db:textile_base.color_refs_form_view
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_composition_id
+#: model:ir.ui.view,arch_db:textile_base.composition_form_view
 msgid "Composition"
 msgstr "Composición"
 
 #. module: textile_base
+#: model:ir.actions.act_window,name:textile_base.product_composition_action
+#: model:ir.ui.menu,name:textile_base.menu_product_compositions
+#: model:ir.ui.view,arch_db:textile_base.composition_tree_view
+msgid "Compositions"
+msgstr "Composiciones"
+
+#. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_create_uid
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_size_refs_create_uid
+#: model:ir.model.fields,field_description:textile_base.field_product_composition_create_uid
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_create_date
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_size_refs_create_date
+#: model:ir.model.fields,field_description:textile_base.field_product_composition_create_date
 msgid "Created on"
 msgstr "Creado el"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_customer
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_size_refs_customer
 msgid "Customer"
 msgstr "Cliente"
 
 #. module: textile_base
+#: model:ir.ui.view,arch_db:textile_base.composition_form_view
+msgid "Description"
+msgstr "Descripción"
+
+#. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_display_name
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_size_refs_display_name
+#: model:ir.model.fields,field_description:textile_base.field_product_composition_display_name
 msgid "Display Name"
 msgstr "Nombre a mostrar"
 
@@ -112,7 +142,29 @@ msgid "Draft"
 msgstr "Borrador"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_composition_fabric_type
+msgid "Fabric type"
+msgstr "Tipo tejido"
+
+#. module: textile_base
+#: model:ir.model,name:textile_base.model_hs_code
+msgid "H.S. Code"
+msgstr "Código HS"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_composition_hs_code_id
+msgid "HS Code"
+msgstr "Código HS"
+
+#. module: textile_base
+#: model:ir.model.fields,help:textile_base.field_product_composition_hs_code_id
+msgid "Harmonized System Code. (Taric)"
+msgstr "Sistema harmonizado de códigos. (Taric)"
+
+#. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_id
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_size_refs_id
+#: model:ir.model.fields,field_description:textile_base.field_product_composition_id
 msgid "ID"
 msgstr "ID"
 
@@ -122,27 +174,45 @@ msgid "Is color"
 msgstr "Es color"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_is_size
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_is_size
+msgid "Is size"
+msgstr "Es talla"
+
+#. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_lapdip
 msgid "Lapdip"
 msgstr "Lapdip"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs___last_update
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_size_refs___last_update
+#: model:ir.model.fields,field_description:textile_base.field_product_composition___last_update
 msgid "Last Modified on"
 msgstr "Última modificación en"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_write_uid
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_size_refs_write_uid
+#: model:ir.model.fields,field_description:textile_base.field_product_composition_write_uid
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_write_date
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_size_refs_write_date
+#: model:ir.model.fields,field_description:textile_base.field_product_composition_write_date
 msgid "Last Updated on"
 msgstr "Última actualización el"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_composition_description
+msgid "Long Description"
+msgstr "Descripción larga"
+
+#. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_name
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_size_refs_name
 #: model:ir.ui.view,arch_db:textile_base.account_analytic_tag_form_view
 #: model:ir.ui.view,arch_db:textile_base.account_analytic_tag_tree_view_change_name
 msgid "Name"
@@ -150,13 +220,34 @@ msgstr "Nombre"
 
 #. module: textile_base
 #: model:ir.model.fields,help:textile_base.field_product_attribute_value_color_refs_name
+#: model:ir.model.fields,help:textile_base.field_product_attribute_value_size_refs_name
 msgid "Name in customer"
 msgstr "Nombre en el cliente"
+
+#. module: textile_base
+#: selection:product.composition,fabric_type:0
+msgid "Other"
+msgstr "Otro"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_pantone
 msgid "Pantone"
 msgstr "Pantone"
+
+#. module: textile_base
+#: selection:product.composition,fabric_type:0
+msgid "Plain"
+msgstr "Plana"
+
+#. module: textile_base
+#: selection:product.composition,fabric_type:0
+msgid "Point"
+msgstr "Punto"
+
+#. module: textile_base
+#: model:ir.model,name:textile_base.model_product_attribute
+msgid "Product Attribute"
+msgstr "Atributo de producto"
 
 #. module: textile_base
 #: model:ir.ui.view,arch_db:textile_base.color_refs_form_view
@@ -165,23 +256,31 @@ msgstr "Propiedades"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_code
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_size_refs_code
 msgid "Ref."
 msgstr "Ref."
 
 #. module: textile_base
 #: model:ir.model.fields,help:textile_base.field_product_attribute_value_color_refs_code
+#: model:ir.model.fields,help:textile_base.field_product_attribute_value_size_refs_code
 msgid "Ref. in customer"
 msgstr "Referencia en el cliente"
 
 #. module: textile_base
 #: model:ir.ui.view,arch_db:textile_base.color_refs_form_view
+#: model:ir.ui.view,arch_db:textile_base.size_refs_form_view
 msgid "Reference"
 msgstr "Referencia"
 
 #. module: textile_base
+#: model:ir.actions.act_window,name:textile_base.color_refs_action
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_active_color_refs
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs
+#: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_size_refs
 #: model:ir.ui.view,arch_db:textile_base.color_refs_tree_view
 #: model:ir.ui.view,arch_db:textile_base.colors_form_view
+#: model:ir.ui.view,arch_db:textile_base.size_form_view
+#: model:ir.ui.view,arch_db:textile_base.size_refs_tree_view
 msgid "References"
 msgstr "Referencias"
 
@@ -204,6 +303,23 @@ msgid "Set to Draft"
 msgstr "Cambiar a borrador"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_composition_name
+msgid "Short description"
+msgstr "Descripción corta"
+
+#. module: textile_base
+#: model:ir.ui.view,arch_db:textile_base.size_form_view
+msgid "Size"
+msgstr "Talla"
+
+#. module: textile_base
+#: model:ir.actions.act_window,name:textile_base.product_attribute_value_size_action
+#: model:ir.ui.menu,name:textile_base.menu_product_attribute_value_sizes
+#: model:ir.ui.view,arch_db:textile_base.size_tree_view
+msgid "Sizes"
+msgstr "Tallas"
+
+#. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_state
 msgid "State"
 msgstr "Estado"
@@ -214,6 +330,11 @@ msgid "Type"
 msgstr "Tipo"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_hs_code_url
+msgid "Url"
+msgstr "URL"
+
+#. module: textile_base
 #: model:ir.model,name:textile_base.model_product_attribute_value
 msgid "product.attribute.value"
 msgstr "product.attribute.value"
@@ -222,3 +343,13 @@ msgstr "product.attribute.value"
 #: model:ir.model,name:textile_base.model_product_attribute_value_color_refs
 msgid "product.attribute.value.color.refs"
 msgstr "product.attribute.value.color.refs"
+
+#. module: textile_base
+#: model:ir.model,name:textile_base.model_product_attribute_value_size_refs
+msgid "product.attribute.value.size.refs"
+msgstr "product.attribute.value.size.refs"
+
+#. module: textile_base
+#: model:ir.model,name:textile_base.model_product_composition
+msgid "product.composition"
+msgstr "product.composition"
