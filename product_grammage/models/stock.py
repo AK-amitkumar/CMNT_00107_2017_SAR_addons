@@ -18,9 +18,9 @@ class StockQuant(models.Model):
     @api.multi
     @api.depends('qty')
     def compute_quant_weight(self):
-        for lot in self:
-            grammage = 2
-            lot.weight = lot.qty * grammage
+        for quant in self:
+            if quant.lot_id:
+                quant.weight = quant.qty * quant.lot_id.grammage
 
     weight = fields.Float('Weight', compute='compute_quant_weight')
 
