@@ -6,16 +6,16 @@
         <field name="model">product.attribute.value</field>
         <field name="arch" type="xml">
             <kanban>
-                <field name="color"/>
+                <field name="color_hex"/>
                 <field name="name"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
-                            <div class="o_kanban_image" t-att-style='"height: 50px;width: 50px;background-color: " + record.color.value + ";"'>
+                            <div class="o_kanban_image" t-att-style='"height: 50px;width: 50px;background-color: " + record.color_hex.value + ";"'>
                             </div>
                             <div class="oe_kanban_details">
                                 <strong><field name="name"/></strong><br/>
-                                <field name="color"/>
+                                <field name="color_hex"/>
                             </div>
                         </div>
                     </t>
@@ -32,7 +32,7 @@
             <tree string="Colors">
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
-                <field name="color" widget="color"/>
+                <field name="color_hex" widget="color"/>
             </tree>
         </field>
     </record>
@@ -52,7 +52,7 @@
                         <field name="name"/>
                         <field name="is_color" invisible="1"/>
                         <field name="attribute_id" readonly="1"/>
-                        <field name="color" widget="color"/>
+                        <field name="color_hex" widget="color"/>
                     </group>
                     <separator string="References" colspan="4"/>
                     <field name="active_color_refs" nolabel="1" colspan="4" context="{'default_name': name}"/>

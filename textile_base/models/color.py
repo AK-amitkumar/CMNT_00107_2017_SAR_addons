@@ -13,7 +13,7 @@ class ProductAttributeValueColorRefs(models.Model):
                              domain=[('type', '=', 'season')])
     customer = fields.Many2one("res.partner", "Customer", required=True,
                                domain=[('customer', '=', True)])
-    state = fields.Selection([('draft', 'Draft'),('approved', 'Approved')],
+    state = fields.Selection([('draft', 'Draft'), ('approved', 'Approved')],
                              "State", required=True, default='draft',
                              readonly=True)
     code = fields.Char("Ref.", help="Ref. in customer", required=True)
@@ -45,21 +45,22 @@ class ProductAttributeValue(models.Model):
     _inherit = "product.attribute.value"
 
     @api.depends('attribute_id')
-    @api.one
-    def _get_is_color(self):
-        if self.attribute_id == self.env.ref('textile_base.color_attribute'):
-            self.is_color = True
-        else:
-            self.is_color = False
+    def _compute_is_color(self):
+        for value in self:
+            if value.attribute_id == \
+                    self.env.ref('textile_base.color_attribute'):
+                value.is_color = True
+            else:
+                value.is_color = False
 
-    color = fields.Char("Color", help="Choose your color", size=7)
+    color_hex = fields.Char("Color", help="Choose your color", size=7)
     color_refs = fields.One2many("product.attribute.value.color.refs",
                                  "attribute_value", "References")
     active_color_refs = fields.One2many("product.attribute.value.color.refs",
                                         "attribute_value", "References",
                                         domain=[("season.active", '=', True)])
-    is_color = fields.Boolean("Is color", compute="_get_is_color",
-                              readonly=True)
+    is_color = fields.Boolean("Is color", compute="_compute_is_color",
+                              readonly=True, store=True)
 
     @api.multi
     def open_refs_history(self):
@@ -68,3 +69,16 @@ class ProductAttributeValue(models.Model):
         result['domain'] = [('attribute_value', 'in', self.ids)]
         result['flags'] = {'action_buttons': False}
         return result
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        active_color_refs = self.env['product.attribute.value.color.refs']
+        if self._context.get('customer', False):
+            active_color_refs += \
+                self.env['product.attribute.value.color.refs'].search(
+                    [('customer', '=', self._context['customer']),
+                     ('season', '=', self._context['season'])])
+            args.append(
+                ('id', 'in', active_color_refs.mapped('attribute_value.id')))
+        return super(ProductAttributeValue, self).name_search(
+            name, args=args, operator=operator, limit=limit)

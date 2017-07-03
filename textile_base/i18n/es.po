@@ -21,6 +21,26 @@ msgid "Active"
 msgstr "Activo"
 
 #. module: textile_base
+#: model:ir.actions.act_window,name:textile_base.textile_premodel_action
+msgid "Pre-Models"
+msgstr "Pre-modelos"
+
+#. module: textile_base
+#: selection:textile.model,model_type:0
+msgid "Pre-model"
+msgstr "Pre-modelo"
+
+#. module: textile_base
+#: model:ir.ui.menu,name:textile_base.textile_premodel_menu
+msgid "Pre-models"
+msgstr "Pre-modelos"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_premodel_variant
+msgid "Premodel product"
+msgstr "Producto premodelo"
+
+#. module: textile_base
 #: model:ir.ui.view,arch_db:textile_base.colors_form_view
 msgid "All refs"
 msgstr "Todas las referencias"
@@ -38,13 +58,26 @@ msgstr "Fecha aprobación"
 #. module: textile_base
 #: model:ir.ui.view,arch_db:textile_base.color_refs_form_view
 #: model:ir.ui.view,arch_db:textile_base.color_refs_tree_view
+#: model:ir.ui.view,arch_db:textile_base.textile_model_view_form
 msgid "Approve"
 msgstr "Aprobar"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_article_type
+msgid "Article type"
+msgstr "Tipo de artículo"
+
+#. module: textile_base
 #: selection:product.attribute.value.color.refs,state:0
+#: selection:textile.model,state:0
 msgid "Approved"
 msgstr "Aprobado"
+
+#. module: textile_base
+#: model:ir.actions.act_window,name:textile_base.textile_model_action
+#: model:ir.ui.menu,name:textile_base.textile_model_menu
+msgid "Models"
+msgstr "Modelos"
 
 #. module: textile_base
 #: model:ir.ui.view,arch_db:textile_base.color_refs_form_view
@@ -86,10 +119,16 @@ msgstr "Color"
 
 #. module: textile_base
 #: model:ir.actions.act_window,name:textile_base.product_attribute_value_color_action
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_colors
 #: model:ir.ui.menu,name:textile_base.menu_product_attribute_value_colors
 #: model:ir.ui.view,arch_db:textile_base.colors_tree_view
 msgid "Colors"
 msgstr "Colores"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_size_type
+msgid "Size type"
+msgstr "Tipo de talla"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_composition_id
@@ -121,6 +160,7 @@ msgstr "Creado el"
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_customer
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_size_refs_customer
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_customer
 msgid "Customer"
 msgstr "Cliente"
 
@@ -138,6 +178,7 @@ msgstr "Nombre a mostrar"
 
 #. module: textile_base
 #: selection:product.attribute.value.color.refs,state:0
+#: selection:textile.model,state:0
 msgid "Draft"
 msgstr "Borrador"
 
@@ -213,10 +254,17 @@ msgstr "Descripción larga"
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_name
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_size_refs_name
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_name
 #: model:ir.ui.view,arch_db:textile_base.account_analytic_tag_form_view
 #: model:ir.ui.view,arch_db:textile_base.account_analytic_tag_tree_view_change_name
+#: model:ir.ui.view,arch_db:textile_base.textile_model_view_form
 msgid "Name"
 msgstr "Nombre"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_version
+msgid "Version"
+msgstr "Versión"
 
 #. module: textile_base
 #: model:ir.model.fields,help:textile_base.field_product_attribute_value_color_refs_name
@@ -267,6 +315,7 @@ msgid "Ref. in customer"
 msgstr "Referencia en el cliente"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_reference
 #: model:ir.ui.view,arch_db:textile_base.color_refs_form_view
 #: model:ir.ui.view,arch_db:textile_base.size_refs_form_view
 msgid "Reference"
@@ -287,6 +336,7 @@ msgstr "Referencias"
 #. module: textile_base
 #: selection:account.analytic.tag,type:0
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_season
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_analytic_tag
 msgid "Season"
 msgstr "Temporada"
 
@@ -314,15 +364,51 @@ msgstr "Talla"
 
 #. module: textile_base
 #: model:ir.actions.act_window,name:textile_base.product_attribute_value_size_action
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_sizes
 #: model:ir.ui.menu,name:textile_base.menu_product_attribute_value_sizes
 #: model:ir.ui.view,arch_db:textile_base.size_tree_view
 msgid "Sizes"
 msgstr "Tallas"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_model_template
+msgid "Model template"
+msgstr "Producto del modelo"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_image_ids
+#: model:ir.ui.view,arch_db:textile_base.textile_model_view_form
+msgid "Images"
+msgstr "Imágenes"
+
+#. module: textile_base
+#: model:ir.ui.view,arch_db:textile_base.textile_model_view_form
+msgid "Measurements"
+msgstr "Medidas"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_versions
+#: model:ir.ui.view,arch_db:textile_base.textile_model_view_form
+msgid "Versions"
+msgstr "Versiones"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_bom_lines
+#: model:ir.ui.view,arch_db:textile_base.textile_model_view_form
+msgid "Bom lines"
+msgstr "Líneas LdM"
+
+#. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_state
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_state
 msgid "State"
 msgstr "Estado"
+
+#. module: textile_base
+#: model:ir.ui.view,arch_db:textile_base.textile_model_view_form
+msgid "New version"
+msgstr "Nueva versión"
+
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_account_analytic_tag_type

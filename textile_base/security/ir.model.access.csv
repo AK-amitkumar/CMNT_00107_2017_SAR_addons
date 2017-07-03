@@ -5,3 +5,4 @@ access_product_composition,product_composition,model_product_composition,base.gr
 access_product_composition_sale_manager,product_composition manager,model_product_composition,sales_team.group_sale_manager,1,1,1,1
 access_product_attribute_value_size_refs,product.attribute value size refs,model_product_attribute_value_size_refs,base.group_user,1,0,0,0
 access_product_attribute_value_size_refs_sale_manager,product.attribute manager value size refs,model_product_attribute_value_size_refs,sales_team.group_sale_manager,1,1,1,1
+access_textile_model,access_textile_model,model_textile_model,base.group_user,1,1,1,1

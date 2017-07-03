@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2017 Comunitea
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record id="textile_model_view_tree" model="ir.ui.view">
+        <field name="name">textile.model.tree</field>
+        <field name="model">textile.model</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="version"/>
+                <field name="customer"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="textile_model_view_form" model="ir.ui.view">
+        <field name="name">textile.model.form</field>
+        <field name="model">textile.model</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="active" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                    <button name="create_new_version" type="object" string="New version" attrs="{'invisible': ['|', ('state', '==', 'approved'), ('active', '=', False)]}"/>
+                    <button name="action_approve" type="object" string="Approve" attrs="{'invisible': ['|', ('state', '==', 'approved'), ('active', '=', False)]}"/>
+                    <button name="action_to_model" type="object" string="Convert to model" attrs="{'invisible': ['|', ('state', '!=', 'approved'), ('model_type', '=', 'model')]}"/>
+                    <field name="state" widget="statusbar"  statusbar_visible="draft,approved"/>
+                </header>
+                <sheet>
+                    <field name="model_type" invisible="1"/>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <label class="oe_edit_only" for="name" string="Name"/>
+                        <h1><field name="name" placeholder="Name"/></h1>
+                    </div>
+                    <group>
+                        <field name="reference"/>
+                        <field name="version" readonly="True"/>
+                        <field name="customer" attrs="{'required': [('model_type', '=', 'model')]}"/>
+                        <field name="article_type"/>
+                        <field name="analytic_tag" attrs="{'required': [('model_type', '=', 'model')]}"/>
+                        <field name="color" context="{'form_view_ref':'textile_base.colors_form_view'}" attrs="{'invisible': [('model_type', '=', 'model')]}"/>
+                        <field name="colors" widget="many2many_tags" context="{'form_view_ref':'textile_base.colors_form_view', 'customer': customer, 'season': analytic_tag}" attrs="{'invisible': [('model_type', '=', 'premodel')]}"/>
+                        <field name="size_type"  attrs="{'invisible': [('model_type', '=', 'premodel')]}"/>
+                        <field name="sizes" widget="many2many_tags" attrs="{'invisible': [('model_type', '=', 'premodel')]}" domain="[('attribute_id', '=', size_type)]"/>
+                        <field name="premodel_variant" readonly="True" attrs="{'invisible': [('model_type', '=', 'model')]}"/>
+                        <field name="model_template" readonly="True" attrs="{'invisible': [('model_type', '=', 'premodel')]}"/>
+                    </group>
+                    <notebook>
+                        <page string="Images">
+                            <field name="image_ids"
+                           nolabel="1"
+                           context="{
+                               'default_owner_model': 'textile.model',
+                               'default_owner_id': id,
+                           }"
+                           mode="kanban"
+                        />
+                        </page>
+                        <page string="Lavado">
+                            <table class="o_list_view table-condensed table-striped">
+                                <tr>
+                                    <td><label for="blanqueado" string="blanqueado"/></td>
+                                    <td><label for="lavado" string="lavado"/></td>
+                                    <td><label for="limpieza" string="limpieza"/></td>
+                                    <td><label for="planchado" string="planchado"/></td>
+                                    <td><label for="secado" string="secado"/></td>
+                                </tr>
+                                <tr>
+                                    <td><field name="blanqueado" class="textil_icon"/></td>
+                                    <td><field name="lavado" class="textil_icon"/></td>
+                                    <td><field name="limpieza" class="textil_icon"/></td>
+                                    <td><field name="planchado" class="textil_icon"/></td>
+                                    <td><field name="secado" class="textil_icon"/></td>
+                                </tr>
+                            </table>
+                        </page>
+                        <page string="Measurements">
+                            <group>
+                                <field name="measurement_image" widget="image" nolabel="1"/>
+                            </group>
+                        </page>
+                        <page string="Versions">
+                            <field name="versions"/>
+                        </page>
+                        <page string="Bom lines">
+                            <field name="all_attributes" invisible="1"/>
+                            <field name="bom_lines" nolabel="1" widget="one2many_list" attrs="{'readonly': [('state', '=', 'approved')]}">
+                                <tree string="Components" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id" context="{'default_type': 'product'}"/>
+                                    <field name="has_attachments" invisible="1"/>
+                                    <button name="action_see_attachments" type="object" icon="fa-files-o" attrs="{'invisible': [('has_attachments', '=', False)]}"/>
+                                    <button name="action_see_attachments" type="object" icon="fa-file" attrs="{'invisible': [('has_attachments', '=', True)]}"/>
+                                    <field name="product_qty"/>
+                                    <field name="model_type" invisible="1"/>
+                                    <field name="attribute_value_ids" widget="many2many_tags" domain="[('id', 'in', parent.all_attributes[0][2])]" attrs="{'invisible': [('model_type', '=', 'premodel')]}" options="{'no_create':True}"/>
+                                    <field name="product_uom_id" options="{'no_open':True,'no_create':True}" groups="product.group_uom"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="textile_model_view_search" model="ir.ui.view">
+        <field name="name">textile.model.search</field>
+        <field name="model">textile.model</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="version"/>
+                <field name="customer"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="textile_premodel_action" model="ir.actions.act_window">
+        <field name="name">Pre-Models</field>
+        <field name="res_model">textile.model</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="textile_model_view_tree"/>
+        <field name="search_view_id" ref="textile_model_view_search"/>
+        <field name="domain">[('model_type', '=', 'premodel')]</field>
+        <field name="context">{'default_model_type': 'premodel'}</field>
+    </record>
+
+    <menuitem name="Pre-models" parent="sales_team.menu_sales" sequence="6" action="textile_premodel_action" id="textile_premodel_menu"/>
+
+    <record id="textile_model_action" model="ir.actions.act_window">
+        <field name="name">Models</field>
+        <field name="res_model">textile.model</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="textile_model_view_tree"/>
+        <field name="search_view_id" ref="textile_model_view_search"/>
+        <field name="domain">[('model_type', '=', 'model')]</field>
+        <field name="context">{'default_model_type': 'model'}</field>
+    </record>
+
+    <menuitem name="Models" parent="sales_team.menu_sales" sequence="7" action="textile_model_action" id="textile_model_menu"/>
+
+</odoo>

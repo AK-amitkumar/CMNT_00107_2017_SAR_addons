@@ -13,7 +13,8 @@
         'analytic',
         'sale',
         'web_widget_color',
-        'product_harmonized_system_extend'
+        'product_harmonized_system_extend',
+        'base_multi_image'
     ],
     "data": [
         'data/textile_base_data.xml',
@@ -21,6 +22,8 @@
         'views/color_view.xml',
         'views/composition_view.xml',
         'views/size_view.xml',
+        'views/textile_model.xml',
+        'views/assets.xml',
         'security/ir.model.access.csv'
     ],
     "installable": True

@@ -11,8 +11,8 @@ class ProductComposition(models.Model):
 
     name = fields.Char("Short description", required=True)
     description = fields.Text("Long Description", required=True)
-    fabric_type = fields.Selection([('plain', 'Plain'),('point', 'Point'),
+    fabric_type = fields.Selection([('plain', 'Plain'), ('point', 'Point'),
                                     ('other', 'Other')], 'Fabric type',
-                                    required=True, default="plain")
+                                   required=True, default="plain")
     hs_code_id = fields.Many2one("hs.code", "HS Code",
                                  help="Harmonized System Code. (Taric)")

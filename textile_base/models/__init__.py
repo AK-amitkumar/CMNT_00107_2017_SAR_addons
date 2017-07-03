@@ -6,3 +6,5 @@ from . import season
 from . import composition
 from . import color
 from . import size
+from . import mrp
+from . import textile_model
