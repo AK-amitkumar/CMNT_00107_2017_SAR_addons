@@ -23,3 +23,11 @@ class StockQuant(models.Model):
             lot.weight = lot.qty * grammage
 
     weight = fields.Float('Weight', compute='compute_quant_weight')
+
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    def _create_lots_for_picking(self):
+        # import ipdb; ipdb.set_trace()
+        super(StockPicking, self)._create_lots_for_picking()
+        
