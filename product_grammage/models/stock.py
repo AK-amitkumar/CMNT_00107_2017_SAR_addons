@@ -24,10 +24,21 @@ class StockQuant(models.Model):
 
     weight = fields.Float('Weight', compute='compute_quant_weight')
 
+
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
     def _create_lots_for_picking(self):
-        # import ipdb; ipdb.set_trace()
         super(StockPicking, self)._create_lots_for_picking()
-        
+        for pack_op_lot in self.mapped('pack_operation_ids').\
+                mapped('pack_lot_ids'):
+            if pack_op_lot.operation_id.linked_move_operation_ids:
+                move = pack_op_lot.operation_id.linked_move_operation_ids[0].\
+                    move_id
+                purchase_line = move.purchase_line_id
+                lot = pack_op_lot.lot_id
+                if purchase_line and lot:
+                    if not lot.width:
+                        lot.width = purchase_line.width
+                    if not lot.grammage:
+                        lot.grammage = purchase_line.grammage
