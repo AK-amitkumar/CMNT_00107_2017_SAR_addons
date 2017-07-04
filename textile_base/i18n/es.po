@@ -63,9 +63,46 @@ msgid "Approve"
 msgstr "Aprobar"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_template_article_type
 #: model:ir.model.fields,field_description:textile_base.field_textile_model_article_type
 msgid "Article type"
 msgstr "Tipo de artículo"
+
+#. module: textile_base
+#: selection:product.template,article_type:0
+msgid "Accesory"
+msgstr "Accesorio"
+
+#. module: textile_base
+#: selection:product.template,article_type:0
+msgid "Cost"
+msgstr "Coste"
+
+#. module: textile_base
+#: selection:product.template,article_type:0
+#: selection:textile.model,model_type:0
+msgid "Model"
+msgstr "Modelo"
+
+#. module: textile_base
+#: selection:product.template,article_type:0
+msgid "Others"
+msgstr "Otros"
+
+#. module: textile_base
+#: selection:product.template,article_type:0
+msgid "Premodel"
+msgstr "Premodelo"
+
+#. module: textile_base
+#: selection:product.template,article_type:0
+msgid "Service"
+msgstr "Servicio"
+
+#. module: textile_base
+#: selection:product.template,article_type:0
+msgid "Tissue"
+msgstr "Tejido"
 
 #. module: textile_base
 #: selection:product.attribute.value.color.refs,state:0

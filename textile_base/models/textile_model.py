@@ -103,7 +103,7 @@ class TextileModel(models.Model):
                  {'attribute_id': self.size_type.id,
                   'value_ids': [(4, x.id) for x in self.sizes]})]
         model_product = self.env['product.template'].create(
-            {'name': self.name, 'image': self.image,
+            {'name': self.name, 'image': self.image, 'article_type': self.model_type,
              'default_code': self.reference, 'categ_id': self.article_type.id,
              'attribute_line_ids': attributes})
 
