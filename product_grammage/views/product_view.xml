@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <record id="product_template_form_view_grammage" model="ir.ui.view">
+        <field name="name">product.template.common.form.grammage</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <group name="group_standard_price" position="after">
+                <group name="grammage" string="Textil Info">
+                    <field name="thread"/>
+                    <field name="gauge"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
+    </data>
+</odoo>

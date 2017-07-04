@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+    <record id="purchase_order_form_grammage" model="ir.ui.view">
+        <field name="name">purchase.order.form.grammage</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                <field name="thread"/>
+                <field name="gauge"/>
+                <field name="width"/>
+                <field name="grammage"/>
+            </xpath>
+             <xpath expr="//field[@name='order_line']/form/sheet/group/group/field[@name='price_unit']">
+                <field name="thread"/>
+                <field name="gauge"/>
+                <field name="width"/>
+                <field name="grammage"/>
+            </xpath>
+        </field>
+    </record>
+
+    </data>
+</odoo>

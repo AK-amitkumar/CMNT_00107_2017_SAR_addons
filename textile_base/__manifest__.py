@@ -14,7 +14,8 @@
         'sale',
         'web_widget_color',
         'product_harmonized_system_extend',
-        'base_multi_image'
+        'base_multi_image',
+        'mrp'
     ],
     "data": [
         'data/textile_base_data.xml',
