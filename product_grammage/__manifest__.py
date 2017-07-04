@@ -13,7 +13,8 @@
         'base',
         'purchase',
         'stock',
-        'product'
+        'product',
+        'textile_base'
     ],
     "data": [
         'views/product_view.xml',
