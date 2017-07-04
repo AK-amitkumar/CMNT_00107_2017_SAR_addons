@@ -25,6 +25,7 @@
         'views/size_view.xml',
         'views/textile_model.xml',
         'views/assets.xml',
+        'views/product_view.xml',
         'security/ir.model.access.csv'
     ],
     "installable": True
