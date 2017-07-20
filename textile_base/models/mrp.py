@@ -13,4 +13,4 @@ class MrpBomLine(models.Model):
     model_id = fields.Many2one('textile.model')
     model_type = fields.Selection(
         (('premodel', 'Pre-model'), ('model', 'Model')),
-        related='model_id.model_type')
+        related='model_id.model_type', readonly=True)
