@@ -77,7 +77,8 @@ class ProductAttributeValue(models.Model):
             active_color_refs += \
                 self.env['product.attribute.value.color.refs'].search(
                     [('customer', '=', self._context['customer']),
-                     ('season', '=', self._context['season'])])
+                     ('season', '=', self._context['season']),
+                     ('state', '=', 'approved')])
             args.append(
                 ('id', 'in', active_color_refs.mapped('attribute_value.id')))
         return super(ProductAttributeValue, self).name_search(
