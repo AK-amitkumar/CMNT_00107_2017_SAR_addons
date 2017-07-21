@@ -72,6 +72,7 @@ class TextileModel(models.Model):
     def action_to_model(self):
         self.ensure_one()
         model = self.copy({'model_type': 'model', 'state': 'draft'})
+        model.bom_lines.write({'bom_id': False})
         action = self.env.ref('textile_base.textile_model_action')
         if not action:
             return
