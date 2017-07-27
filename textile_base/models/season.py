@@ -12,3 +12,4 @@ class AccountAnalyticTag(models.Model):
 
     type = fields.Selection([('season', 'Season')], "Type")
     active = fields.Boolean("Active", default=True)
+    code = fields.Char()

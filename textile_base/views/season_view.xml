@@ -23,6 +23,9 @@
             <field name="name" position="attributes">
                 <attribute name="string">Name</attribute>
             </field>
+            <field name="name" position="before">
+                 <field name="code"/>
+            </field>
         </field>
     </record>
 
@@ -33,6 +36,9 @@
         <field name="arch" type="xml">
             <field name="name" position="attributes">
                 <attribute name="string">Name</attribute>
+            </field>
+            <field name="name" position="after">
+                 <field name="code"/>
             </field>
         </field>
     </record>

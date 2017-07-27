@@ -126,7 +126,7 @@
                         <field name="code"/>
                         <field name="name"/>
                         <field name="customer"/>
-                        <field name="season"/>
+                        <field name="season" context="{'default_type': 'season'}"/>
                     </group>
                     <group string="Properties">
                         <field name="pantone"/>
