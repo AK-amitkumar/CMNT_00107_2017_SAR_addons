@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2017 Comunitea
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record id="textile_model_view_form_add_project" model="ir.ui.view">
+        <field name="name">textile.model.form.add_project</field>
+        <field name="model">textile.model</field>
+        <field name="inherit_id" ref="textile_base.textile_model_view_form"/>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <field name="customer" position="after">
+                <field name="project_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
