@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+        <record id="tracking_wip_tree_view" model="ir.ui.view">
+            <field name="name">tracking_wip_tree_view</field>
+            <field name="model">tracking.wip</field>
+            <field name="arch" type="xml">
+                <tree string="Tracking WIP">                  
+                    <field name="name"/>
+                    <field name="model_id"/>
+                    <field name="condition_eval"/>
+                    <field name="project_eval"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="tracking_wip_form_view" model="ir.ui.view">
+            <field name="name">tracking_wip_form_view</field>
+            <field name="model">tracking.wip</field>
+            <field name="arch" type="xml">
+                <form string="Tracking WIP">
+                     <header>
+                        <button string="Activate" name="activate"
+                            type="object" states="deactivated" class="oe_highlight"/>
+                        <button string="Deactivate" name="deactivate"
+                            type="object" states="active"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="model_id"/>
+                        </group>
+                        <group string="Evaluations">
+                            <field name="condition_eval"/>
+                            <field name="project_eval"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_tracking_wip" model="ir.actions.act_window">
+            <field name="name">Tracking WIP</field>
+            <field name="res_model">tracking.wip</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a tracking wip model.
+              </p>
+              <p>
+                Define the models to do tracking. If condition of model is True
+                when creating or updating that model, the sistem will create and manage a
+                task related with the project.
+              </p>
+            </field>
+        </record>
+
+        <!-- Menu WIP -->
+        <menuitem name="WIP"
+            id="menu_main_wip"
+            sequence="20"/>
+
+        <menuitem name="Configuration"
+            id="menu_configuration_wip"
+            parent="menu_main_wip"
+            sequence="9"/>
+
+        <menuitem name="Tracking WIP"
+            id="menu_tracking_wip"
+            action="action_tracking_wip"
+            parent="menu_configuration_wip"
+            sequence="9"/>
+
+
+
+
+</odoo>
