@@ -33,11 +33,11 @@
                             <field name="model_id"/>
                         </group>
                         <group string="Evaluations">
-                            <field name="condition_eval"/>
-                            <field name="project_eval"/>
-                            <field name="name_eval"/>
-                            <field name="start_date_eval"/>
-                            <field name="end_date_eval"/>
+                                <field name="condition_eval"/>
+                                <field name="project_eval"/>
+                                <field name="name_eval"/>
+                                <field name="start_date_eval"/>
+                                <field name="end_date_eval"/>
                         </group>
                     </sheet>
                 </form>

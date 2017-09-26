@@ -6,6 +6,12 @@ from odoo import fields, models
 
 
 class SaleOrderLine(models.Model):
+    _inherit = 'sale.order'
+
+    project_wip_id = fields.Many2one('project.project', 'Project')
+
+
+class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    task_id = fields.Many2one('project_task', 'Task')
+    task_id = fields.Many2one('project.task', 'Task')

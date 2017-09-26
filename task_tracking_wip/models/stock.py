@@ -7,5 +7,5 @@ from odoo import fields, models
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    task_id = fields.Many2one('project_task', 'Task')
+    task_id = fields.Many2one('project.task', 'Task')
 

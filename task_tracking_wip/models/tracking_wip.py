@@ -21,18 +21,12 @@ class TrackingWip(models.Model):
                               ('active', 'Active')], 'State',
                              default='deactivated')
 
-    def _check_asset_categ(self, cr, uid, ids, context=None):
-        if not context:
-            context = {}
-        for account in self.browse(cr, uid, ids, context=context):
-            if account.asset_category_id and \
-                    account.asset_category_id.account_asset_id != account:
-                return False
-        return True
-
     @api.multi
     @api.constrains('model_id')
     def check_related_model_task_id(self):
+        """
+        Check if related model has task_id
+        """
         for track in self:
             model_name = self.model_id.model
             if not hasattr(self.env[model_name], 'task_id'):
@@ -103,27 +97,40 @@ class TrackingWip(models.Model):
                 self.env.cr.dbname)
 
     @api.model
-    def get_track_for_model(self, model_name):
+    def get_track_for_model(self, model_name, o):
+        """
+        Search a track.wip model actived and for the required model
+        """
         domain = [('model_id.model', '=', model_name),
                   ('state', '=', 'active')]
-        track_record = self.search(domain)
-        return track_record
+        track_objs = self.search(domain)
+        for track in track_objs:
+            if eval(track.condition_eval):
+                return track
+        return False
+
+    @api.model
+    def set_task_dependencies(self, task_obj, o):
+        print "dependencies"
 
     @api.multi
-    def do_task_tracking(self, record):
+    def create_task_tracking(self, o):
         """
-        If a eval condition is true and not task created, create a task
+        If a eval condition is true and not task created, create a task and
+        link it to record.
         """
         self.ensure_one()
-        if eval(self.condition_eval) and not record.task_id:
+        if not o.task_id:
             vals = {
                 'name': eval(self.name_eval),
                 'project_id': eval(self.project_eval),
                 'date_start': eval(self.start_date_eval),
                 'date_end': eval(self.end_date_eval),
-                'model_reference': record._name + ',' + str(record.id)
+                'model_reference': o._name + ',' + str(o.id)
             }
-            self.env['project.task'].create(vals)
+            task_obj = self.env['project.task'].create(vals)
+            o.write({'task_id': task_obj.id})
+            self.set_task_dependencies(task_obj, o)
 
     @api.multi
     def _make_create(self):
@@ -134,11 +141,10 @@ class TrackingWip(models.Model):
             print "*********************************************"
             track_model = self.env['tracking.wip']
             res = my_create.origin(self, vals, **kwargs)
-            track_record = track_model.get_track_for_model(self._name)
+            track_record = track_model.get_track_for_model(self._name, res)
             if track_record:
-                track_record.do_task_tracking(res)
+                track_record.create_task_tracking(res)
             return res
-
         return my_create
 
     @api.multi

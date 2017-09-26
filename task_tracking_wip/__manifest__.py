@@ -18,10 +18,13 @@
         'project_model_to_task',
         'textile_base',
         'sale_order_dates',
+        'project_task_dependency'
     ],
     "data": [
         'security/ir.model.access.csv',
         'views/tracking_wip_view.xml',
+        'views/sale_order_view.xml',
+        'views/task_view.xml',
     ],
     "installable": True
 }

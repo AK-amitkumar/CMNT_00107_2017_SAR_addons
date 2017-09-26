@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+        <record id="sale_order_form_view_add_task" model="ir.ui.view">
+            <field name="name">sale_order_form_view_add_task</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="project_wip_id"/>
+                </field>
+                <xpath expr="//field[@name='order_line']//form//field[@name='price_unit']" position="after">
+                    <field name="task_id"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']//tree//field[@name='price_total']" position="after">
+                    <field name="task_id"/>
+                </xpath>
+            </field>
+        </record>
+
+
+
+
+</odoo>
