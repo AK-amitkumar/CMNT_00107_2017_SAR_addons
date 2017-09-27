@@ -109,9 +109,31 @@ class TrackingWip(models.Model):
                 return track
         return False
 
+
     @api.model
-    def set_task_dependencies(self, task_obj, o):
-        print "dependencies"
+    def set_move_task_dependencies(self, o):
+        print "****************************************************"
+        print "dependencies for " + self.name
+        print "****************************************************"
+        task_recs = self.env['project.task']
+
+        # Set dependency of move_dest_id task
+        if o.procurement_id and o.procurement_id.sale_line_id:
+            task_recs += o.procurement_id.sale_line_id.task_id
+        # Set dependecy in sale_line_id task
+        elif o.move_dest_id:
+            task_recs += o.move_dest_id.task_id
+        # Set dependency of consume moves to finished move in production
+        elif o.raw_material_production_id:
+            task_recs = o.raw_material_production_id.move_finished_ids.\
+                mapped('task_id')
+
+        # Write dependency if exists
+        if task_recs:
+            task_recs.write({
+                'dependency_task_ids': [(4, [o.task_id.id])]
+            })
+        return
 
     @api.multi
     def create_task_tracking(self, o):
@@ -130,7 +152,9 @@ class TrackingWip(models.Model):
             }
             task_obj = self.env['project.task'].create(vals)
             o.write({'task_id': task_obj.id})
-            self.set_task_dependencies(task_obj, o)
+
+            if o._name == 'stock.move':
+                self.set_move_task_dependencies(o)
 
     @api.multi
     def _make_create(self):

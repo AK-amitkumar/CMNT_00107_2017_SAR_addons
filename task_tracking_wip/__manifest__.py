@@ -25,6 +25,7 @@
         'views/tracking_wip_view.xml',
         'views/sale_order_view.xml',
         'views/task_view.xml',
+        'views/stock_view.xml',
     ],
     "installable": True
 }
