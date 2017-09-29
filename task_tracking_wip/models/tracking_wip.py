@@ -105,10 +105,11 @@ class TrackingWip(models.Model):
                   ('state', '=', 'active')]
         track_objs = self.search(domain)
         for track in track_objs:
+            print track.name
+            print track.condition_eval
             if eval(track.condition_eval):
                 return track
         return False
-
 
     @api.model
     def set_move_task_dependencies(self, o):
@@ -130,15 +131,19 @@ class TrackingWip(models.Model):
 
         # Write dependency if exists
         if task_recs:
+            vals = {
+                'parent_task_id': o.task_id.id,
+                'type': 'FS'
+            }
             task_recs.write({
-                'dependency_task_ids': [(4, [o.task_id.id])]
+                'predecessor_ids': [(0, 0, vals)]
             })
         return
 
     @api.multi
     def create_task_tracking(self, o):
         """
-        If a eval condition is true and not task created, create a task and
+        If not task created, create a task and
         link it to record.
         """
         self.ensure_one()
@@ -155,6 +160,23 @@ class TrackingWip(models.Model):
 
             if o._name == 'stock.move':
                 self.set_move_task_dependencies(o)
+
+    @api.multi
+    def write_task_tracking(self, o, vals):
+        """
+        If not task created, create a task and
+        link it to record.
+        """
+        self.ensure_one()
+
+        # Unlink task if model is cancelled
+        if o.state == 'cancel' and o.task_id:
+            o.task_id.unlink()
+
+        # Update dates in the related task
+        if o._name == 'stock.move' and 'date_expected' in vals and \
+                o.task_id:
+            o.task_id.write({'date_end': o.date_expected})
 
     @api.multi
     def _make_create(self):
@@ -179,7 +201,10 @@ class TrackingWip(models.Model):
             print "MY WRITE"
             print "*********************************************"
             res = my_write.origin(self, vals, **kwargs)
-
+            # track_model = self.env['tracking.wip']
+            # track_record = track_model.get_track_for_model(self._name, self)
+            # if track_record:
+            #     track_record.write_task_tracking(self, vals)
             return res
 
         return my_write
@@ -192,18 +217,5 @@ class TrackingWip(models.Model):
             print "MY UNLINK"
             print "*********************************************"
             res = my_unlink.origin(self, **kwargs)
-
             return res
-
         return my_unlink
-
-    @api.multi
-    def deactivate(self):
-        self._revert_methods()
-        self.write({'state': 'deactivated'})
-        return True
-
-    @api.multi
-    def activate(self):
-        self.write({'state': 'active'})
-        return True

@@ -5,7 +5,7 @@
 from odoo import fields, models
 
 
-class SaleOrderLine(models.Model):
+class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     project_wip_id = fields.Many2one('project.project', 'Project')

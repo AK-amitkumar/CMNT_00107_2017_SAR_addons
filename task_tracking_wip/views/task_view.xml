@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf8"?>
 <odoo>
-        <record id="project_task_wip_view" model="ir.ui.view">
-            <field name="name">project_task_wip_view</field>
+        <record id="ganttaps_view_task_form2_sucessors" model="ir.ui.view">
+            <field name="name">ganttaps_view_task_form2_sucessors</field>
             <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="inherit_id" ref="project_native.ganttaps_view_task_form2"/>
             <field name="arch" type="xml">
-                <field name="date_deadline" position="after">
-                        <field name="date_start"/>
-                        <field name="date_end"/>
-                </field>
+                <xpath expr="//notebook/page[4]" position="after">
+                    <page string="Sucessors">
+                        <field name="sucessor_ids" nolabel="1" widget="one2many_list">
+                            <tree string="Sucessor" editable="bottom" >
+                                <field name="task_id" string="Child Task"/>
+                                <field name="type"/>
+                                <field name="lag_qty"/>
+                                <field name="lag_type"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
             </field>
         </record>
+
+
 </odoo>

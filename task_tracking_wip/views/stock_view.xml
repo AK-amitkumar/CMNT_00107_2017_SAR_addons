@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
                 <field name="location_dest_id" position="after">
                     <field name="task_id"/>
+                    <field name="project_wip_id"/>
                 </field>
             </field>
         </record>
@@ -23,8 +24,5 @@
                 </field>
             </field>
         </record>
-
-
-
 
 </odoo>
