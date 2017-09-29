@@ -101,7 +101,7 @@
                                     <button name="action_see_attachments" type="object" icon="fa-file" attrs="{'invisible': [('has_attachments', '=', True)]}"/>
                                     <field name="product_qty"/>
                                     <field name="model_type" invisible="1"/>
-                                    <field name="attribute_value_ids" widget="many2many_tags" domain="[('id', 'in', parent.all_attributes[0][2])]" attrs="{'invisible': [('model_type', '=', 'premodel')]}" options="{'no_create':True}"/>
+                                    <field name="attribute_value_ids" widget="many2many_tags" domain="[('id', 'in', parent.id and parent.all_attributes[0][2] or [])]" attrs="{'invisible': [('model_type', '=', 'premodel')]}" options="{'no_create':True}"/>
                                     <field name="product_uom_id" options="{'no_open':True,'no_create':True}" groups="product.group_uom"/>
                                 </tree>
                             </field>
