@@ -62,6 +62,7 @@ class TextileModel(models.Model):
     model_template = fields.Many2one('product.template')
     all_attributes = fields.Many2many('product.attribute.value',
                                       compute='_compute_all_values')
+    premodel_id = fields.Many2one('textile.model', 'Premodel', readonly=True)
 
     @api.depends('sizes', 'colors')
     def _compute_all_values(self):
@@ -71,7 +72,8 @@ class TextileModel(models.Model):
     @api.multi
     def action_to_model(self):
         self.ensure_one()
-        model = self.copy({'model_type': 'model', 'state': 'draft'})
+        model = self.copy({'model_type': 'model', 'state': 'draft',
+                           'premodel_id': self.id})
         model.bom_lines.write({'bom_id': False})
         action = self.env.ref('textile_base.textile_model_action')
         if not action:
@@ -106,7 +108,7 @@ class TextileModel(models.Model):
         model_product = self.env['product.template'].create(
             {'name': self.name, 'image': self.image, 'article_type': self.model_type,
              'default_code': self.reference, 'categ_id': self.article_type.id,
-             'attribute_line_ids': attributes})
+             'attribute_line_ids': attributes, 'type': 'product'})
 
         bom = self.env['mrp.bom'].create(
                     {'product_tmpl_id': model_product.id})

@@ -28,7 +28,7 @@
                 <header>
                     <field name="active" invisible="1"/>
                     <field name="state" invisible="1"/>
-                    <button name="create_new_version" type="object" string="New version" attrs="{'invisible': ['|', ('state', '==', 'approved'), ('active', '=', False)]}"/>
+                    <button name="create_new_version" type="object" string="New version" attrs="{'invisible': ['|', '|', ('model_type', '=', 'model'), ('state', '==', 'approved'), ('active', '=', False)]}"/>
                     <button name="action_approve" type="object" string="Approve" attrs="{'invisible': ['|', ('state', '==', 'approved'), ('active', '=', False)]}"/>
                     <button name="action_to_model" type="object" string="Convert to model" attrs="{'invisible': ['|', ('state', '!=', 'approved'), ('model_type', '=', 'model')]}"/>
                     <field name="state" widget="statusbar"  statusbar_visible="draft,approved"/>
@@ -52,6 +52,7 @@
                         <field name="sizes" widget="many2many_tags" attrs="{'invisible': [('model_type', '=', 'premodel')]}" domain="[('attribute_id', '=', size_type)]" options="{'no_create_edit': True}"/>
                         <field name="premodel_variant" readonly="True" attrs="{'invisible': [('model_type', '=', 'model')]}"/>
                         <field name="model_template" readonly="True" attrs="{'invisible': [('model_type', '=', 'premodel')]}"/>
+                        <field name="premodel_id" attrs="{'invisible': [('model_type', '=', 'premodel')]}"/>
                     </group>
                     <notebook>
                         <page string="Images">
@@ -87,7 +88,7 @@
                                 <field name="measurement_image" widget="image" nolabel="1"/>
                             </group>
                         </page>
-                        <page string="Versions">
+                        <page string="Versions" attrs="{'invisible': [('model_type', '=', 'model')]}">
                             <field name="versions"/>
                         </page>
                         <page string="Bom lines">
