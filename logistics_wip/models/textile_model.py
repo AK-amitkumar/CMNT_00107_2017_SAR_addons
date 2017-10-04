@@ -9,7 +9,8 @@ class TextileModel(models.Model):
 
     _inherit = "textile.model"
 
-    project_id = fields.Many2one("project.project", "Project", readonly=True)
+    project_id = fields.Many2one("project.project", "Project", readonly=True,
+                                 copy=False)
 
     @api.multi
     def action_approve(self):
