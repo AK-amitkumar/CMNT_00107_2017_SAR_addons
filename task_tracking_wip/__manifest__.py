@@ -19,6 +19,7 @@
         'textile_base',
         'sale_order_dates',
         'project_native',
+        'web_timeline'
     ],
     "data": [
         'security/ir.model.access.csv',
