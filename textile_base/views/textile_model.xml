@@ -28,7 +28,7 @@
                 <header>
                     <field name="active" invisible="1"/>
                     <field name="state" invisible="1"/>
-                    <button name="create_new_version" type="object" string="New version" attrs="{'invisible': ['|', ('state', '==', 'approved'), ('active', '=', False)]}"/>
+                    <button name="create_new_version" type="object" string="New version" attrs="{'invisible': ['|', '|', ('state', '==', 'approved'), ('active', '=', False), ('model_type', '=', 'model')]}"/>
                     <button name="action_approve" type="object" string="Approve" attrs="{'invisible': ['|', ('state', '==', 'approved'), ('active', '=', False)]}"/>
                     <button name="action_to_model" type="object" string="Convert to model" attrs="{'invisible': ['|', ('state', '!=', 'approved'), ('model_type', '=', 'model')]}"/>
                     <field name="state" widget="statusbar"  statusbar_visible="draft,approved"/>
@@ -101,7 +101,7 @@
                                     <button name="action_see_attachments" type="object" icon="fa-file" attrs="{'invisible': [('has_attachments', '=', True)]}"/>
                                     <field name="product_qty"/>
                                     <field name="model_type" invisible="1"/>
-                                    <field name="attribute_value_ids" widget="many2many_tags" domain="[('id', 'in', parent.id and parent.all_attributes[0][2] or [])]" attrs="{'invisible': [('model_type', '=', 'premodel')]}" options="{'no_create':True}"/>
+                                    <field name="attribute_value_ids" widget="many2many_tags" domain="[('id', 'in', parent.id and parent.all_attributes[0][2] or [])]" attrs="{'invisible': [('model_type', '!=', 'model')]}" options="{'no_create':True}"/>
                                     <field name="product_uom_id" options="{'no_open':True,'no_create':True}" groups="product.group_uom"/>
                                 </tree>
                             </field>

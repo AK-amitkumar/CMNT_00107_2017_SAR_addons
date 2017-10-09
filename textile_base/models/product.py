@@ -16,4 +16,7 @@ class ProductTemplate(models.Model):
          ('accesory', 'Accesory'),
          ('service', 'Service'),
          ('tissue', 'Tissue'),
+         ('lining', 'Lining'),
          ('others', 'Others')))
+
+    composition = fields.Many2one('product.composition')
