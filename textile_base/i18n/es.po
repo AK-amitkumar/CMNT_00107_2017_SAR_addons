@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-05-03 17:13+0000\n"
-"PO-Revision-Date: 2017-10-02 16:41+0200\n"
+"PO-Revision-Date: 2017-10-09 19:02+0200\n"
 "Last-Translator: Jesús Ventosinos Mayor <jesus@comunitea.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:textile_base.field_account_analytic_tag_active
 msgid "Active"
 msgstr "Activo"
+
+#. module: textile_base
+#: model:ir.actions.act_window,name:textile_base.label_location_action
+#: model:ir.ui.menu,name:textile_base.label_location_menu
+msgid "Label location"
+msgstr "Ubicación de etiqueta"
 
 #. module: textile_base
 #: model:ir.actions.act_window,name:textile_base.textile_premodel_action
@@ -296,6 +302,38 @@ msgid "Long Description"
 msgstr "Descripción larga"
 
 #. module: textile_base
+#: model:ir.ui.view,arch_db:textile_base.view_sale_order_add_label_data
+msgid "label"
+msgstr "Etiquetas"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_sale_order_label_types
+msgid "Label types"
+msgstr "Tipos de etiqueta"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_sale_order_label_prices
+msgid "Label prices"
+msgstr "Precios"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_sale_label_price_price
+msgid "Price"
+msgstr "Precio"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_sale_label_price_location
+msgid "Location"
+msgstr "Ubicación"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_sale_label_price_currency
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_label_location_name
+#: model:ir.model.fields,field_description:textile_base.field_label_type_name
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_name
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_size_refs_name
 #: model:ir.model.fields,field_description:textile_base.field_textile_model_name

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2017 Comunitea
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_sale_order_add_label_data" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="label">
+                    <group>
+                        <group>
+                            <field name="made_in"/>
+                            <field name="label_types" widget="many2many_tags"/>
+                            <field name="label_prices">
+                                <tree editable="top">
+                                    <field name="location" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                                    <field name="currency"/>
+                                    <field name="price"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group></group>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

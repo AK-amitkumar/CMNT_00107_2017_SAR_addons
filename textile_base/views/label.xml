@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2017 Comunitea
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="label_location_form" model="ir.ui.view">
+        <field name="name">label.location.form</field>
+        <field name="model">label.location</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="label_location_tree" model="ir.ui.view">
+        <field name="name">label.location.tree</field>
+        <field name="model">label.location</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="label_location_action" model="ir.actions.act_window">
+        <field name="name">Label location</field>
+        <field name="res_model">label.location</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="label_location_tree"/>
+    </record>
+
+    <menuitem name="Label location" parent="sale.prod_config_main" action="label_location_action" id="label_location_menu"/>
+
+</odoo>
