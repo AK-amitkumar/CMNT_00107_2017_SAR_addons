@@ -104,6 +104,8 @@ class TrackingWip(models.Model):
             elif o._name == 'stock.move':
                 date_start = o.date_expected
                 date_end = o.date_expected
+                if o.purchase_line_id:
+                    date_start = o.purchase_line_id.date_order
             vals = {
                 'name': eval(self.name_eval),
                 'project_id': eval(self.project_eval),

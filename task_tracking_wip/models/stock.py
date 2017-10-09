@@ -20,6 +20,8 @@ class StockMove(models.Model):
                 sale_obj = self.env['sale.order'].search(domain, limit=1)
                 if sale_obj:
                     project_id = sale_obj.project_wip_id.id
+            if not project_id and move.move_dest_id:
+                project_id = move.move_dest_id.project_wip_id.id
             move.project_wip_id = project_id
 
     task_id = fields.Many2one('project.task', 'Task')
