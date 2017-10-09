@@ -18,7 +18,6 @@
         'project_model_to_task',
         'sale_order_dates',
         'project_native',
-        'project_timeline'
     ],
     "data": [
         'security/ir.model.access.csv',
