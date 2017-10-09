@@ -10,6 +10,7 @@
             <form>
                 <group>
                     <field name="name"/>
+                    <field name="currency"/>
                 </group>
             </form>
         </field>
@@ -22,6 +23,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
+                <field name="currency"/>
             </tree>
         </field>
     </record>
