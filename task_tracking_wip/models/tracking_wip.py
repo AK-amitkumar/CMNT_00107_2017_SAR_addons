@@ -32,6 +32,7 @@ class TrackingWip(models.Model):
         self.write({'state': 'active'})
         return True
 
+
     @api.multi
     @api.constrains('model_id')
     def check_related_model_task_id(self):
@@ -98,8 +99,8 @@ class TrackingWip(models.Model):
             date_start = False
             date_end = False
             if o._name == 'sale.order.line':
-                date_start = o.order_id.create_date
-                date_end = o.order_id.commitment_date
+                date_start = o.order_id.date_order
+                date_end = o.order_id.requested_date
             elif o._name == 'stock.move':
                 date_start = o.date_expected
                 date_end = o.date_expected
