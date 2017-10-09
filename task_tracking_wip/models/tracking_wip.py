@@ -15,11 +15,22 @@ class TrackingWip(models.Model):
     condition_eval = fields.Text('Condition', required=True)
     project_eval = fields.Text('Project')
     name_eval = fields.Text('Task Name')
-    start_date_eval = fields.Text('Start Date')
-    end_date_eval = fields.Text('End Date')
+    # start_date_eval = fields.Text('Start Date')
+    # end_date_eval = fields.Text('End Date')
     state = fields.Selection([('deactivated', 'Deactivated'),
                               ('active', 'Active')], 'State',
                              default='deactivated')
+
+    @api.multi
+    def deactivate(self):
+        # self._revert_methods()
+        self.write({'state': 'deactivated'})
+        return True
+    
+    @api.multi
+    def activate(self):
+        self.write({'state': 'active'})
+        return True
 
     @api.multi
     @api.constrains('model_id')
@@ -32,69 +43,7 @@ class TrackingWip(models.Model):
             if not hasattr(self.env[model_name], 'task_id'):
                 raise ValidationError(_(
                     "The selected model can not be tracked because is not "
-                    "related rith task model"))
-
-    def _register_hook(self):
-        """
-        Apply patches in the actived rule models.
-        """
-        super(TrackingWip, self)._register_hook()
-        if not self:
-            self = self.search([('state', '=', 'active')])
-        return self._patch_methods()
-
-    @api.model
-    def create(self, vals):
-        """ Update the hooks when a new track is created."""
-        new_record = super(TrackingWip, self).create(vals)
-        # Used with multiprocess
-        if new_record._register_hook():
-            modules.registry.RegistryManager.signal_registry_change(
-                self.env.cr.dbname)
-        return new_record
-
-    @api.multi
-    def write(self, vals):
-        """ Update the hooks when a new track is writed."""
-        res = super(TrackingWip, self).write(vals)
-        # Used with multiprocess
-        if self._register_hook():
-            modules.registry.RegistryManager.signal_registry_change(
-                self.env.cr.dbname)
-        return res
-
-    @api.multi
-    def unlink(self):
-        """ Restore Monkey-patching to original methods"""
-        self.deactivate()
-        return super(TrackingWip, self).unlink()
-
-    @api.multi
-    def _patch_methods(self):
-        for track in self:
-            # Avoid deactived tracking models
-            if track.state == 'deactived':
-                continue
-            track_model = self.env[track.model_id.model]
-            track_model._patch_method('create', track._make_create())
-            track_model._patch_method('write', track._make_write())
-            track_model._patch_method('unlink', track._make_unlink())
-        return True
-
-    @api.multi
-    def _revert_methods(self):
-        """ Restore original ORM methods of models defined in tracks. """
-        updated = False
-        for track in self:
-            model_model = self.env[track.model_id.model]
-            for method in ['create', 'write', 'unlink']:
-                if hasattr(getattr(model_model, method), 'origin'):
-                    model_model._revert_method(method)
-                    updated = True
-        # When using multiproces
-        if updated:
-            modules.registry.RegistryManager.signal_registry_change(
-                self.env.cr.dbname)
+                    "related with task model"))
 
     @api.model
     def get_track_for_model(self, model_name, o):
@@ -105,10 +54,11 @@ class TrackingWip(models.Model):
                   ('state', '=', 'active')]
         track_objs = self.search(domain)
         for track in track_objs:
+            print track.name
+            print track.condition_eval
             if eval(track.condition_eval):
                 return track
         return False
-
 
     @api.model
     def set_move_task_dependencies(self, o):
@@ -130,24 +80,36 @@ class TrackingWip(models.Model):
 
         # Write dependency if exists
         if task_recs:
+            vals = {
+                'parent_task_id': o.task_id.id,
+                'type': 'FS'
+            }
             task_recs.write({
-                'dependency_task_ids': [(4, [o.task_id.id])]
+                'predecessor_ids': [(0, 0, vals)]
             })
         return
 
     @api.multi
     def create_task_tracking(self, o):
         """
-        If a eval condition is true and not task created, create a task and
+        If not task created, create a task and
         link it to record.
         """
         self.ensure_one()
         if not o.task_id:
+            date_start = False
+            date_end = False
+            if o._name == 'sale.order.line':
+                date_start = o.order_id.create_date
+                date_end = o.order_id.commitment_date
+            elif o._name == 'stock.move':
+                date_start = o.date_expected
+                date_end = o.date_expected
             vals = {
                 'name': eval(self.name_eval),
                 'project_id': eval(self.project_eval),
-                'date_start': eval(self.start_date_eval),
-                'date_end': eval(self.end_date_eval),
+                'date_start': date_start,
+                'date_end': date_end if date_end > date_start else date_start,
                 'model_reference': o._name + ',' + str(o.id)
             }
             task_obj = self.env['project.task'].create(vals)
@@ -156,54 +118,128 @@ class TrackingWip(models.Model):
             if o._name == 'stock.move':
                 self.set_move_task_dependencies(o)
 
-    @api.multi
-    def _make_create(self):
-        @api.model
-        def my_create(self, vals, **kwargs):
-            print "*********************************************"
-            print "MY CREATE"
-            print "*********************************************"
-            track_model = self.env['tracking.wip']
-            res = my_create.origin(self, vals, **kwargs)
-            track_record = track_model.get_track_for_model(self._name, res)
-            if track_record:
-                track_record.create_task_tracking(res)
-            return res
-        return my_create
+#-----------------------------------------------------------------------------#
+#--------------------------- MONKEY-PATCHING ---------------------------------#
+#-----------------------------------------------------------------------------#
+    # def _register_hook(self):
+    #     """
+    #     Apply patches in the actived rule models. Called always in load 
+    #      module
+    #     """
+    #     super(TrackingWip, self)._register_hook()
+    #     if not self:
+    #         self = self.search([('state', '=', 'active')])
+    #     return self._patch_methods()
 
-    @api.multi
-    def _make_write(self):
-        @api.multi
-        def my_write(self, vals, **kwargs):
-            print "*********************************************"
-            print "MY WRITE"
-            print "*********************************************"
-            res = my_write.origin(self, vals, **kwargs)
+    # @api.model
+    # def create(self, vals):
+    #     """ Update the hooks when a new track is created."""
+    #     new_record = super(TrackingWip, self).create(vals)
+    #     # Used with multiprocess
+    #     if new_record._register_hook():
+    #         modules.registry.RegistryManager.signal_registry_change(
+    #             self.env.cr.dbname)
+    #     return new_record
 
-            return res
+    # @api.multi
+    # def write(self, vals):
+    #     """ Update the hooks when a new track is writed."""
+    #     res = super(TrackingWip, self).write(vals)
+    #     # Used with multiprocess
+    #     if self._register_hook():
+    #         modules.registry.RegistryManager.signal_registry_change(
+    #             self.env.cr.dbname)
+    #     return res
 
-        return my_write
+    # @api.multi
+    # def unlink(self):
+    #     """ Restore Monkey-patching to original methods"""
+    #     self.deactivate()
+    #     return super(TrackingWip, self).unlink()
 
-    @api.multi
-    def _make_unlink(self):
-        @api.multi
-        def my_unlink(self, **kwargs):
-            print "*********************************************"
-            print "MY UNLINK"
-            print "*********************************************"
-            res = my_unlink.origin(self, **kwargs)
+    # @api.multi
+    # def _patch_methods(self):
+    #     for track in self:
+    #         # Avoid deactived tracking models
+    #         if track.state == 'deactived':
+    #             continue
+    #         track_model = self.env[track.model_id.model]
+    #         track_model._patch_method('create', track._make_create())
+    #         track_model._patch_method('write', track._make_write())
+    #         track_model._patch_method('unlink', track._make_unlink())
+    #     return True
 
-            return res
+    # @api.multi
+    # def _revert_methods(self):
+    #     """ Restore original ORM methods of models defined in tracks. """
+    #     updated = False
+    #     for track in self:
+    #         model_model = self.env[track.model_id.model]
+    #         for method in ['create', 'write', 'unlink']:
+    #             if hasattr(getattr(model_model, method), 'origin'):
+    #                 model_model._revert_method(method)
+    #                 updated = True
+    #     # When using multiproces
+    #     if updated:
+    #         modules.registry.RegistryManager.signal_registry_change(
+    #             self.env.cr.dbname)
 
-        return my_unlink
 
-    @api.multi
-    def deactivate(self):
-        self._revert_methods()
-        self.write({'state': 'deactivated'})
-        return True
+    # @api.multi
+    # def write_task_tracking(self, o, vals):
+    #     """
+    #     If not task created, create a task and
+    #     link it to record.
+    #     """
+    #     self.ensure_one()
 
-    @api.multi
-    def activate(self):
-        self.write({'state': 'active'})
-        return True
+    #     # Unlink task if model is cancelled
+    #     if o.state == 'cancel' and o.task_id:
+    #         o.task_id.unlink()
+
+    #     # Update dates in the related task
+    #     if o._name == 'stock.move' and 'date_expected' in vals and \
+    #             o.task_id:
+    #         o.task_id.write({'date_end': o.date_expected})
+
+    # @api.multi
+    # def _make_create(self):
+    #     @api.model
+    #     def my_create(self, vals, **kwargs):
+    #         print "*********************************************"
+    #         print "MY CREATE"
+    #         print "*********************************************"
+    #         track_model = self.env['tracking.wip']
+    #         res = my_create.origin(self, vals, **kwargs)
+    #         track_record = track_model.get_track_for_model(self._name, res)
+    #         if track_record:
+    #             track_record.create_task_tracking(res)
+    #         return res
+    #     return my_create
+
+    # @api.multi
+    # def _make_write(self):
+    #     @api.multi
+    #     def my_write(self, vals, **kwargs):
+    #         print "*********************************************"
+    #         print "MY WRITE"
+    #         print "*********************************************"
+    #         res = my_write.origin(self, vals, **kwargs)
+    #         # track_model = self.env['tracking.wip']
+            # track_record = track_model.get_track_for_model(self._name, self)
+    #         # if track_record:
+    #         #     track_record.write_task_tracking(self, vals)
+    #         return res
+
+    #     return my_write
+
+    # @api.multi
+    # def _make_unlink(self):
+    #     @api.multi
+    #     def my_unlink(self, **kwargs):
+    #         print "*********************************************"
+    #         print "MY UNLINK"
+    #         print "*********************************************"
+    #         res = my_unlink.origin(self, **kwargs)
+    #         return res
+    #     return my_unlink

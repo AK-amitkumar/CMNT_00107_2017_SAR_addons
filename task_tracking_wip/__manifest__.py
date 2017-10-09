@@ -16,9 +16,9 @@
         'mrp',
         'purchase',
         'project_model_to_task',
-        'textile_base',
         'sale_order_dates',
-        'project_task_dependency'
+        'project_native',
+        'project_timeline'
     ],
     "data": [
         'security/ir.model.access.csv',

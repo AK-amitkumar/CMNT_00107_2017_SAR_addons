@@ -17,8 +17,10 @@
         'procurement_jit',
         'mrp_mto_with_stock',
         'mrp_auto_assign',
-        'stock_mts_mto_rule'
+        'stock_mts_mto_rule',
+        'task_tracking_wip',
     ],
-    "data": [],
+    "data": ['views/textile_model_view.xml',
+             'views/sale_order_view.xml'],
     "installable": True
 }
