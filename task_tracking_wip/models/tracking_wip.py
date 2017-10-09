@@ -2,7 +2,7 @@
 # © 2017 Comunitea Servicios Tecnológicos S.L. (http://comunitea.com)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models, api, modules, _
+from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
 
 
@@ -26,7 +26,7 @@ class TrackingWip(models.Model):
         # self._revert_methods()
         self.write({'state': 'deactivated'})
         return True
-    
+
     @api.multi
     def activate(self):
         self.write({'state': 'active'})
@@ -54,29 +54,27 @@ class TrackingWip(models.Model):
                   ('state', '=', 'active')]
         track_objs = self.search(domain)
         for track in track_objs:
-            print track.name
-            print track.condition_eval
             if eval(track.condition_eval):
                 return track
         return False
 
     @api.model
     def set_move_task_dependencies(self, o):
-        print "****************************************************"
-        print "dependencies for " + self.name
-        print "****************************************************"
         task_recs = self.env['project.task']
-
         # Set dependency of move_dest_id task
         if o.procurement_id and o.procurement_id.sale_line_id:
             task_recs += o.procurement_id.sale_line_id.task_id
         # Set dependecy in sale_line_id task
         elif o.move_dest_id:
-            task_recs += o.move_dest_id.task_id
+            if o.move_dest_id.raw_material_production_id:
+                task_recs += o.move_dest_id.raw_material_production_id.\
+                    move_finished_ids.mapped('task_id')
+            else:
+                task_recs += o.move_dest_id.task_id
         # Set dependency of consume moves to finished move in production
-        elif o.raw_material_production_id:
-            task_recs = o.raw_material_production_id.move_finished_ids.\
-                mapped('task_id')
+        # elif o.raw_material_production_id:
+        #     task_recs = o.raw_material_production_id.move_finished_ids.\
+        #         mapped('task_id')
 
         # Write dependency if exists
         if task_recs:
@@ -118,12 +116,12 @@ class TrackingWip(models.Model):
             if o._name == 'stock.move':
                 self.set_move_task_dependencies(o)
 
-#-----------------------------------------------------------------------------#
-#--------------------------- MONKEY-PATCHING ---------------------------------#
-#-----------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------#
+# -------------------------- MONKEY-PATCHING ---------------------------------#
+# ----------------------------------------------------------------------------#
     # def _register_hook(self):
     #     """
-    #     Apply patches in the actived rule models. Called always in load 
+    #     Apply patches in the actived rule models. Called always in load
     #      module
     #     """
     #     super(TrackingWip, self)._register_hook()
@@ -183,7 +181,6 @@ class TrackingWip(models.Model):
     #     if updated:
     #         modules.registry.RegistryManager.signal_registry_change(
     #             self.env.cr.dbname)
-
 
     # @api.multi
     # def write_task_tracking(self, o, vals):

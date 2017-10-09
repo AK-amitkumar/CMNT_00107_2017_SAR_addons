@@ -68,7 +68,8 @@ class ProjectTask(models.Model):
 
         if 'predecessor_ids' in vals:
             for task in self:
-                if task.predecessor_ids:
+                if task.predecessor_ids and task.model_reference and \
+                        task.model_reference._name != 'sale.order.line':
                     task.date_start = \
                         task.predecessor_ids[0].parent_task_id.date_end
         return res
