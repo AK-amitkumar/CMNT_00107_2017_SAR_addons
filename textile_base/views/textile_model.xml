@@ -65,7 +65,7 @@
                             <div>
                                 <label for="composition_name"/>
                                 <field name="composition_name" class="oe_inline"/>
-                                <button class="oe_inline oe_link" type="object" name="create_composition" string="Create Composition"/>
+                                <button class="oe_inline oe_link" type="object" name="create_composition" string="Create Composition" attrs="{'invisible': ['|', ('composition_name', '=', 'premodel'), ('composition_id', '=', False)]}"/>
                             </div>
                             <div>
                                 <label for="composition_id"/>
