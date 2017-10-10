@@ -64,6 +64,14 @@ class TextileModel(models.Model):
                                       compute='_compute_all_values')
     premodel_id = fields.Many2one('textile.model', 'Premodel', readonly=True)
     composition_id = fields.Many2one("product.composition", "Composition")
+    bom_cost = fields.Float(compute='_get_bom_cost', string='Bom Cost')
+    pvp = fields.Float('PVP')
+
+    @api.multi
+    @api.depends('bom_lines')
+    def _get_bom_costself):
+        for model in self:
+            line.bom_cost = 89.2 
 
     @api.depends('sizes', 'colors')
     def _compute_all_values(self):
