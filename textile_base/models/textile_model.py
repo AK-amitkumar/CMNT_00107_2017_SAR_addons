@@ -66,7 +66,8 @@ class TextileModel(models.Model):
     premodel_id = fields.Many2one('textile.model', 'Premodel', readonly=True)
     composition_name = fields.Char(compute='_get_composition_name',
                                    string='Composition name')
-    composition_id = fields.Many2one("product.composition", "Composition")
+    composition_id = fields.Many2one("product.composition",
+                                     string="Composition")
     bom_cost = fields.Float(compute='_get_bom_cost', string='Bom Cost')
     pvp = fields.Float('PVP')
     bom_weight = fields.Float(compute='_get_bom_weight', string='BOM Weigth')
