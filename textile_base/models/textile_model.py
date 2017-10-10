@@ -69,7 +69,7 @@ class TextileModel(models.Model):
 
     @api.multi
     @api.depends('bom_lines')
-    def _get_bom_costself):
+    def _get_bom_cost(self):
         for model in self:
             line.bom_cost = 89.2 
 
