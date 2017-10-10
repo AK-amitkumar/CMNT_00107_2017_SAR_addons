@@ -19,4 +19,4 @@ class ProductTemplate(models.Model):
          ('lining', 'Lining'),
          ('others', 'Others')))
 
-    composition = fields.Many2one('product.composition')
+    composition_id = fields.Many2one('product.composition')

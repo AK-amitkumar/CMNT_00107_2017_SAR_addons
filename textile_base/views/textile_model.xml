@@ -54,13 +54,23 @@
                             <field name="premodel_variant" readonly="True" attrs="{'invisible': [('model_type', '=', 'model')]}"/>
                             <field name="model_template" readonly="True" attrs="{'invisible': [('model_type', '=', 'premodel')]}"/>
                             <field name="premodel_id" attrs="{'invisible': [('model_type', '=', 'premodel')]}"/>
-                            <field name="composition_id"/>
                         </group>
                         <group>
                             <!-- <field name="bom_cost" attrs="{'invisible': [('model_type', '=', 'premodel')]}"/> -->
                             <field name="bom_cost"/>
                             <field name="pvp"/>
                             <field name="model_margin"/>
+                        </group>
+                        <group string="Composition">
+                            <div>
+                                <label for="composition_name"/>
+                                <field name="composition_name" class="oe_inline"/>
+                                <button class="oe_inline oe_link" type="object" name="create_composition" string="Create Composition"/>
+                            </div>
+                            <div>
+                                <label for="composition_id"/>
+                                <field name="composition_id"/>
+                            </div>
                         </group>
                     </group>
                     <notebook>
