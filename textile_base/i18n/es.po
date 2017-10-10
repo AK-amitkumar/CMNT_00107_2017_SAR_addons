@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-10 14:23+0000\n"
-"PO-Revision-Date: 2017-10-10 14:23+0000\n"
+"POT-Creation-Date: 2017-10-10 16:45+0000\n"
+"PO-Revision-Date: 2017-10-10 16:45+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -166,7 +166,13 @@ msgid "Composition"
 msgstr "Composición"
 
 #. module: textile_base
-#: code:addons/textile_base/models/textile_model.py:111
+#: code:addons/textile_base/models/textile_model.py:139
+#, python-format
+msgid "Composition %s already exists"
+msgstr "La composición %s ya existe"
+
+#. module: textile_base
+#: code:addons/textile_base/models/textile_model.py:133
 #, python-format
 msgid "Composition is already setted."
 msgstr "La composición ya está establecida."
@@ -408,6 +414,11 @@ msgid "Margin"
 msgstr "Margen"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_model_margin_per
+msgid "Margin %"
+msgstr "Margen %"
+
+#. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_textile_model_measurement_image
 msgid "Measurement image"
 msgstr "Imagen medida"
@@ -469,10 +480,10 @@ msgid "New version"
 msgstr "Nueva versión"
 
 #. module: textile_base
-#: code:addons/textile_base/models/textile_model.py:113
+#: code:addons/textile_base/models/textile_model.py:135
 #, python-format
 msgid "No composition to create."
-msgstr "No composition to create."
+msgstr "No hay nombre de composición para crear una."
 
 #. module: textile_base
 #: selection:product.composition,fabric_type:0

@@ -60,6 +60,7 @@
                             <field name="bom_cost"/>
                             <field name="pvp"/>
                             <field name="model_margin"/>
+                            <field name="model_margin_per"/>
                         </group>
                         <group string="Composition">
                             <div>
