@@ -41,23 +41,27 @@
                         <h1><field name="name" placeholder="Name"/></h1>
                     </div>
                     <group>
-                        <field name="reference"/>
-                        <field name="version" readonly="True"/>
-                        <field name="customer" attrs="{'required': [('model_type', '=', 'model')]}"/>
-                        <field name="article_type"/>
-                        <field name="analytic_tag" attrs="{'required': [('model_type', '=', 'model')]}"/>
-                        <field name="color" context="{'form_view_ref':'textile_base.colors_form_view'}" attrs="{'invisible': [('model_type', '=', 'model')]}" options="{'no_create_edit': True}"/>
-                        <field name="colors" widget="many2many_tags" context="{'form_view_ref':'textile_base.colors_form_view', 'customer': customer, 'season': analytic_tag}" attrs="{'invisible': [('model_type', '=', 'premodel')]}" options="{'no_create_edit': True}"/>
-                        <field name="size_type"  attrs="{'invisible': [('model_type', '=', 'premodel')]}" options="{'no_create_edit': True}"/>
-                        <field name="sizes" widget="many2many_tags" attrs="{'invisible': [('model_type', '=', 'premodel')]}" domain="[('attribute_id', '=', size_type)]" options="{'no_create_edit': True}"/>
-                        <field name="premodel_variant" readonly="True" attrs="{'invisible': [('model_type', '=', 'model')]}"/>
-                        <field name="model_template" readonly="True" attrs="{'invisible': [('model_type', '=', 'premodel')]}"/>
-                        <field name="premodel_id" attrs="{'invisible': [('model_type', '=', 'premodel')]}"/>
-                        <field name="composition_id"/>
-                    </group>
-                    <group>
-                        <field name="bom_cost" attrs="{'invisible': [('model_type', '=', 'premodel')]}"/>
-                        <field name="pvp"/>
+                        <group>
+                            <field name="reference"/>
+                            <field name="version" readonly="True"/>
+                            <field name="customer" attrs="{'required': [('model_type', '=', 'model')]}"/>
+                            <field name="article_type"/>
+                            <field name="analytic_tag" attrs="{'required': [('model_type', '=', 'model')]}"/>
+                            <field name="color" context="{'form_view_ref':'textile_base.colors_form_view'}" attrs="{'invisible': [('model_type', '=', 'model')]}" options="{'no_create_edit': True}"/>
+                            <field name="colors" widget="many2many_tags" context="{'form_view_ref':'textile_base.colors_form_view', 'customer': customer, 'season': analytic_tag}" attrs="{'invisible': [('model_type', '=', 'premodel')]}" options="{'no_create_edit': True}"/>
+                            <field name="size_type"  attrs="{'invisible': [('model_type', '=', 'premodel')]}" options="{'no_create_edit': True}"/>
+                            <field name="sizes" widget="many2many_tags" attrs="{'invisible': [('model_type', '=', 'premodel')]}" domain="[('attribute_id', '=', size_type)]" options="{'no_create_edit': True}"/>
+                            <field name="premodel_variant" readonly="True" attrs="{'invisible': [('model_type', '=', 'model')]}"/>
+                            <field name="model_template" readonly="True" attrs="{'invisible': [('model_type', '=', 'premodel')]}"/>
+                            <field name="premodel_id" attrs="{'invisible': [('model_type', '=', 'premodel')]}"/>
+                            <field name="composition_id"/>
+                        </group>
+                        <group>
+                            <!-- <field name="bom_cost" attrs="{'invisible': [('model_type', '=', 'premodel')]}"/> -->
+                            <field name="bom_cost"/>
+                            <field name="pvp"/>
+                            <field name="model_margin"/>
+                        </group>
                     </group>
                     <notebook>
                         <page string="Images">
@@ -100,7 +104,6 @@
                             <group>
                                 <field name="all_attributes" invisible="1"/>
                                 <field name="bom_weight"/>
-                                <field name="bom_cost"/>
                             </group>
                                 <field name="bom_lines" nolabel="1" widget="one2many_list" attrs="{'readonly': [('state', '=', 'approved')]}">
                                     <tree string="Components" editable="bottom">

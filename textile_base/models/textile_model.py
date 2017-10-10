@@ -67,7 +67,8 @@ class TextileModel(models.Model):
     bom_cost = fields.Float(compute='_get_bom_cost', string='Bom Cost')
     pvp = fields.Float('PVP')
     bom_weight = fields.Float(compute='_get_bom_weight', string='BOM Weigth')
-    bom_cost = fields.Float(compute='_get_bom_cost', string='BOM COST')
+    bom_cost = fields.Float(compute='_get_bom_cost', string='BOM Cost')
+    model_margin = fields.Float(compute='_get_model_margin', string='Margin')
 
     @api.multi
     @api.depends('bom_lines.product_id')
@@ -86,6 +87,12 @@ class TextileModel(models.Model):
             for line in self.bom_lines:
                 sum_cost += line.product_id.standard_price * line.product_qty
             model.bom_cost = sum_cost
+
+    @api.multi
+    @api.depends('pvp', 'bom_cost')
+    def _get_model_margin(self):
+        for model in self:
+            model.model_margin = model.pvp - model.bom_cost
 
     @api.depends('sizes', 'colors')
     def _compute_all_values(self):
