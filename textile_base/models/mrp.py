@@ -25,3 +25,7 @@ class MrpBomLine(models.Model):
         (('premodel', 'Pre-model'), ('model', 'Model')),
         related='model_id.model_type', readonly=True)
     weight_per = fields.Float(compute='_get_weight_per', string='Weigth %')
+    # In older versions
+    product_efficiency = fields.Float('Manufacturing Efficiency',
+                                      help="A factor of 0.9 means a loss of \
+                                      10% within the production process.")

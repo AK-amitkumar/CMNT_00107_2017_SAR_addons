@@ -127,6 +127,7 @@
                                         <field name="attribute_value_ids" widget="many2many_tags" domain="[('id', 'in', parent.id and parent.all_attributes[0][2] or [])]" attrs="{'invisible': [('model_type', '!=', 'model')]}" options="{'no_create':True}"/>
                                         <field name="product_uom_id" options="{'no_open':True,'no_create':True}" groups="product.group_uom"/>
                                         <field name="weight_per"/>
+                                        <field name="product_efficiency" string="Exploitation"/>
                                     </tree>
                                 </field>
                         </page>

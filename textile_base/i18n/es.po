@@ -6,14 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-10 10:59+0000\n"
-"PO-Revision-Date: 2017-10-10 10:59+0000\n"
+"POT-Creation-Date: 2017-10-10 14:23+0000\n"
+"PO-Revision-Date: 2017-10-10 14:23+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: textile_base
+#: model:ir.model.fields,help:textile_base.field_mrp_bom_line_product_efficiency
+msgid "A factor of 0.9 means a loss of                                       10% within the production process."
+msgstr "A factor of 0.9 means a loss of                                       10% within the production process."
 
 #. module: textile_base
 #: selection:product.template,article_type:0
@@ -251,6 +256,11 @@ msgid "Draft"
 msgstr "Borrador"
 
 #. module: textile_base
+#: model:ir.ui.view,arch_db:textile_base.textile_model_view_form
+msgid "Exploitation"
+msgstr "Aprovechamiento"
+
+#. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_composition_fabric_type
 msgid "Fabric type"
 msgstr "Tipo tejido"
@@ -386,6 +396,11 @@ msgstr "Descripción larga"
 #: model:ir.model.fields,field_description:textile_base.field_sale_order_made_in
 msgid "Made in"
 msgstr "Made in"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_mrp_bom_line_product_efficiency
+msgid "Manufacturing Efficiency"
+msgstr "Eficiencia de la producción"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_textile_model_model_margin
