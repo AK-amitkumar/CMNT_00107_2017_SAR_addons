@@ -66,12 +66,26 @@ class TextileModel(models.Model):
     composition_id = fields.Many2one("product.composition", "Composition")
     bom_cost = fields.Float(compute='_get_bom_cost', string='Bom Cost')
     pvp = fields.Float('PVP')
+    bom_weight = fields.Float(compute='_get_bom_weight', string='BOM Weigth')
+    bom_cost = fields.Float(compute='_get_bom_cost', string='BOM COST')
 
     @api.multi
-    @api.depends('bom_lines')
+    @api.depends('bom_lines.product_id')
+    def _get_bom_weight(self):
+        for model in self:
+            sum_weight = 0.0
+            for line in self.bom_lines:
+                sum_weight += line.product_id.weight * line.product_qty
+            model.bom_weight = sum_weight
+
+    @api.multi
+    @api.depends('bom_lines.product_id')
     def _get_bom_cost(self):
         for model in self:
-            model.bom_cost = 89.2 
+            sum_cost = 0.0
+            for line in self.bom_lines:
+                sum_cost += line.product_id.standard_price * line.product_qty
+            model.bom_cost = sum_cost
 
     @api.depends('sizes', 'colors')
     def _compute_all_values(self):
@@ -115,12 +129,13 @@ class TextileModel(models.Model):
                  {'attribute_id': self.size_type.id,
                   'value_ids': [(4, x.id) for x in self.sizes]})]
         model_product = self.env['product.template'].create(
-            {'name': self.name, 'image': self.image, 'article_type': self.model_type,
+            {'name': self.name, 'image': self.image,
+             'article_type': self.model_type,
              'default_code': self.reference, 'categ_id': self.article_type.id,
              'attribute_line_ids': attributes, 'type': 'product'})
 
         bom = self.env['mrp.bom'].create(
-                    {'product_tmpl_id': model_product.id})
+            {'product_tmpl_id': model_product.id})
         self.bom_lines.write({'bom_id': bom.id})
         if self.model_type == 'premodel':
             self.premodel_variant = model_product.product_variant_id
