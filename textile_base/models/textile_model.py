@@ -71,7 +71,7 @@ class TextileModel(models.Model):
     @api.depends('bom_lines')
     def _get_bom_cost(self):
         for model in self:
-            line.bom_cost = 89.2 
+            model.bom_cost = 89.2 
 
     @api.depends('sizes', 'colors')
     def _compute_all_values(self):
