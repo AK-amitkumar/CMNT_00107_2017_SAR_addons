@@ -53,6 +53,7 @@
                         <field name="premodel_variant" readonly="True" attrs="{'invisible': [('model_type', '=', 'model')]}"/>
                         <field name="model_template" readonly="True" attrs="{'invisible': [('model_type', '=', 'premodel')]}"/>
                         <field name="premodel_id" attrs="{'invisible': [('model_type', '=', 'premodel')]}"/>
+                        <field name="composition_id"/>
                     </group>
                     <notebook>
                         <page string="Images">

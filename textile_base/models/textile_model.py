@@ -63,6 +63,7 @@ class TextileModel(models.Model):
     all_attributes = fields.Many2many('product.attribute.value',
                                       compute='_compute_all_values')
     premodel_id = fields.Many2one('textile.model', 'Premodel', readonly=True)
+    composition_id = fields.Many2one("product.composition", "Composition")
 
     @api.depends('sizes', 'colors')
     def _compute_all_values(self):
