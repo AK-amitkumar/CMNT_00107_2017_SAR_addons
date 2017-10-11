@@ -24,7 +24,7 @@ class StockMove(models.Model):
                 project_id = move.move_dest_id.project_wip_id.id
             move.project_wip_id = project_id
 
-    task_id = fields.Many2one('project.task', 'Task')
+    task_id = fields.Many2one('project.task', 'Task', readonly=True)
     project_wip_id = fields.Many2one('project.project', 'Project',
                                      compute='_get_related_project')
 

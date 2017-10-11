@@ -11,6 +11,7 @@
                     <field name="model_id"/>
                     <field name="condition_eval"/>
                     <field name="project_eval"/>
+                    <field name="color_gantt" widget="color"/>
                     <field name="state"/>
                 </tree>
             </field>
