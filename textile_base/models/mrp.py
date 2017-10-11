@@ -5,6 +5,33 @@
 from openerp import models, fields, api
 
 
+class MrpBom(models.Model):
+
+    _inherit = 'mrp.bom'
+
+    def explode(self, product, quantity, picking_type=False):
+        boms_done, lines_done = super(MrpBom, self).\
+            explode(product, quantity, picking_type=picking_type)
+        new_boms_done = []
+        new_lines_done = []
+        for touple in boms_done:
+            bom = touple[0]
+            dic = touple[1]
+            if dic.get('parent_line', False) and \
+                    dic['parent_line'].product_efficiency:
+                dic['qty'] = dic['qty'] / dic['parent_line'].product_efficiency
+            new_boms_done.append((bom, dic))
+
+        for touple in lines_done:
+            current_line = touple[0]
+            dic = touple[1]
+            if current_line and current_line.product_efficiency:
+                dic['qty'] = dic['qty'] / current_line.product_efficiency
+            new_boms_done.append((current_line, dic))
+
+        return new_boms_done, new_lines_done
+
+
 class MrpBomLine(models.Model):
 
     _inherit = 'mrp.bom.line'

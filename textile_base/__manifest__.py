@@ -29,6 +29,7 @@
         'views/product_view.xml',
         'views/sale.xml',
         'views/label.xml',
+        'views/mrp_bom.xml',
         'security/ir.model.access.csv'
     ],
     "installable": True
