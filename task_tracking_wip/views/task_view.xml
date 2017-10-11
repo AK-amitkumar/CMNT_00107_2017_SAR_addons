@@ -34,6 +34,7 @@
                              '|',
                              ('model_reference', '=', False),
                              ('name', '=', False)]}"/>
+                  <field name="progress_model"/>
                 </group>
                 <group>
                   <button name="goto_document" type="object" string="View Origin"
@@ -44,6 +45,19 @@
             </xpath>
         </field>
     </record>
+
+    <!-- OVERWRITE TO PASS PROGRESSMODEL FIELD INSTEAD OF PROGRESS OF HR.TIMESHEET -->
+    <record id="view_task_ganttaps_progress_model" model="ir.ui.view">
+            <field name="name">project.task.ganttaps.progress.model</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project_native.view_task_ganttaps"/>
+            <field name="arch" type="xml">
+                <xpath expr="//ganttaps" position="attributes">
+                    <attribute name="progress">progress_model</attribute>
+                </xpath>
+            </field>
+
+        </record>
 
 
 </odoo>
