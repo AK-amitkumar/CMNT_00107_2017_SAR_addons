@@ -20,6 +20,11 @@ class TrackingWip(models.Model):
     state = fields.Selection([('deactivated', 'Deactivated'),
                               ('active', 'Active')], 'State',
                              default='deactivated')
+    color_gantt = fields.Char(
+        string="Color Task Bar",
+        help="Choose your color for Task Bar",
+        default="#FFFFFF"
+    )
 
     @api.multi
     def deactivate(self):
@@ -31,7 +36,6 @@ class TrackingWip(models.Model):
     def activate(self):
         self.write({'state': 'active'})
         return True
-
 
     @api.multi
     @api.constrains('model_id')
@@ -111,7 +115,9 @@ class TrackingWip(models.Model):
                 'project_id': eval(self.project_eval),
                 'date_start': date_start,
                 'date_end': date_end if date_end > date_start else date_start,
-                'model_reference': o._name + ',' + str(o.id)
+                'model_reference': o._name + ',' + str(o.id),
+                'color_gantt': self.color_gantt,
+                'color_gantt_set': True,
             }
             task_obj = self.env['project.task'].create(vals)
             o.write({'task_id': task_obj.id})
