@@ -1,9 +1,19 @@
+@font-face {
+    font-family: 'Linotype Textile Pi';
+    src: url('fonts/TextileLH-PiTwo.eot');
+    src: url('fonts/TextileLH-PiTwo.eot?#iefix') format('embedded-opentype'),
+        url('fonts/TextileLH-PiTwo.woff') format('woff'),
+        url('fonts/TextileLH-PiTwo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 select.textil_icon {
-    font-family: TextileLH PiTwo;
+    font-family: Linotype Textile Pi;
     font-size: 30px;
 }
 
 span.textil_icon {
-    font-family: TextileLH PiTwo;
+    font-family: Linotype Textile Pi;
     font-size: 30px;
 }
