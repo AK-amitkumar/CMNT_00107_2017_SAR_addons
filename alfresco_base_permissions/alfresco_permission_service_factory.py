@@ -12,6 +12,7 @@ class AlfrescoPermissionServiceFactory(models.AbstractModel):
         company = self.env.user.company_id
         if company is not None:
             service = company.alfresco_permission_service
-            service = self.env[service]
+            if service:
+                service = self.env[service]
             return service
         raise Exception('Alfresco Permission Service Fail!')
