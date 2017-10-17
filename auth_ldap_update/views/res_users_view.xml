@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_users_form_view" model="ir.ui.view">
+            <field name="name">res.users.form.ldap.sync</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/div[@name='button_box']" position="inside">
+                    <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-check">
+                        <field name="ldap_sync" widget="boolean_button" options="{'terminology': {
+                                                                                        'string_true': 'LDAP Sync',
+                                                                                        'hover_true': 'LDAP Sync',
+                                                                                        'string_false': 'LDAP Unsync',
+                                                                                        'hover_false': 'LDAP Unsync'
+                                                                                     }}"/>
+                    </button>
+                 </xpath>
+            </field>
+        </record>
+
+        <record id="view_general_configuration_form_inherit_auth_ldap_update" model="ir.ui.view">
+            <field name="name">base.config.settings.form.inherit.auth.ldap</field>
+            <field name="model">base.config.settings</field>
+            <field name="inherit_id" ref="auth_ldap.view_general_configuration_form_inherit_auth_ldap"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='ldaps']/form/group" position="after">
+                    <group>
+                        <field name="ldap_group_base"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+    <data noupdate="1">
+        <record id="ir_cron_sync_user_groups_action" model="ir.cron">
+            <field name="name">Demo scheduler</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'res.company.ldap'" name="model"/>
+            <field eval="'process_sync_user_groups'" name="function"/>
+        </record>
+   </data>
+</odoo>
