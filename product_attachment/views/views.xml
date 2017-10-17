@@ -1,0 +1,113 @@
+<openerp>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="cmis_field_4_all.list">
+      <field name="name">cmis_field_4_all list</field>
+      <field name="model">cmis_field_4_all.cmis_field_4_all</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="cmis_field_4_all.action_window">
+      <field name="name">cmis_field_4_all window</field>
+      <field name="res_model">cmis_field_4_all.cmis_field_4_all</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="cmis_field_4_all.action_server">
+      <field name="name">cmis_field_4_all server</field>
+      <field name="model_id" ref="model_base_alfresco_attachments_base_alfresco_attachments"/>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="cmis_field_4_all" id="cmis_field_4_all.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="cmis_field_4_all.menu_1" parent="cmis_field_4_all.menu_root"/>
+    <menuitem name="Menu 2" id="cmis_field_4_all.menu_2" parent="cmis_field_4_all.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="cmis_field_4_all.menu_1_list" parent="cmis_field_4_all.menu_1"
+              action="cmis_field_4_all.action_window"/>
+    <menuitem name="Server to list" id="cmis_field_4_all" parent="cmis_field_4_all.menu_2"
+              action="cmis_field_4_all.action_server"/>
+
+-->
+      <record model="ir.ui.view" id="view_document_file_kanban_alfresco">
+        <field name="name">ir.attachment.kanban.alfresco</field>
+        <field name="model">ir.attachment</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id"/>
+                <field name="mimetype"/>
+                <field name="type"/>
+                <field name="datas_fname"/>
+                <field name="name"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_vignette">
+                                <div class="oe_attachment">
+                                    <div class="row">
+                                        <div class="col-xs-4 o_kanban_primary_left" t-if="record.type.raw_value == 'binary'">
+                                            <a t-attf-href="/web/content/#{record.id.value}?download=1">
+                                                <t t-set="webimage" t-value="new RegExp('image.*(gif|jpeg|jpg|png)').test(record.mimetype.value)"/>
+                                                <div t-if="!webimage" class="o_image" t-att-data-mimetype="record.mimetype.value"/>
+                                                <div t-if="webimage" class="o_kanban_attachment_image">
+                                                    <img t-attf-src="/web/image/#{record.id.value}?download=1"/>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-8">
+                                            <strong><field name="name"/></strong><br/>
+                                            <field name="datas_fname"/><br/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+         <!-- CMNT no method action_see_alfresco_attachments-> -->
+<!--      <record id="product_product_form_view_attachment_button" model="ir.ui.view">
+        <field name="name">product.product.attachment.button</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button class="oe_stat_button" name="action_see_alfresco_attachments" type="object" icon="fa-book">
+                    <field string="Attachments" name="attachment_count" widget="statinfo" />
+                </button>
+            </div>
+        </field>
+    </record> -->
+
+  </data>
+</openerp>

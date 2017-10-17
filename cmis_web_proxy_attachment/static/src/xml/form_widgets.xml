@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+
+    <t t-extend="FieldCmisFolder">
+        <t t-jquery="table > thead > tr > th:last-child" t-operation="before">
+            <th>Location</th>
+            <th>Due Date</th>
+            <th>Assigment To</th>
+        </t>
+        <t t-jquery="table > tfoot > tr > th:last-child" t-operation="before">
+            <th>Location</th>
+            <th>Due Date</th>
+            <th>Assigment To</th>
+        </t>
+    </t>
+
+</templates>

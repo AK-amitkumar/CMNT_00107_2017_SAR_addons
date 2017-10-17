@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+
+    <t t-extend="CmisCreateDocumentDialog">
+        <t t-jquery="form.cmis_create_document > div" t-operation="append">
+            <div class="col-sm-12 mt16">
+                <textarea class="o_form_textarea o_form_field" name="description" id="description" placeholder="Description..."/>
+            </div>
+        </t>
+    </t>
+
+</templates>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- cmnt not working cmis_folde field -->
+<!--     <record id="crm_case_claims_form_view" model="ir.ui.view">
+        <field name="name">CRM - Claims Form (cmis_crm_claim)</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Documents" groups="base.group_user">
+                    <field name="cmis_folder"/>
+                </page>
+            </notebook>
+        </field>
+    </record> -->
+</odoo>
