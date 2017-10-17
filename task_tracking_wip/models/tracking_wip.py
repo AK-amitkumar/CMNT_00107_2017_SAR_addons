@@ -20,6 +20,11 @@ class TrackingWip(models.Model):
     state = fields.Selection([('deactivated', 'Deactivated'),
                               ('active', 'Active')], 'State',
                              default='deactivated')
+    color_gantt = fields.Char(
+        string="Color Task Bar",
+        help="Choose your color for Task Bar",
+        default="#FFFFFF"
+    )
 
     @api.multi
     def deactivate(self):
@@ -31,7 +36,6 @@ class TrackingWip(models.Model):
     def activate(self):
         self.write({'state': 'active'})
         return True
-
 
     @api.multi
     @api.constrains('model_id')
@@ -88,6 +92,23 @@ class TrackingWip(models.Model):
             })
         return
 
+    @api.model
+    def set_workorder_task_dependencies(self, o):
+        task_recs = self.env['project.task']
+        # Set dependency of move_dest_id task
+        if o.production_id and o.production_id.move_finished_ids:
+            task_recs += o.production_id.move_finished_ids.mapped('task_id')
+        # Write dependency if exists
+        if task_recs:
+            vals = {
+                'parent_task_id': o.task_id.id,
+                'type': 'FS'
+            }
+            task_recs.write({
+                'predecessor_ids': [(0, 0, vals)]
+            })
+        return
+
     @api.multi
     def create_task_tracking(self, o):
         """
@@ -106,18 +127,25 @@ class TrackingWip(models.Model):
                 date_end = o.date_expected
                 if o.purchase_line_id:
                     date_start = o.purchase_line_id.date_order
+            elif o._name == 'mrp.workorder':
+                date_start = o.date_planned_start
+                date_end = o.date_planned_finished
             vals = {
                 'name': eval(self.name_eval),
                 'project_id': eval(self.project_eval),
                 'date_start': date_start,
                 'date_end': date_end if date_end > date_start else date_start,
-                'model_reference': o._name + ',' + str(o.id)
+                'model_reference': o._name + ',' + str(o.id),
+                'color_gantt': self.color_gantt,
+                'color_gantt_set': True,
             }
             task_obj = self.env['project.task'].create(vals)
             o.write({'task_id': task_obj.id})
 
             if o._name == 'stock.move':
                 self.set_move_task_dependencies(o)
+            elif o._name == 'mrp.workorder':
+                self.set_workorder_task_dependencies(o)
 
 # ----------------------------------------------------------------------------#
 # -------------------------- MONKEY-PATCHING ---------------------------------#

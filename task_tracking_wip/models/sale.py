@@ -32,8 +32,15 @@ class SaleOrder(models.Model):
         self.mapped('order_line.task_id').unlink()
         return res
 
+    @api.model
+    def create(self, vals):
+        res = super(SaleOrder, self).create(vals)
+        if not res.requested_date:
+            res.requested_date = res.commitment_date
+        return res
+
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    task_id = fields.Many2one('project.task', 'Task')
+    task_id = fields.Many2one('project.task', 'Task', readonly=True)

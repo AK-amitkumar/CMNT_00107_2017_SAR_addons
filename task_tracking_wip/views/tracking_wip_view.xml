@@ -11,6 +11,7 @@
                     <field name="model_id"/>
                     <field name="condition_eval"/>
                     <field name="project_eval"/>
+                    <field name="color_gantt" widget="color"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -37,8 +38,7 @@
                                 <field name="condition_eval"/>
                                 <field name="project_eval"/>
                                 <field name="name_eval"/>
-                               <!--  <field name="start_date_eval"/>
-                                <field name="end_date_eval"/> -->
+                                <field name="color_gantt" widget="color"/>
                         </group>
                     </sheet>
                 </form>

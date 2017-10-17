@@ -16,10 +16,11 @@ class SaleLabelPrice(models.Model):
 
     _name = 'sale.label.price'
 
-    currency = fields.Many2one('res.currency')
     price = fields.Float()
     location = fields.Many2one('label.location', 'Location')
     sale_id = fields.Many2one('sale.order')
+    currency = fields.Many2one('res.currency', related="location.currency",
+                               readonly=True)
 
 
 class LabelLocation(models.Model):
@@ -27,3 +28,6 @@ class LabelLocation(models.Model):
     _name = 'label.location'
 
     name = fields.Char()
+    currency = fields.Many2one('res.currency',
+                               default=lambda s:
+                               s.env.user.company_id.currency_id.id)

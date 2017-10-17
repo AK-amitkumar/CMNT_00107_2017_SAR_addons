@@ -48,6 +48,27 @@ class ProjectTask(models.Model):
     #                            store=True)
     sucessor_ids = fields.One2many('project.task.predecessor',
                                    'parent_task_id', 'Sucessors')
+    progress_model = fields.Float(compute='_get_model_progress', store=False,
+                                  string='Origin Progress',
+                                  group_operator="avg")
+
+    @api.multi
+    def _get_model_progress(self):
+        for task in self:
+            progress = 0.0
+
+            if task.model_reference:
+                m = task.model_reference
+                if m == 'sale_order_line' and m.product_uom_qty:
+                    progress = m.qty_delivered / m.product_uom_qty
+                elif m == 'stock.move' and m.production_id and m.quantity:
+                    progress = m.quantity_done / m.quantity
+                elif m == 'stock.move' and m.state == 'done':
+                    progress = 100
+                elif m == 'mrp.workorder' and m.qty_production:
+                    progress = m.qty_produced / m.qty_production
+
+            task.progress_model = progress * 100.0
 
     @api.multi
     def write(self, vals):
@@ -72,8 +93,8 @@ class ProjectTask(models.Model):
                         task.model_reference._name != 'sale.order.line':
                     task.date_start = \
                         task.predecessor_ids[0].parent_task_id.date_end if \
-                         task.predecessor_ids[0].parent_task_id.date_end < \
-                         task.date_end else task.date_end
+                        task.predecessor_ids[0].parent_task_id.date_end < \
+                        task.date_end else task.date_end
         return res
 
 

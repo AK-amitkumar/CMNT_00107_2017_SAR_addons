@@ -11,7 +11,7 @@
             <field name="arch" type="xml">
                 <field name="categ_id" position="after">
                     <field name="article_type"/>
-                    <field name="composition" attrs="{'required': [('article_type', '=', 'lining')]}"/>
+                    <field name="composition_id" attrs="{'required': [('article_type', '=', 'lining')]}"/>
                 </field>
             </field>
         </record>

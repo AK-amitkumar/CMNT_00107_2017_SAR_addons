@@ -2,7 +2,8 @@
 # © 2017 Comunitea
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 WASH_SELEC = (('q', 'q'), ('w', 'w'), ('e', 'e'), ('r', 'r'), ('t', 't'),
               ('u', 'u'), ('o', 'o'), ('p', 'p'), ('a', 'a'), ('f', 'f'),
               ('g', 'g'), ('h', 'h'), ('j', 'j'), ('k', 'k'), ('l', 'l'),
@@ -63,6 +64,96 @@ class TextileModel(models.Model):
     all_attributes = fields.Many2many('product.attribute.value',
                                       compute='_compute_all_values')
     premodel_id = fields.Many2one('textile.model', 'Premodel', readonly=True)
+    composition_name = fields.Char(compute='_get_composition_name',
+                                   string='Composition name')
+    composition_id = fields.Many2one("product.composition",
+                                     string="Composition")
+    bom_cost = fields.Float(compute='_get_bom_cost', string='Bom Cost')
+    pvp = fields.Float('PVP')
+    bom_weight = fields.Float(compute='_get_bom_weight', string='BOM Weigth')
+    bom_cost = fields.Float(compute='_get_bom_cost', string='BOM Cost')
+    model_margin = fields.Float(compute='_get_model_margin', string='Margin')
+    model_margin_per = fields.Float(compute='_get_model_margin',
+                                    string='Margin %')
+
+    @api.multi
+    @api.depends('bom_lines.product_id', 'bom_lines.product_qty')
+    def _get_composition_name(self):
+        for model in self:
+            name_lst = []
+            for line in model.bom_lines:
+                if line.weight_per >= 30:
+                    name = str(round(line.weight_per, 2)) + ' % ' + \
+                        line.product_id.name
+                    name_lst.append(name)
+            model.composition_name = ', '.join(name_lst)
+
+    @api.multi
+    @api.depends('bom_lines.product_id', 'bom_lines.product_qty')
+    def _get_bom_weight(self):
+        for model in self:
+            sum_weight = 0.0
+            for line in model.bom_lines:
+                sum_weight += line.product_id.weight * line.product_qty
+            model.bom_weight = sum_weight
+
+    @api.multi
+    @api.depends('bom_lines.product_id', 'bom_lines.product_qty')
+    def _get_bom_cost(self):
+        for model in self:
+            sum_cost = 0.0  # # for lines without variants
+            var_cost = 0.0  # for lines with variants
+            n_variants = 0.0
+
+            # Get variants number
+            if model.sizes or model.colors:
+                # Both of them
+                if model.sizes and model.colors:
+                    n_variants = len(model.sizes) * len(model.colors)
+                # Some of them
+                else:
+                    n_variants = len(model.sizes) + len(model.colors)
+
+            for line in model.bom_lines:
+                if not line.attribute_value_ids:
+                    sum_cost += line.product_id.standard_price * \
+                        line.product_qty
+                else:
+                    var_cost += line.product_id.standard_price * \
+                        line.product_qty
+                if n_variants:
+                    var_cost /= n_variants
+            model.bom_cost = sum_cost + var_cost
+
+    @api.multi
+    def create_composition(self):
+        self.ensure_one()
+        t_composition = self.env['product.composition']
+        if self.composition_id:
+            raise UserError(_('Composition is already setted.'))
+        if not self.composition_name:
+            raise UserError(_('No composition to create.'))
+
+        objs = t_composition.search([('name', '=', self.composition_name)])
+        if objs:
+            raise UserError(_('Composition %s already exists' %
+                            self.composition_name))
+        vals = {
+            'name': self.composition_name,
+            'description': self.composition_name
+        }
+        comp = t_composition.create(vals)
+        self.composition_id = comp.id
+
+    @api.multi
+    @api.depends('pvp', 'bom_cost')
+    def _get_model_margin(self):
+        for model in self:
+            model.model_margin = model.pvp - model.bom_cost
+            model.model_margin_per = 0.0
+            if model.bom_cost:
+                model.model_margin_per = (model.model_margin / model.bom_cost) * \
+                    100
 
     @api.depends('sizes', 'colors')
     def _compute_all_values(self):
@@ -106,12 +197,14 @@ class TextileModel(models.Model):
                  {'attribute_id': self.size_type.id,
                   'value_ids': [(4, x.id) for x in self.sizes]})]
         model_product = self.env['product.template'].create(
-            {'name': self.name, 'image': self.image, 'article_type': self.model_type,
+            {'name': self.name, 'image': self.image,
+             'article_type': self.model_type,
+             'composition_id': self.composition_id.id,
              'default_code': self.reference, 'categ_id': self.article_type.id,
              'attribute_line_ids': attributes, 'type': 'product'})
 
         bom = self.env['mrp.bom'].create(
-                    {'product_tmpl_id': model_product.id})
+            {'product_tmpl_id': model_product.id})
         self.bom_lines.write({'bom_id': bom.id})
         if self.model_type == 'premodel':
             self.premodel_variant = model_product.product_variant_id
