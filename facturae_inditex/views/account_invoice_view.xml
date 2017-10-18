@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_account_invoice_form_e_invoice_inditex" model="ir.ui.view">
+            <field name="name">account.invoice.e.invoice.inditex.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="tax_line_ids" position="before">
+                     <group>
+                         <group>
+                             <field name="customer_order_ref"/>
+                             <field name="ple_number"/>
+                             <field name="campaign"/>
+                             <field name="net_weight"/>
+                             <field name="number_of_cartons"/>
+                         </group>
+                         <group>
+                             <field name="customer_delivery_ref"/>
+                             <field name="delivery_date"/>
+                             <field name="transport_mode_id"/>
+                             <field name="volume"/>
+                         </group>
+                     </group>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

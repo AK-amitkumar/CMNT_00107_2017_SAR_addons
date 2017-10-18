@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_partner_form_e_invoice2" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="l10n_es_base_facturae.view_partner_form_e_invoice"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <page name="e_invoice" position="inside">
+                        <group>
+                            <field name="seller_party_id"/>
+                            <field name="buyer_party_id"/>
+                        </group>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</odoo>

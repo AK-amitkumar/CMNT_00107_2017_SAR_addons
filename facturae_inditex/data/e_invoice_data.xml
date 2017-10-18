@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate='1'>
+
+    <record id="InditexExtension" model="e.invoice.schema">
+        <field name="name">Inditex Extension</field>
+        <field name="file_path">addons/facturae_inditex/data/InditexInvoiceExtension_v_1_0.xsd</field>
+    </record>
+
+    <record id="SignedInditexExtension" model="e.invoice.schema">
+        <field name="name">Signed Inditex Extension</field>
+        <field name="file_path">addons/facturae_inditex/data/SignedInditexInvoiceExtension_v_1_0.xsd</field>
+    </record>
+
+</odoo>

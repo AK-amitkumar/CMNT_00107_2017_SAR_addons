@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate='1'>
+
+    <record id="TransportMode1" model="transport.mode">
+        <field name="id">1</field>
+        <field name="name">Maritime transport</field>
+    </record>
+
+    <record id="TransportMode2" model="transport.mode">
+        <field name="id">2</field>
+        <field name="name">Maritime transport</field>
+    </record>
+
+    <record id="TransportMode3" model="transport.mode">
+        <field name="id">3</field>
+        <field name="name">Rail transport</field>
+    </record>
+
+    <record id="TransportMode4" model="transport.mode">
+        <field name="id">4</field>
+        <field name="name">Road transport</field>
+    </record>
+
+    <record id="TransportMode5" model="transport.mode">
+        <field name="id">5</field>
+        <field name="name">Mail</field>
+    </record>
+
+    <record id="TransportMode6" model="transport.mode">
+        <field name="id">6</field>
+        <field name="name">Multimodal transport</field>
+    </record>
+
+    <record id="TransportMode7" model="transport.mode">
+        <field name="id">7</field>
+        <field name="name">Fixed transport installation</field>
+    </record>
+
+    <record id="TransportMode8" model="transport.mode">
+        <field name="id">8</field>
+        <field name="name">Inland water transport</field>
+    </record>
+
+</odoo>

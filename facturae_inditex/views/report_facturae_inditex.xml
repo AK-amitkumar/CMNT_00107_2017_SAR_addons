@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <report id="report_facturae_inditex"
+            name="facturae_inditex.template_facturae_inditex"
+            string="Factura-E sin firmar"
+            report_type="qweb-html"
+            model="account.invoice"/>
+
+    <template id="template_facturae_inditex">
+        <t t-call="l10n_es_base_facturae.facturae_header">
+            <t t-set="invoice" t-value="docs[0]"/>
+            <t t-set="company" t-value="invoice.company_id"/>
+            <t t-set="company_partner" t-value="company.partner_id"/>
+            <t t-set="invoice_partner" t-value="invoice.partner_id"/>
+            <FileHeader>
+                <SchemaVersion t-esc="'3.2'"/>
+                <Modality t-esc="'I'"/>
+                <InvoiceIssuerType t-esc="'EM'"/>
+                <Batch>
+                    <BatchIdentifier t-esc="company_partner.vat + invoice.number.replace('/','')"/>
+                    <InvoicesCount t-esc="'1'"/>
+                    <TotalInvoicesAmount>
+                        <TotalAmount t-esc="'%.2f' % invoice.amount_total"/>
+                    </TotalInvoicesAmount>
+                    <TotalOutstandingAmount>
+                        <TotalAmount t-esc="'%.2f' % invoice.amount_total"/>
+                    </TotalOutstandingAmount>
+                    <TotalExecutableAmount>
+                        <TotalAmount t-esc="'%.2f' % invoice.amount_total"/>
+                    </TotalExecutableAmount>
+                    <InvoiceCurrencyCode t-esc="invoice.currency_id.name"/>
+                </Batch>
+            </FileHeader>
+            <Parties>
+                <SellerParty>
+                    <t t-set="seller_type" t-value="'F' if company_partner.vat and company_partner.vat[2:3].isdigit() else 'J'"/>
+                    <TaxIdentification>
+                        <PersonTypeCode t-esc="seller_type"/>
+                        <ResidenceTypeCode t-esc="'R'"/>
+                        <TaxIdentificationNumber t-esc="company_partner.vat"/>
+                    </TaxIdentification>
+                    <PartyIdentification t-esc="invoice_partner.seller_party_id"/>
+                    <Individual t-if="seller_type == 'F'">
+                        <Name t-esc="company_partner.name"/>
+                        <FirstSurname t-esc="''"/>
+                        <SecondSurname t-esc="''"/>
+                        <t t-call="l10n_es_base_facturae.address_contact">
+                            <t t-set="partner" t-value="company_partner"/>
+                        </t>
+                    </Individual>
+                    <LegalEntity t-if="seller_type == 'J'">
+                        <CorporateName t-esc="company_partner.name"/>
+                        <TradeName t-esc="company_partner.name"/>
+                        <t t-call="l10n_es_base_facturae.address_contact">
+                            <t t-set="partner" t-value="company_partner"/>
+                        </t>
+                    </LegalEntity>
+                </SellerParty>
+                <BuyerParty>
+                    <t t-set="buyer_type" t-value="'F' if company_partner.vat and invoice_partner.vat[2:3].isdigit() else 'J'"/>
+                    <TaxIdentification>
+                        <PersonTypeCode t-esc="buyer_type"/>
+                        <ResidenceTypeCode t-esc="'R'"/>
+                        <TaxIdentificationNumber t-esc="invoice_partner.vat"/>
+                    </TaxIdentification>
+                    <PartyIdentification t-esc="invoice_partner.buyer_party_id"/>
+                    <Individual t-if="buyer_type == 'F'">
+                        <Name t-esc="invoice_partner.name"/>
+                        <FirstSurname t-esc="''"/>
+                        <SecondSurname t-esc="''"/>
+                        <t t-call="l10n_es_base_facturae.address_contact">
+                            <t t-set="partner" t-value="invoice_partner"/>
+                        </t>
+                    </Individual>
+                    <LegalEntity t-if="buyer_type == 'J'">
+                        <CorporateName t-esc="invoice_partner.name"/>
+                        <TradeName t-esc="invoice_partner.name"/>
+                        <t t-call="l10n_es_base_facturae.address_contact">
+                            <t t-set="partner" t-value="invoice_partner"/>
+                        </t>
+                    </LegalEntity>
+                </BuyerParty>
+            </Parties>
+            <Invoices>
+                <Invoice>
+                    <InvoiceHeader>
+                        <InvoiceNumber t-esc="invoice.number.replace('/','')"/>
+                        <InvoiceSeriesCode t-esc="''"/>
+                        <InvoiceDocumentType t-esc="'FC'"/>
+                        <InvoiceClass t-esc="'OO'"/>
+                    </InvoiceHeader>
+                    <InvoiceIssueData>
+                        <IssueDate t-esc="invoice.date_invoice"/>
+                        <!-- TODO: la documentacion de Inditex lo pone como obligatorio, en los ejemplos no aparece
+                        <OperationDate></OperationDate>
+                        -->
+                        <InvoiceCurrencyCode t-esc="invoice.currency_id.name"/>
+                        <TaxCurrencyCode t-esc="invoice.currency_id.name"/>
+                        <LanguageName t-esc="'es'"/>
+                    </InvoiceIssueData>
+                    <TaxesOutputs>
+                        <Tax t-foreach="invoice.tax_line_ids" t-as="tax_line">
+                            <TaxTypeCode t-esc="'01'"/>
+                            <TaxRate t-esc="'%.2f' % tax_line.tax_id.amount"/>
+                            <TaxableBase>
+                                <TotalAmount t-esc="'%.2f' % tax_line.base"/>
+                            </TaxableBase>
+                            <TaxAmount>
+                                <TotalAmount t-esc="'%.2f' % tax_line.amount"/>
+                            </TaxAmount>
+                        </Tax>
+                    </TaxesOutputs>
+                    <InvoiceTotals>
+                        <TotalGrossAmount t-esc="'%.2f' % sum(invoice.mapped('invoice_line_ids.price_subtotal'))"/>
+                        <TotalGrossAmountBeforeTaxes t-esc="'%.2f' % sum(invoice.mapped('invoice_line_ids.price_subtotal'))"/>
+                        <TotalTaxOutputs t-esc="'%.2f' % invoice.amount_tax"/>
+                        <TotalTaxesWithheld t-esc="'0.00'"/>
+                        <InvoiceTotal t-esc="'%.2f' % invoice.amount_total"/>
+                        <TotalOutstandingAmount t-esc="'%.2f' % invoice.residual"/>
+                        <TotalExecutableAmount t-esc="'%.2f' % invoice.residual"/>
+                    </InvoiceTotals>
+                    <Items>
+                        <InvoiceLine t-foreach="invoice.invoice_line_ids" t-as="line">
+                            <IssuerTransactionReference t-esc="invoice.customer_order_ref"/>
+                            <!--TODO: No aparece como obligatorio en la documentación, pero siempre sale en los ejemplos-->
+                            <IssuerTransactionDate t-esc="invoice.delivery_date"/>
+                            <ReceiverTransactionReference t-esc="invoice.customer_delivery_ref"/>
+                            <ReceiverTransactionDate t-esc="invoice.delivery_date"/>
+                            <DeliveryNotesReferences>
+                                <DeliveryNote>
+                                    <DeliveryNoteNumber t-esc="invoice.ple_number"/>
+                                </DeliveryNote>
+                            </DeliveryNotesReferences>
+                            <ItemDescription>
+                                <![CDATA[<![CDATA[]]><t t-esc="'%s     %s]]' % (line.product_id.product_customer_codes.product_code , line.product_id.product_customer_codes.product_name)"/><![CDATA[>]]>
+                            </ItemDescription>
+                            <Quantity t-esc="line.quantity"/>
+                            <UnitPriceWithoutTax t-esc="'%.6f' % line.price_unit"/>
+                            <TotalCost t-esc="'%.6f' % (line.quantity * line.price_unit)"/>
+                            <DiscountsAndRebates>
+                                <Discount>
+                                    <DiscountReason t-esc="'Descuento'"/>
+                                    <DiscountRate t-esc="'%.4f' % line.discount"/>
+                                    <DiscountAmount t-esc="'%.6f' % (line.price_unit * line.quantity - line.price_subtotal)"/>
+                                </Discount>
+                            </DiscountsAndRebates>
+                            <GrossAmount t-esc="'%.6f' % line.price_subtotal"/>
+                            <t t-set="tax_exempt" t-value="True"/>
+                            <TaxesOutputs>
+                                <Tax t-foreach="line.invoice_line_tax_ids" t-as="line_tax">
+                                    <TaxTypeCode t-esc="'01'"/>
+                                     <t t-if="line_tax.amount > 0">
+                                        <t t-set="tax_exempt" t-value="False"/>
+                                    </t>
+                                    <TaxRate t-esc="'%.2f' % line_tax.amount"/>
+                                    <TaxableBase>
+                                        <TotalAmount t-esc="'%.2f' % line.price_subtotal"/>
+                                    </TaxableBase>
+                                </Tax>
+                            </TaxesOutputs>
+                            <SpecialTaxableEvent t-if="tax_exempt">
+                                <SpecialTaxableEventCode  t-esc="'02'"/>
+                                <SpecialTaxableEventReason t-esc="'Mercancía a nacionalizar por el cliente'"/>
+                            </SpecialTaxableEvent>
+                            <ArticleCode t-esc="line.product_id.product_customer_codes.product_code"/>
+                        </InvoiceLine>
+                    </Items>
+                    <!-- TODO: Inditex recomienda no rellenar esta parte
+                    <PaymentDetails t-if="invoice.payment_mode_id">
+                        <Installment t-foreach="invoice.move_id.line_ids" t-as="move" t-if="move.account_id == invoice.account_id">
+                            <InstallmentDueDate t-esc="move.date_maturity or invoice.date_invoice"/>
+                            <InstallmentAmount t-esc="'%.2f' % (move.debit if move.debit > move.credit else -move.credit)"/>
+                            <PaymentMeans t-esc="invoice.payment_mode_id.facturae_code"/>
+                            <AccountToBeDebited t-if="invoice.payment_mode_id.facturae_code == '02'">
+                                <IBAN t-esc="invoice.partner_bank_id.acc_number"/>
+                            </AccountToBeDebited>
+                            <AccountToBeCredited t-if="invoice.payment_mode_id.facturae_code != '02'">
+                                <IBAN t-esc="invoice.partner_bank_id.acc_number"/>
+                            </AccountToBeCredited>
+                        </Installment>
+                    </PaymentDetails> -->
+                    <AdditionalData>
+                        <InvoiceAdditionalInformation t-esc="invoice.comment"/>
+                        <Extensions>
+                             <v1:InditexInvoiceExtension xmlns:v1="http://www.inditex.com/documents/einvoicing/Facturae/InditexInvoiceExtension/v1.0">
+                                  <Version t-esc="'1.0'"/>
+                                  <InvoiceFamily t-esc="'PRODUCT_INVOICE'"/>
+                                  <Campaign t-esc="invoice.campaign"/>
+                                 <LogisticExtension>
+                                    <TransportCode t-esc="invoice.transport_mode_id.id"/>
+                                    <IncotermCode t-esc="invoice.incoterms_id.code"/>
+                                    <TotalNetWeight t-esc="invoice.net_weight"/>
+                                    <TotalVolume t-esc="invoice.volume"/>
+                                    <NumberOfCartons t-esc="invoice.number_of_cartons"/>
+                                 </LogisticExtension>
+                             </v1:InditexInvoiceExtension>
+                        </Extensions>
+                    </AdditionalData>
+                </Invoice>
+            </Invoices>
+        </t>
+    </template>
+
+</data>
+</openerp>
