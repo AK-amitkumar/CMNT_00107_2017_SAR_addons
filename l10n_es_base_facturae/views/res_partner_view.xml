@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_partner_form_e_invoice" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <page name="sales_purchases" position="after">
+                      <page name="e_invoice" string='eInvoice'>
+                        <group>
+                            <field name="e_invoice_schema_id"/>
+                            <field name="e_invoice_sign_schema_id"/>
+                            <field name="e_invoice_template"/>
+                            <field name="sign_strategy"/>
+                            <field name="file_name_strategy"/>
+                            <field name="push_strategy"/>
+                        </group>
+                      </page>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</odoo>

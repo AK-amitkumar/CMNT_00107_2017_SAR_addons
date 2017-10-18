@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate='1'>
+
+    <record id="facturaev3_2" model="e.invoice.schema">
+        <field name="name">Facturae 3.2</field>
+        <field name="file_path">addons/l10n_es_base_facturae/data/Facturaev3_2.xsd</field>
+    </record>
+
+    <record id="facturaev3_2_1" model="e.invoice.schema">
+        <field name="name">Facturae 3.2.1</field>
+        <field name="file_path">addons/l10n_es_base_facturae/data/Facturaev3_2_1.xsd</field>
+    </record>
+
+    <record id="xmldsig" model="e.invoice.schema">
+        <field name="name">XMLDsig</field>
+        <field name="file_path">addons/l10n_es_base_facturae/data/xmldsig-core-schema.xsd</field>
+    </record>
+
+</odoo>

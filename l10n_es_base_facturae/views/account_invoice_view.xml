@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_account_invoice_form_e_invoice" model="ir.ui.view">
+            <field name="name">account.invoice.e.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <button name="action_invoice_cancel" position="before">
+                    <button name="action_e_invoice_create" type="object" string="E-Invoice" attrs="{'invisible': ['|', ('has_e_invoice','=',True), ('state','not in',('open','paid'))]}"/>
+                </button>
+                <xpath expr="//sheet/label" position="before">
+                    <div class="oe_button_box">
+                        <button name="open_e_invoice_view"
+                                attrs="{'invisible': [('has_e_invoice','=',False)]}"
+                            class="oe_stat_button"
+                            icon="fa-bars"
+                            type="object"
+                            string="E-Invoice">
+                        </button>
+                        <field name="has_e_invoice" invisible="1"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

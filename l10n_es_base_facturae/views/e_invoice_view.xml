@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="e_invoice_tree" model="ir.ui.view">
+            <field name="name">e.invoice.tree</field>
+            <field name="model">e.invoice</field>
+            <field name="arch" type="xml">
+                <tree string="E-Invoice">
+                    <field name="invoice_id"/>
+                    <field name="e_invoice_file_name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="e_invoice_form" model="ir.ui.view">
+            <field name="name">e.invoice.form</field>
+            <field name="model">e.invoice</field>
+            <field name="arch" type="xml">
+                <form string="E-Invoice">
+                    <header>
+                        <button name="action_e_invoice_sign" type="object" string="Sign" class="oe_highlight" attrs="{'invisible': ['|', ('sign_strategy','=','none'), ('state','!=','unsigned')]}"/>
+                        <button name="action_e_invoice_push" type="object" string="Send" class="oe_highlight" attrs="{'invisible': ['|', ('push_strategy','=','none'), ('state','not in',('unsigned','signed','error'))]}"/>
+                        <button name="action_e_invoice_download" type="object" string="Download"/>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="unsigned,signed,sent,done"/>
+                    </header>
+                    <sheet string="Invoice">
+                        <group>
+                            <group>
+                                <field name="e_invoice_file_name"/>
+                                <field name="invoice_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="schema_id"/>
+                                <field name="sign_schema_id"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="report_template"/>
+                                <field name="file_name_strategy"/>
+                            </group>
+                            <group>
+                                <field name="sign_strategy"/>
+                                <field name="push_strategy"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Response Data" attrs="{'invisible': [('state','not in',('done','error'))]}">
+                                <field name="response_data" widget="ace" options="{'mode': 'xml'}"/>
+                            </page>
+                            <page string="E-Invoice Data">
+                                <field name="e_invoice_data" widget="ace" options="{'mode': 'xml'}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="e_invoice_act_window" model="ir.actions.act_window">
+            <field name="name">E-Invoice</field>
+            <field name="res_model">e.invoice</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <menuitem id="menu_finance_e_invoice" name="E-Invoice" parent="account.menu_finance" sequence="10"/>
+
+        <menuitem action="e_invoice_act_window" id="menu_action_e_invoice" parent="menu_finance_e_invoice" sequence="1"/>
+
+    </data>
+</odoo>
