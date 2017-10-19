@@ -26,6 +26,6 @@ from openerp.addons.cmis_field import fields
 class CrmClaim(models.Model):
     _inherit = 'sale.order'
     # cmnt not working cmis fields
-    # cmis_folder = fields.CmisFolder()
+    cmis_folder = fields.CmisFolder()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

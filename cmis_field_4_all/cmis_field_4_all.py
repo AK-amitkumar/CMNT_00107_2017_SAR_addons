@@ -56,6 +56,6 @@ def _setup_complete(self):
         _logger.error(inst)
 
 # CMNT fail because not loaded wel cmis_folder
-# BaseModel._patch_method("_add_magic_fields", _add_magic_fields)
-# BaseModel._patch_method("fields_view_get", fields_view_get)
-# BaseModel._patch_method("_setup_complete", _setup_complete)
+BaseModel._patch_method("_add_magic_fields", _add_magic_fields)
+BaseModel._patch_method("fields_view_get", fields_view_get)
+BaseModel._patch_method("_setup_complete", _setup_complete)
