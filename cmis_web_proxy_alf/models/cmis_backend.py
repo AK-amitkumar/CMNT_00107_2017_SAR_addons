@@ -17,9 +17,10 @@ class CmisBackend(models.Model):
             record.proxy_api_location = (
                 alfresco.ALFRESCO_API_PROXY_PATH + '/%s' % record.id)
 
-    alfresco_api_location = fields.Char(
-        string='Alfresco Api Url',
-        required=True)
+    # CMNT: already defined in cmis_alf
+    # alfresco_api_location = fields.Char(
+    #     string='Alfresco Api Url',
+    #     required=True)
     proxy_api_location = fields.Char(
         readonly=True, compute='_compute_proxy_api_location')
 
