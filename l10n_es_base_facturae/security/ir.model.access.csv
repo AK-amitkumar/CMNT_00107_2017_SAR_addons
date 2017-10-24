@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_e_invoice,access_e_invoice,model_e_invoice,base.group_user,1,1,1,1
+access_e_invoice_schema,access_e_invoice_schema,model_e_invoice_schema,base.group_user,1,1,1,1

@@ -10,12 +10,14 @@
         "account",
         "base_iso3166",
         "account_payment_partner",
+        "l10n_es_facturae"
     ],
     "data": [
         "data/e_invoice_data.xml",
         "views/account_invoice_view.xml",
         "views/e_invoice_view.xml",
         "views/res_partner_view.xml",
+        "security/ir.model.access.csv",
     ],
     "installable": True,
 }

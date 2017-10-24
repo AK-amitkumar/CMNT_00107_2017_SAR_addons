@@ -7,7 +7,7 @@ from odoo import fields, models, api, _, tools
 from odoo.exceptions import UserError
 
 
-REPORT_TEMPLATE = [("l10n_es_base_facturae.report_facturae", "Factura-e")]
+REPORT_TEMPLATE = [("l10n_es_facturae.report_facturae", "Factura-e")]
 SIGN_STRATEGY = [("none", "None")]
 FILE_NAME_STRATEGY = [("none", "None")]
 PUSH_STRATEGY = [("none", "None")]
@@ -106,7 +106,10 @@ class EInvoice(models.Model):
         return self._validate_xml_schemas(self.sign_schema_id, self.e_invoice_data)
 
     def process(self):
-        report = self.env.ref(self.report_template)
+        report_template = self.report_template
+        if not report_template:
+            report_template = 'l10n_es_facturae.report_facturae'
+        report = self.env.ref(report_template)
         xml = self.env['report'].get_html(self.invoice_id.ids, report.report_name)
         xml = etree.fromstring(xml, etree.XMLParser(remove_blank_text=True, strip_cdata=False))
         self.e_invoice_data = etree.tostring(xml, pretty_print=True, encoding="UTF-8", xml_declaration=True)
