@@ -15,6 +15,7 @@
         "views/account_invoice_view.xml",
         "views/report_facturae_inditex.xml",
         "views/res_partner_view.xml",
+        "security/ir.model.access.csv",
     ],
     "installable": True,
 }

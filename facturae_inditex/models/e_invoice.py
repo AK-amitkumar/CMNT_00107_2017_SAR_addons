@@ -78,6 +78,7 @@ class EInvoice(models.Model):
                 einvoice.state = 'error'
 
     def _send_to_sign_ca(self):
+        # cmnt review
         smtp_host = "smtp.gmail.com"
         smtp_port = "587"
         smtp_user = "srn.pop.test@gmail.com"
@@ -96,7 +97,7 @@ class EInvoice(models.Model):
             try:
                 smtp = smtplib.SMTP(smtp_host, smtp_port)
                 msg = MIMEMultipart()
-                msg['Subject'] = "FACTURAE DE PLE: " + einvoice.invoice_id.ple_number
+                msg['Subject'] = "FACTURAE DE PLE: " + (einvoice.invoice_id.ple_number or '')
                 msg['From'] = smtp_user
                 msg['To'] = sign_mail_to
                 part = MIMEBase('application', "xml")
@@ -180,6 +181,7 @@ class EInvoice(models.Model):
         self._process_signed_xml(signed)
 
     def _send_to_sftp(self):
+        # cmnt review
         sftp_host = '172.16.10.53'
         sftp_port = 22
         sftp_user = 'root'

@@ -1,0 +1,295 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_es_base_facturae
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-10-25 14:57+0000\n"
+"PO-Revision-Date: 2017-10-25 14:57+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_es_base_facturae
+#: selection:e.invoice,sign_strategy:0
+#: selection:res.partner,sign_strategy:0
+msgid "Camerfirma"
+msgstr "Camerfirma"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_create_uid
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_schema_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_create_date
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_schema_create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_display_name
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_schema_display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: l10n_es_base_facturae
+#: model:ir.ui.view,arch_db:l10n_es_base_facturae.e_invoice_form
+msgid "Download"
+msgstr "Descargar"
+
+#. module: l10n_es_base_facturae
+#: model:ir.actions.act_window,name:l10n_es_base_facturae.e_invoice_act_window
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_account_invoice_e_invoice_id
+#: model:ir.ui.menu,name:l10n_es_base_facturae.menu_action_e_invoice
+#: model:ir.ui.menu,name:l10n_es_base_facturae.menu_finance_e_invoice
+#: model:ir.ui.view,arch_db:l10n_es_base_facturae.e_invoice_form
+#: model:ir.ui.view,arch_db:l10n_es_base_facturae.e_invoice_tree
+#: model:ir.ui.view,arch_db:l10n_es_base_facturae.view_account_invoice_form_e_invoice
+msgid "E-Invoice"
+msgstr "Factura-E"
+
+#. module: l10n_es_base_facturae
+#: model:ir.ui.view,arch_db:l10n_es_base_facturae.e_invoice_form
+msgid "E-Invoice Data"
+msgstr "Datos Factura-e"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_e_invoice_data
+msgid "E-Invoice file"
+msgstr "Archivo Factura-e"
+
+#. module: l10n_es_base_facturae
+#: selection:e.invoice,state:0
+msgid "Error"
+msgstr "Error"
+
+#. module: l10n_es_base_facturae
+#: selection:e.invoice,report_template:0
+#: selection:res.partner,e_invoice_template:0
+msgid "Factura-e"
+msgstr "Factura-e"
+
+#. module: l10n_es_base_facturae
+#: selection:e.invoice,report_template:0
+#: selection:res.partner,e_invoice_template:0
+msgid "Factura-e Inditex"
+msgstr "Factura-e Inditex"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_e_invoice_binary
+msgid "File Binary"
+msgstr "Fichero binario"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_e_invoice_file_name
+msgid "File name"
+msgstr "Nombre archivo"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_file_name_strategy
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_res_partner_file_name_strategy
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_res_users_file_name_strategy
+msgid "File name strategy"
+msgstr "Nombre fichero estrategia"
+
+#. module: l10n_es_base_facturae
+#: code:addons/l10n_es_base_facturae/models/e_invoice.py:88
+#, python-format
+msgid "File name strategy %s not implemented."
+msgstr "Nombre fichero estrategia %s no implementado."
+
+#. module: l10n_es_base_facturae
+#: code:addons/l10n_es_base_facturae/models/account_invoice.py:16
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_account_invoice_has_e_invoice
+#, python-format
+msgid "Has E-Invoice"
+msgstr "Tiene factura-e"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_id
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_schema_id_10072
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_es_base_facturae
+#: selection:e.invoice,file_name_strategy:0
+#: selection:e.invoice,push_strategy:0
+#: selection:res.partner,file_name_strategy:0
+#: selection:res.partner,push_strategy:0
+msgid "Iditex B2B"
+msgstr "Iditex B2B"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model,name:l10n_es_base_facturae.model_account_invoice
+#: model:ir.ui.view,arch_db:l10n_es_base_facturae.e_invoice_form
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_invoice_id
+msgid "Invoice Reference"
+msgstr "Referencia factura"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_sign_schema_id
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_res_partner_e_invoice_sign_schema_id
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_res_users_e_invoice_sign_schema_id
+msgid "Invoice sign validation schema"
+msgstr "Esquema de validación de firma factura"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_schema_id
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_res_partner_e_invoice_schema_id
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_res_users_e_invoice_schema_id
+msgid "Invoice validation schema"
+msgstr "Esquema de validación de factura"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice___last_update
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_schema___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_schema_write_uid
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_schema_write_date
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: l10n_es_base_facturae
+#: selection:e.invoice,state:0
+msgid "Locked"
+msgstr "Bloqueado"
+
+#. module: l10n_es_base_facturae
+#: selection:e.invoice,file_name_strategy:0
+#: selection:e.invoice,push_strategy:0
+#: selection:e.invoice,sign_strategy:0
+#: selection:res.partner,file_name_strategy:0
+#: selection:res.partner,push_strategy:0
+#: selection:res.partner,sign_strategy:0
+msgid "None"
+msgstr "Ninguna"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model,name:l10n_es_base_facturae.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_push_strategy
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_res_partner_push_strategy
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_res_users_push_strategy
+msgid "Push strategy"
+msgstr "Estrategia push"
+
+#. module: l10n_es_base_facturae
+#: code:addons/l10n_es_base_facturae/models/e_invoice.py:100
+#, python-format
+msgid "Push strategy %s not implemented."
+msgstr "Estrategia push %s no implementada."
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_report_template
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_res_partner_e_invoice_template
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_res_users_e_invoice_template
+msgid "Report creation template "
+msgstr "Plantilla de creación de informe "
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_response_data
+msgid "Response"
+msgstr "Respuesta"
+
+#. module: l10n_es_base_facturae
+#: model:ir.ui.view,arch_db:l10n_es_base_facturae.e_invoice_form
+msgid "Response Data"
+msgstr "Datos respuesta"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_schema_file_path
+msgid "Schema File Path "
+msgstr "Ruta arcvhivo esquema "
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_schema_name
+msgid "Schema Name"
+msgstr "Nombre esquema"
+
+#. module: l10n_es_base_facturae
+#: model:ir.ui.view,arch_db:l10n_es_base_facturae.e_invoice_form
+msgid "Send"
+msgstr "Enviar"
+
+#. module: l10n_es_base_facturae
+#: selection:e.invoice,state:0
+msgid "Sent"
+msgstr "Enviado"
+
+#. module: l10n_es_base_facturae
+#: model:ir.ui.view,arch_db:l10n_es_base_facturae.e_invoice_form
+msgid "Sign"
+msgstr "Firmar"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_sign_strategy
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_res_partner_sign_strategy
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_res_users_sign_strategy
+msgid "Sign strategy"
+msgstr "Estrategia firmado"
+
+#. module: l10n_es_base_facturae
+#: code:addons/l10n_es_base_facturae/models/e_invoice.py:94
+#, python-format
+msgid "Sign strategy %s not implemented."
+msgstr "Estrategia de firmado %s no implementada."
+
+#. module: l10n_es_base_facturae
+#: selection:e.invoice,state:0
+msgid "Signed"
+msgstr "Firmado"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model.fields,field_description:l10n_es_base_facturae.field_e_invoice_state
+msgid "Status"
+msgstr "Estado"
+
+#. module: l10n_es_base_facturae
+#: code:addons/l10n_es_base_facturae/models/e_invoice.py:34
+#, python-format
+msgid "The generated XML file is not valid against the XML Schema Definition : %s"
+msgstr "El fichero XML generado no es valido comparado con la definición de esquema : %s"
+
+#. module: l10n_es_base_facturae
+#: selection:e.invoice,state:0
+msgid "Unsigned"
+msgstr "Sin firmar"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model,name:l10n_es_base_facturae.model_e_invoice
+msgid "e.invoice"
+msgstr "e.invoice"
+
+#. module: l10n_es_base_facturae
+#: model:ir.model,name:l10n_es_base_facturae.model_e_invoice_schema
+msgid "e.invoice.schema"
+msgstr "e.invoice.schema"
+
+#. module: l10n_es_base_facturae
+#: model:ir.ui.view,arch_db:l10n_es_base_facturae.view_partner_form_e_invoice
+msgid "eInvoice"
+msgstr "Factura-e"
+

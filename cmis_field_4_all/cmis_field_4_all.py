@@ -55,7 +55,8 @@ def _setup_complete(self):
     except Exception as inst:
         _logger.error(inst)
 
-# CMNT fail because not loaded wel cmis_folder
+# CMNT fail because not loaded wel cmis_folder, sometimes fail when new install
+# sometimes when installation of other module. We need to comment fot that.
 BaseModel._patch_method("_add_magic_fields", _add_magic_fields)
 BaseModel._patch_method("fields_view_get", fields_view_get)
 BaseModel._patch_method("_setup_complete", _setup_complete)

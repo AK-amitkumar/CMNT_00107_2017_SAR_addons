@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 {
-    "name": "Creación de Factura-e",
+    "name": "(Saroni) Creación de Factura-e",
     "version": "10.0.1.0.0",
     "author": "Victor Rojo",
-    'description': """Módulo base para la creación de facturas electrónicas""",
+    'description': """Módulo base para la creación de facturas electrónicas. 
+    Se dejó solo lo que no está en oca""",
     "category": "Accounting & Finance",
     "depends": [
         "account",

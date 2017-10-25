@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['cmis_field'],
+    'depends': ['cmis_field', 'cmis_web'],
     'post_init_hook': 'post_init_check',
 
     # always loaded

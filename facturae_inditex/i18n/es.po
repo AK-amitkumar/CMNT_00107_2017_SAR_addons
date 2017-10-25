@@ -1,0 +1,231 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* facturae_inditex
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-10-25 14:29+0000\n"
+"PO-Revision-Date: 2017-10-25 14:29+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: facturae_inditex
+#: model:ir.ui.view,arch_db:facturae_inditex.template_facturae_inditex
+msgid "&lt;![CDATA["
+msgstr "&lt;![CDATA["
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_res_partner_buyer_party_id
+#: model:ir.model.fields,field_description:facturae_inditex.field_res_users_buyer_party_id
+msgid "Buyer Id"
+msgstr "Id comprador"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_account_invoice_campaign
+msgid "Campaign"
+msgstr "Campaña"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_transport_mode_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_transport_mode_create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_account_invoice_customer_delivery_ref
+msgid "Customer Delivery Reference"
+msgstr "Referencia entrega del cliente"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_account_invoice_customer_order_ref
+msgid "Customer Order Reference"
+msgstr "Referencia pedido del cliente
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_account_invoice_delivery_date
+msgid "Delivery Date"
+msgstr "Fecha entrega"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_transport_mode_display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: facturae_inditex
+#: model:ir.actions.report.xml,name:facturae_inditex.report_facturae_inditex
+msgid "Factura-E sin firmar"
+msgstr "Factura-E sin firmar"
+
+#. module: facturae_inditex
+#: model:transport.mode,name:facturae_inditex.TransportMode7
+msgid "Fixed transport installation"
+msgstr "Fixed transport installation"
+
+#. module: facturae_inditex
+#: code:addons/facturae_inditex/models/e_invoice.py:168
+#, python-format
+msgid "General failure when trying to fetch mail from %s server\n"
+"%s: %s"
+msgstr "General failure when trying to fetch mail from %s server\n"
+"%s: %s"
+
+#. module: facturae_inditex
+#: code:addons/facturae_inditex/models/e_invoice.py:203
+#: code:addons/facturae_inditex/models/e_invoice.py:234
+#, python-format
+msgid "General failure when trying to push file to %s server\n"
+"%s: %s"
+msgstr "General failure when trying to push file to %s server\n"
+"%s: %s"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_transport_mode_id
+msgid "ID"
+msgstr "ID"
+
+#. module: facturae_inditex
+#: model:transport.mode,name:facturae_inditex.TransportMode8
+msgid "Inland water transport"
+msgstr "Inland water transport"
+
+#. module: facturae_inditex
+#: model:ir.model,name:facturae_inditex.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_transport_mode___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_transport_mode_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_transport_mode_write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: facturae_inditex
+#: model:transport.mode,name:facturae_inditex.TransportMode5
+msgid "Mail"
+msgstr "Email"
+
+#. module: facturae_inditex
+#: code:addons/facturae_inditex/models/e_invoice.py:126
+#, python-format
+msgid "Mail Delivery Failed"
+msgstr "Fallo en la entrega de Email"
+
+#. module: facturae_inditex
+#: code:addons/facturae_inditex/models/e_invoice.py:171
+#: code:addons/facturae_inditex/models/e_invoice.py:206
+#: code:addons/facturae_inditex/models/e_invoice.py:237
+#, python-format
+msgid "Mail Fetch Failed"
+msgstr "Obtener email falló"
+
+#. module: facturae_inditex
+#: code:addons/facturae_inditex/models/e_invoice.py:123
+#, python-format
+msgid "Mail delivery failed via SMTP server '%s'\n"
+"%s: %s"
+msgstr "Mail delivery failed via SMTP server '%s'\n"
+"%s: %s"
+
+#. module: facturae_inditex
+#: model:transport.mode,name:facturae_inditex.TransportMode1
+#: model:transport.mode,name:facturae_inditex.TransportMode2
+msgid "Maritime transport"
+msgstr "Transporte marítimo"
+
+#. module: facturae_inditex
+#: model:transport.mode,name:facturae_inditex.TransportMode6
+msgid "Multimodal transport"
+msgstr "Multimodal transport"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_transport_mode_name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_account_invoice_net_weight
+msgid "Net Weight"
+msgstr "Peso neto"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_account_invoice_number_of_cartons
+msgid "Number of Cartons"
+msgstr "Número de cartones"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_account_invoice_ple_number
+msgid "PLE"
+msgstr "PLE"
+
+#. module: facturae_inditex
+#: model:ir.model,name:facturae_inditex.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: facturae_inditex
+#: model:transport.mode,name:facturae_inditex.TransportMode3
+msgid "Rail transport"
+msgstr "Rail transport"
+
+#. module: facturae_inditex
+#: model:transport.mode,name:facturae_inditex.TransportMode4
+msgid "Road transport"
+msgstr "Road transport"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_res_partner_seller_party_id
+#: model:ir.model.fields,field_description:facturae_inditex.field_res_users_seller_party_id
+msgid "Seller Id"
+msgstr "Id vendedor"
+
+#. module: facturae_inditex
+#: code:addons/facturae_inditex/models/e_invoice.py:247
+#, python-format
+msgid "Timeout receiving response xml for "
+msgstr "Timeout recibiendo respuesta para "
+
+#. module: facturae_inditex
+#: code:addons/facturae_inditex/models/e_invoice.py:179
+#, python-format
+msgid "Timeout receiving signed xml for "
+msgstr "Timeout recibiendo xml firmado para "
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_account_invoice_transport_mode_id
+msgid "Transport Mode"
+msgstr "Modo transporte"
+
+#. module: facturae_inditex
+#: model:ir.model.fields,field_description:facturae_inditex.field_account_invoice_volume
+msgid "Volume"
+msgstr "Volumen"
+
+#. module: facturae_inditex
+#: model:ir.model,name:facturae_inditex.model_e_invoice
+msgid "e.invoice"
+msgstr "e.invoice"
+
+#. module: facturae_inditex
+#: model:ir.model,name:facturae_inditex.model_transport_mode
+msgid "transport.mode"
+msgstr "transport.mode"
+
