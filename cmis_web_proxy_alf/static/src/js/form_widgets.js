@@ -10,7 +10,6 @@
 
 var core = require('web.core');
 var form_widgets = require('cmis_web.form_widgets');
-var form_widgets2 = require('cmis_web_alf.form_widgets');
 var Model = require('web.Model');
 
 var _t = core._t;
@@ -45,7 +44,7 @@ form_widgets.CmisObjectWrapper.include({
 
 });
 
-form_widgets2.FieldCmisFolder.include({
+form_widgets.FieldCmisFolder.include({
 
     wrap_cmis_object: function(cmisObject) {
         var obj = this._super.apply(this, arguments);

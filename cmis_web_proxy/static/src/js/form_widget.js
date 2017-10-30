@@ -5,7 +5,7 @@
  + *---------------------------------------------------------
  +*/
 
- odoo.define('cmis_web_alf.form_widgets', function( require) {
+ odoo.define('cmis_web_proxy.form_widgets', function( require) {
 "use strict";
 
 var core = require('web.core');
