@@ -57,6 +57,7 @@ def _setup_complete(self):
 
 # CMNT fail because not loaded wel cmis_folder, sometimes fail when new install
 # sometimes when installation of other module. We need to comment fot that.
+# other error is, current transition is aborted
 BaseModel._patch_method("_add_magic_fields", _add_magic_fields)
 BaseModel._patch_method("fields_view_get", fields_view_get)
 BaseModel._patch_method("_setup_complete", _setup_complete)
