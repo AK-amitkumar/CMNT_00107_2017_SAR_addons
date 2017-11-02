@@ -52,17 +52,18 @@ class EInvoice(models.Model):
         else:
             super(EInvoice, self)._sign_invoice()
 
-    def _push_invoice(self):
-        if self.push_strategy == 'inditex':
-            self._synchronous_sftp_push()
-        else:
-            super(EInvoice, self)._push_invoice()
+    # CMNT mailt to Victor Rojo commented.
+    # def _push_invoice(self):
+    #     if self.push_strategy == 'inditex':
+    #         self._synchronous_sftp_push()
+    #     else:
+    #         super(EInvoice, self)._push_invoice()
 
-    def _process_signed_xml(self, signed):
-        for filename, data in signed.iteritems():
-            einvoice = self.search([('e_invoice_file_name', '=', filename), ('state', '=', 'unsigned')], limit=1)
-            einvoice.e_invoice_data = data
-            einvoice.state = 'signed'
+    # def _process_signed_xml(self, signed):
+    #     for filename, data in signed.iteritems():
+    #         einvoice = self.search([('e_invoice_file_name', '=', filename), ('state', '=', 'unsigned')], limit=1)
+    #         einvoice.e_invoice_data = data
+    #         einvoice.state = 'signed'
 
     def _process_push_response(self, received):
         for filename, data in received.iteritems():
