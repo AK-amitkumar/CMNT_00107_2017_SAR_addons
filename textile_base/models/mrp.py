@@ -27,8 +27,7 @@ class MrpBom(models.Model):
             dic = touple[1]
             if current_line and current_line.product_efficiency:
                 dic['qty'] = dic['qty'] / current_line.product_efficiency
-            new_boms_done.append((current_line, dic))
-
+            new_lines_done.append((current_line, dic))
         return new_boms_done, new_lines_done
 
 
