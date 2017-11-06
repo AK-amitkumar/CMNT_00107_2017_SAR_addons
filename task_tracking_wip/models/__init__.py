@@ -6,3 +6,4 @@ import sale
 import stock
 import task
 import mrp_workorder
+import procurement

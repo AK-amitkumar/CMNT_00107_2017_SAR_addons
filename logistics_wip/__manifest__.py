@@ -16,7 +16,6 @@
         'web_gantt',
         'procurement_jit',
         'mrp_mto_with_stock',
-        'mrp_auto_assign',
         'stock_mts_mto_rule',
         'task_tracking_wip',
     ],
