@@ -41,8 +41,8 @@ class ProjectTask(models.Model):
                 # except sale.order.line
                 if task.sucessor_ids and \
                         task.sucessor_ids[0].model_reference and \
-                        task.sucessor_ids[0].model_reference._name != 
-                        'sale.order.line':
+                        task.sucessor_ids[0].\
+                        model_reference._name != 'sale.order.line':
                     task.mapped('sucessor_ids.task_id').\
                         write({'date_start': task.date_end})
 
