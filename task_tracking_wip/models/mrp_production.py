@@ -28,6 +28,13 @@ class MrpProduction(models.Model):
     project_wip_id = fields.Many2one('project.project', 'Project',
                                      compute='_get_related_project')
 
+    # def _generate_raw_moves(self, exploded_lines):
+    #     self.ensure_one()
+    #     moves = self.env['stock.move']
+    #     for bom_line, line_data in exploded_lines:
+    #         moves += self._generate_raw_move(bom_line, line_data)
+    #     return moves
+    
     @api.multi
     def _generate_moves(self):
         """

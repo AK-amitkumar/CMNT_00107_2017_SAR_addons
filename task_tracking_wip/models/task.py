@@ -37,26 +37,32 @@ class ProjectTask(models.Model):
         res = super(ProjectTask, self).write(vals)
         if 'date_end' in vals:
             for task in self:
-                # Propagate date end to date_start succesor
+                # Propagate date end to date_start succesor 
+                # except sale.order.line
                 if task.sucessor_ids and \
-                        task.sucessor_ids[0]._name == 'stock.move':
+                        task.sucessor_ids[0].model_reference and \
+                        task.sucessor_ids[0].model_reference._name != 
+                        'sale.order.line':
                     task.mapped('sucessor_ids.task_id').\
                         write({'date_start': task.date_end})
-                # Change date_expected in move
+
+                # Change min date in picking
                 if task.model_reference and \
-                        task.model_reference._name == 'stock.move' and \
-                        task.model_reference.date_expected != task.date_end:
+                        task.model_reference._name == 'stock.picking' and \
+                        task.model_reference.min_date != task.date_end:
                     task.model_reference.write({
-                        'date_expected': task.date_end})
+                        'min_date': task.date_end})
 
         if 'predecessor_ids' in vals:
             for task in self:
-                if task.predecessor_ids and task.model_reference and \
-                        task.model_reference._name != 'sale.order.line':
-                    task.date_start = \
-                        task.predecessor_ids[0].parent_task_id.date_end if \
-                        task.predecessor_ids[0].parent_task_id.date_end < \
-                        task.date_end else task.date_end
+                if task.predecessor_ids and task.model_reference:
+                    if task.model_reference._name != 'sale.order.line':
+                        task.date_start = \
+                            task.predecessor_ids[0].\
+                            parent_task_id.date_end if \
+                            task.predecessor_ids[0].\
+                            parent_task_id.date_end < \
+                            task.date_end else task.date_end
         return res
 
 

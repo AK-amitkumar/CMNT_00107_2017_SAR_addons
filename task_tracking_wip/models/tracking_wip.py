@@ -67,11 +67,11 @@ class TrackingWip(models.Model):
         return False
 
     @api.model
-    def link_predecessor_task(self, task_recs, parent_task, type="FS"):
+    def link_predecessor_task(self, task_recs, parent_task, link_move="FS"):
         if task_recs and parent_task:
             vals = {
                 'parent_task_id': parent_task.id,
-                'type': 'FS'
+                'type': link_move
             }
             task_recs.write({'predecessor_ids': [(0, 0, vals)]})
 
@@ -91,11 +91,11 @@ class TrackingWip(models.Model):
             task_recs += pick_move.picking_id.\
                 mapped('move_lines.procurement_id.sale_line_id.task_id')
 
-            self.link_predecessor_task(task_recs, parent_task)
+            self.link_predecessor_task(task_recs, parent_task, "FF")
 
         domain = [('move_dest_id', '=', pick_move.id)]
         rel_mov = self.env['stock.move'].search(domain, limit=1)
-        type = "FS"
+        parent_task = False
         if rel_mov and rel_mov.picking_id:
             task_recs = o.task_id
             parent_task = rel_mov.picking_id.task_id
@@ -103,14 +103,14 @@ class TrackingWip(models.Model):
         elif rel_mov and rel_mov.production_id:
             task_recs = o.task_id
             parent_task = rel_mov.production_id.task_id
-            type = "SF"
 
-        self.link_predecessor_task(task_recs, parent_task, type)
+        self.link_predecessor_task(task_recs, parent_task)
         return
 
     @api.model
     def set_production_task_dependencies(self, o):
         task_recs = self.env['project.task']
+        parent_task = False
         if o.move_raw_ids:
             domain = [('move_dest_id', '=', o.move_raw_ids[0].id)]
             prev_move = self.env['stock.move'].search(domain)
@@ -142,7 +142,7 @@ class TrackingWip(models.Model):
             date_end = False
             if o._name == 'sale.order.line':
                 date_start = o.order_id.date_order
-                date_end = o.order_id.requested_date
+                date_end = o.order_id.commitment_date
             elif o._name == 'stock.picking':
                 date_start = o.min_date
                 date_end = o.min_date
