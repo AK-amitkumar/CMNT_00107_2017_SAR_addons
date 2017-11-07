@@ -68,3 +68,12 @@ class StockMove(models.Model):
                 if track_record:
                     track_record.create_task_tracking(pick)
         return res
+
+    @api.multi
+    def action_cancel(self):
+        """
+        Remove related task when cancel sale order
+        """
+        res = super(StockMove, self).action_cancel()
+        self.mapped('picking_id.task_id').unlink()
+        return res
