@@ -37,7 +37,7 @@ class ProjectTask(models.Model):
         res = super(ProjectTask, self).write(vals)
         if 'date_end' in vals:
             for task in self:
-                # Propagate date end to date_start succesor 
+                # Propagate date end to date_start succesor
                 # except sale.order.line
                 if task.sucessor_ids and \
                         task.sucessor_ids[0].task_id.model_reference and \
@@ -63,6 +63,9 @@ class ProjectTask(models.Model):
                             task.predecessor_ids[0].\
                             parent_task_id.date_end < \
                             task.date_end else task.date_end
+                    else:
+                        task.mapped('predecessor_ids.parent_task_id').\
+                            write({'date_end': task.date_end})
         return res
 
 
