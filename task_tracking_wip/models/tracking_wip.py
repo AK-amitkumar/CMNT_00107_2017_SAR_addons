@@ -60,36 +60,63 @@ class TrackingWip(models.Model):
         track_objs = self.search(domain)
         for track in track_objs:
             if eval(track.condition_eval):
+                print "***********************************"
+                print track.name
+                print "***********************************"
                 return track
         return False
 
     @api.model
-    def set_move_task_dependencies(self, o):
-        task_recs = self.env['project.task']
-        # Set dependency of move_dest_id task
-        if o.procurement_id and o.procurement_id.sale_line_id:
-            task_recs += o.procurement_id.sale_line_id.task_id
-        # Set dependecy in sale_line_id task
-        elif o.move_dest_id:
-            if o.move_dest_id.raw_material_production_id:
-                task_recs += o.move_dest_id.raw_material_production_id.\
-                    move_finished_ids.mapped('task_id')
-            else:
-                task_recs += o.move_dest_id.task_id
-        # Set dependency of consume moves to finished move in production
-        # elif o.raw_material_production_id:
-        #     task_recs = o.raw_material_production_id.move_finished_ids.\
-        #         mapped('task_id')
-
-        # Write dependency if exists
-        if task_recs:
+    def link_predecessor_task(self, task_recs, parent_task, type="FS"):
+        if task_recs and parent_task:
             vals = {
-                'parent_task_id': o.task_id.id,
+                'parent_task_id': parent_task.id,
                 'type': 'FS'
             }
-            task_recs.write({
-                'predecessor_ids': [(0, 0, vals)]
-            })
+            task_recs.write({'predecessor_ids': [(0, 0, vals)]})
+
+    @api.model
+    def set_pick_task_dependencies(self, o):
+        print "#################################################"
+        print o.name + " | " + o.origin
+        print "#################################################"
+        task_recs = self.env['project.task']
+        parent_task = o.task_id
+        pick_move = o.move_lines and o.move_lines[0]
+        if not pick_move:
+            return
+        # Set dependency for out pickings to the sale
+        if pick_move and pick_move.procurement_id and \
+                pick_move.procurement_id.sale_line_id:
+            task_recs += pick_move.picking_id.\
+                mapped('move_lines.procurement_id.sale_line_id.task_id')
+
+            self.link_predecessor_task(task_recs, parent_task)
+
+        domain = [('move_dest_id', '=', pick_move.id)]
+        rel_mov = self.env['stock.move'].search(domain, limit=1)
+        type = "FS"
+        if rel_mov and rel_mov.picking_id:
+            task_recs = o.task_id
+            parent_task = rel_mov.picking_id.task_id
+
+        elif rel_mov and rel_mov.production_id:
+            task_recs = o.task_id
+            parent_task = rel_mov.production_id.task_id
+            type = "SF"
+
+        self.link_predecessor_task(task_recs, parent_task, type)
+        return
+
+    @api.model
+    def set_production_task_dependencies(self, o):
+        task_recs = self.env['project.task']
+        if o.move_raw_ids:
+            domain = [('move_dest_id', '=', o.move_raw_ids[0].id)]
+            prev_move = self.env['stock.move'].search(domain)
+            parent_task = prev_move.picking_id.task_id
+        task_recs = o.task_id
+        self.link_predecessor_task(task_recs, parent_task)
         return
 
     @api.model
@@ -99,14 +126,8 @@ class TrackingWip(models.Model):
         if o.production_id and o.production_id.move_finished_ids:
             task_recs += o.production_id.move_finished_ids.mapped('task_id')
         # Write dependency if exists
-        if task_recs:
-            vals = {
-                'parent_task_id': o.task_id.id,
-                'type': 'FS'
-            }
-            task_recs.write({
-                'predecessor_ids': [(0, 0, vals)]
-            })
+        parent_task = o.task_id
+        self.link_predecessor_task(task_recs, parent_task)
         return
 
     @api.multi
@@ -122,11 +143,14 @@ class TrackingWip(models.Model):
             if o._name == 'sale.order.line':
                 date_start = o.order_id.date_order
                 date_end = o.order_id.requested_date
-            elif o._name == 'stock.move':
-                date_start = o.date_expected
-                date_end = o.date_expected
-                if o.purchase_line_id:
+            elif o._name == 'stock.picking':
+                date_start = o.min_date
+                date_end = o.min_date
+                if o.move_lines and o.move_lines[0].purchase_line_id:
                     date_start = o.purchase_line_id.date_order
+            elif o._name == 'mrp.production':
+                date_start = o.date_planned_start
+                date_end = o.date_planned_finished
             elif o._name == 'mrp.workorder':
                 date_start = o.date_planned_start
                 date_end = o.date_planned_finished
@@ -142,132 +166,9 @@ class TrackingWip(models.Model):
             task_obj = self.env['project.task'].create(vals)
             o.write({'task_id': task_obj.id})
 
-            if o._name == 'stock.move':
-                self.set_move_task_dependencies(o)
+            if o._name == 'stock.picking':
+                self.set_pick_task_dependencies(o)
+            elif o._name == 'mrp.production':
+                self.set_production_task_dependencies(o)
             elif o._name == 'mrp.workorder':
                 self.set_workorder_task_dependencies(o)
-
-# ----------------------------------------------------------------------------#
-# -------------------------- MONKEY-PATCHING ---------------------------------#
-# ----------------------------------------------------------------------------#
-    # def _register_hook(self):
-    #     """
-    #     Apply patches in the actived rule models. Called always in load
-    #      module
-    #     """
-    #     super(TrackingWip, self)._register_hook()
-    #     if not self:
-    #         self = self.search([('state', '=', 'active')])
-    #     return self._patch_methods()
-
-    # @api.model
-    # def create(self, vals):
-    #     """ Update the hooks when a new track is created."""
-    #     new_record = super(TrackingWip, self).create(vals)
-    #     # Used with multiprocess
-    #     if new_record._register_hook():
-    #         modules.registry.RegistryManager.signal_registry_change(
-    #             self.env.cr.dbname)
-    #     return new_record
-
-    # @api.multi
-    # def write(self, vals):
-    #     """ Update the hooks when a new track is writed."""
-    #     res = super(TrackingWip, self).write(vals)
-    #     # Used with multiprocess
-    #     if self._register_hook():
-    #         modules.registry.RegistryManager.signal_registry_change(
-    #             self.env.cr.dbname)
-    #     return res
-
-    # @api.multi
-    # def unlink(self):
-    #     """ Restore Monkey-patching to original methods"""
-    #     self.deactivate()
-    #     return super(TrackingWip, self).unlink()
-
-    # @api.multi
-    # def _patch_methods(self):
-    #     for track in self:
-    #         # Avoid deactived tracking models
-    #         if track.state == 'deactived':
-    #             continue
-    #         track_model = self.env[track.model_id.model]
-    #         track_model._patch_method('create', track._make_create())
-    #         track_model._patch_method('write', track._make_write())
-    #         track_model._patch_method('unlink', track._make_unlink())
-    #     return True
-
-    # @api.multi
-    # def _revert_methods(self):
-    #     """ Restore original ORM methods of models defined in tracks. """
-    #     updated = False
-    #     for track in self:
-    #         model_model = self.env[track.model_id.model]
-    #         for method in ['create', 'write', 'unlink']:
-    #             if hasattr(getattr(model_model, method), 'origin'):
-    #                 model_model._revert_method(method)
-    #                 updated = True
-    #     # When using multiproces
-    #     if updated:
-    #         modules.registry.RegistryManager.signal_registry_change(
-    #             self.env.cr.dbname)
-
-    # @api.multi
-    # def write_task_tracking(self, o, vals):
-    #     """
-    #     If not task created, create a task and
-    #     link it to record.
-    #     """
-    #     self.ensure_one()
-
-    #     # Unlink task if model is cancelled
-    #     if o.state == 'cancel' and o.task_id:
-    #         o.task_id.unlink()
-
-    #     # Update dates in the related task
-    #     if o._name == 'stock.move' and 'date_expected' in vals and \
-    #             o.task_id:
-    #         o.task_id.write({'date_end': o.date_expected})
-
-    # @api.multi
-    # def _make_create(self):
-    #     @api.model
-    #     def my_create(self, vals, **kwargs):
-    #         print "*********************************************"
-    #         print "MY CREATE"
-    #         print "*********************************************"
-    #         track_model = self.env['tracking.wip']
-    #         res = my_create.origin(self, vals, **kwargs)
-    #         track_record = track_model.get_track_for_model(self._name, res)
-    #         if track_record:
-    #             track_record.create_task_tracking(res)
-    #         return res
-    #     return my_create
-
-    # @api.multi
-    # def _make_write(self):
-    #     @api.multi
-    #     def my_write(self, vals, **kwargs):
-    #         print "*********************************************"
-    #         print "MY WRITE"
-    #         print "*********************************************"
-    #         res = my_write.origin(self, vals, **kwargs)
-    #         # track_model = self.env['tracking.wip']
-            # track_record = track_model.get_track_for_model(self._name, self)
-    #         # if track_record:
-    #         #     track_record.write_task_tracking(self, vals)
-    #         return res
-
-    #     return my_write
-
-    # @api.multi
-    # def _make_unlink(self):
-    #     @api.multi
-    #     def my_unlink(self, **kwargs):
-    #         print "*********************************************"
-    #         print "MY UNLINK"
-    #         print "*********************************************"
-    #         res = my_unlink.origin(self, **kwargs)
-    #         return res
-    #     return my_unlink

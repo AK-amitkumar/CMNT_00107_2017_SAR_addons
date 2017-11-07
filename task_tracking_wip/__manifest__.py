@@ -26,6 +26,7 @@
         'views/task_view.xml',
         'views/stock_view.xml',
         'views/mrp_workorder_view.xml',
+        'views/mrp_production_view.xml',
     ],
     "installable": True
 }
