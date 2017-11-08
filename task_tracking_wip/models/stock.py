@@ -77,3 +77,14 @@ class StockMove(models.Model):
         res = super(StockMove, self).action_cancel()
         self.mapped('picking_id.task_id').unlink()
         return res
+
+    @api.multi
+    def action_confirm(self):
+        """
+        Remove related task when cancel sale order
+        """
+        # import ipdb; ipdb.set_trace()
+        res = False
+        if not self._context.get('no_confirm', False):
+            res = super(StockMove, self).action_confirm()
+        return res

@@ -44,13 +44,13 @@ class ProcurementOrder(models.Model):
             'group_id': exist_mo.procurement_group_id.id,
             'propagate': exist_mo.propagate,
         })
-        move.action_confirm()
+        move.with_context(no_confirm=True).action_confirm()
         return move
 
     @api.multi
     def _update_raw_material_moves(self, exist_mo):
         factor_num = exist_mo.product_uom_id.\
-            _compute_quantity(exist_mo.product_qty,
+            _compute_quantity(self.product_qty,
                               exist_mo.bom_id.product_uom_id)
         factor = factor_num / exist_mo.bom_id.product_qty
         boms, exploded_lines = exist_mo.bom_id.explode(self.product_id, factor,
@@ -76,7 +76,7 @@ class ProcurementOrder(models.Model):
                     source_location = routing.location_id
                 else:
                     source_location = exist_mo.location_src_id
-                original_quantity = exist_mo.product_qty - \
+                original_quantity = self.product_qty - \
                     exist_mo.qty_produced
                 vals = {
                     'sequence': bom_line.sequence,
@@ -131,5 +131,6 @@ class ProcurementOrder(models.Model):
                 res[procurement.id] = exist_mo.id
             else:
                 res[procurement.id] = \
-                    super(ProcurementOrder, procurement).make_mo()
+                    super(ProcurementOrder, procurement.
+                          with_context(no_confirm=True)).make_mo()
         return res
