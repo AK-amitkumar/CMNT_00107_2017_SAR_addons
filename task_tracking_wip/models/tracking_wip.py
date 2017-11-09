@@ -121,10 +121,11 @@ class TrackingWip(models.Model):
 
     @api.model
     def set_workorder_task_dependencies(self, o):
+        import ipdb; ipdb.set_trace()
         task_recs = self.env['project.task']
         # Set dependency of move_dest_id task
         if o.production_id and o.production_id.move_finished_ids:
-            task_recs += o.production_id.move_finished_ids.mapped('task_id')
+            task_recs += o.production_id.task_id
         # Write dependency if exists
         parent_task = o.task_id
         self.link_predecessor_task(task_recs, parent_task)
@@ -136,6 +137,7 @@ class TrackingWip(models.Model):
         If not task created, create a task and
         link it to record.
         """
+        # import ipdb; ipdb.set_trace()
         self.ensure_one()
         if not o.task_id:
             date_start = False
