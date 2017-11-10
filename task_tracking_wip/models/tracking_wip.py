@@ -121,7 +121,6 @@ class TrackingWip(models.Model):
 
     @api.model
     def set_workorder_task_dependencies(self, o):
-        import ipdb; ipdb.set_trace()
         task_recs = self.env['project.task']
         # Set dependency of move_dest_id task
         if o.production_id and o.production_id.move_finished_ids:
