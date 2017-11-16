@@ -108,6 +108,28 @@ class TrackingWip(models.Model):
         return
 
     @api.model
+    def set_move_task_dependencies(self, o):
+        task_recs = self.env['project.task']
+        # Set dependency of move_dest_id task
+        if o.procurement_id and o.procurement_id.sale_line_id:
+            task_recs += o.procurement_id.sale_line_id.task_id
+        # Set dependecy in sale_line_id task
+        elif o.move_dest_id:
+            if o.move_dest_id.raw_material_production_id:
+                task_recs += o.move_dest_id.raw_material_production_id.\
+                    move_finished_ids.mapped('task_id')
+            else:
+                task_recs += o.move_dest_id.task_id
+        # Set dependency of consume moves to finished move in production
+        # elif o.raw_material_production_id:
+        #     task_recs = o.raw_material_production_id.move_finished_ids.\
+        #         mapped('task_id')
+
+        # Write dependency if exists
+        parent_task = o.task_id
+        self.link_predecessor_task(task_recs, parent_task)
+
+    @api.model
     def set_production_task_dependencies(self, o):
         task_recs = self.env['project.task']
         parent_task = False
@@ -149,6 +171,9 @@ class TrackingWip(models.Model):
                 date_end = o.min_date
                 if o.move_lines and o.move_lines[0].purchase_line_id:
                     date_start = o.purchase_line_id.date_order
+            elif o._name == 'stock.move':
+                date_start = o.date_expected
+                date_end = o.date_expected
             elif o._name == 'mrp.production':
                 date_start = o.date_planned_start
                 date_end = o.date_planned_finished
@@ -169,6 +194,8 @@ class TrackingWip(models.Model):
 
             if o._name == 'stock.picking':
                 self.set_pick_task_dependencies(o)
+            if o._name == 'stock.move':
+                self.set_move_task_dependencies(o)
             elif o._name == 'mrp.production':
                 self.set_production_task_dependencies(o)
             elif o._name == 'mrp.workorder':

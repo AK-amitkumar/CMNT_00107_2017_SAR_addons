@@ -53,6 +53,13 @@ class ProjectTask(models.Model):
                     task.model_reference.write({
                         'min_date': task.date_end})
 
+                if task.model_reference and \
+                        task.model_reference._name == 'stock.move' and \
+                        task.model_reference.date_expected != task.date_end:
+                    task.model_reference.write({
+                        'date_expected': task.date_end
+                    })
+
         if 'predecessor_ids' in vals:
             for task in self:
                 if task.predecessor_ids and task.model_reference:
