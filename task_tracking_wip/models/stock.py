@@ -87,7 +87,14 @@ class StockMove(models.Model):
                                                                pick)
                 if track_record:
                     track_record.create_task_tracking(pick)
-        return res
+
+            # Create parent-child relationship
+            if move.task_id and pick.task_id:
+                # We need both writes
+                pick.move_lines.mapped('task_id').\
+                    write({'parent_id': pick.task_id.id})
+                move.task_id.write({'parent_id': pick.task_id.id})
+            return res
 
     @api.multi
     def action_cancel(self):
@@ -102,7 +109,6 @@ class StockMove(models.Model):
     @api.multi
     def action_confirm(self):
         """
-        Remove related task when cancel sale order
         """
         # import ipdb; ipdb.set_trace()
         res = False
@@ -117,6 +123,7 @@ class StockMove(models.Model):
         track_record = track_model.get_track_for_model(res._name, res)
         if track_record:
             track_record.create_task_tracking(res)
+
         return res
 
     @api.multi

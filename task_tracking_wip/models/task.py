@@ -13,6 +13,7 @@ class ProjectTask(models.Model):
     progress_model = fields.Float(compute='_get_model_progress', store=False,
                                   string='Origin Progress',
                                   group_operator="avg")
+    sale_id = fields.Many2one('sale_order', 'Related Sale', readonly=True)
 
     @api.multi
     def _get_model_progress(self):
@@ -74,6 +75,17 @@ class ProjectTask(models.Model):
                         task.mapped('predecessor_ids.parent_task_id').\
                             write({'date_end': task.date_end})
         return res
+
+    @api.multi
+    def unlink(self):
+        """
+        Avoid unlink warning when delete parent task, we remove first child
+        tasks
+        """
+        child_tasks = self.search([('parent_id', 'in', self.ids)])
+        if child_tasks:
+            child_tasks.unlink()
+        return super(ProjectTask, self).unlink()
 
 
 class ProjectTaskPresecessor(models.Model):

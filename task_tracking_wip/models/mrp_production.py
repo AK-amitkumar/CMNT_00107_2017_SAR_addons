@@ -34,7 +34,7 @@ class MrpProduction(models.Model):
     #     for bom_line, line_data in exploded_lines:
     #         moves += self._generate_raw_move(bom_line, line_data)
     #     return moves
-    
+
     @api.multi
     def _generate_moves(self):
         """
@@ -42,11 +42,16 @@ class MrpProduction(models.Model):
         """
         track_model = self.env['tracking.wip']
         super(MrpProduction, self)._generate_moves()
-        for res in self:
-            track_record = track_model.get_track_for_model(res._name, res)
+        for mo in self:
+            track_record = track_model.get_track_for_model(mo._name, mo)
             if track_record:
-                track_record.create_task_tracking(res)
-        return res
+                track_record.create_task_tracking(mo)
+
+            # Create parent-child relationship
+            if mo.task_id:
+                    mo.move_finished_ids.mapped('task_id').\
+                        write({'parent_id': mo.task_id.id})
+        return mo
 
     # @api.multi
     # def write(self, vals):

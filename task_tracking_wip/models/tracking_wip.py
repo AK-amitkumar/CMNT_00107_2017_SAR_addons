@@ -129,6 +129,9 @@ class TrackingWip(models.Model):
         parent_task = o.task_id
         self.link_predecessor_task(task_recs, parent_task)
 
+        if o.task_id and o.production_id and o.production_id.task_id:
+            o.task_id.write({'parent_id': o.production_id.task_id.id})
+
     @api.model
     def set_production_task_dependencies(self, o):
         task_recs = self.env['project.task']

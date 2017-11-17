@@ -35,6 +35,7 @@
                              ('model_reference', '=', False),
                              ('name', '=', False)]}"/>
                   <field name="progress_model"/>
+                  <field name="sale_id"/>
                 </group>
                 <group>
                   <button name="goto_document" type="object" string="View Origin"
@@ -45,6 +46,17 @@
             </xpath>
         </field>
     </record>
+
+    <record id="project_model_to_task.view_task_tree2" model="ir.ui.view">
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_search_form"/>
+        <field name="arch" type="xml">
+            <filter name="unassigned" position="after">
+                <filter string="Subtasks" name="subtasks" domain="[('parent_id', '!=', False)]"/>
+                <filter string="Parent Tasks" name="parenttask" domain="[('parent_id', '=', False)]"/>
+            </filter>
+        </field>
+    </record> 
 
     <!-- OVERWRITE TO PASS PROGRESSMODEL FIELD INSTEAD OF PROGRESS OF HR.TIMESHEET -->
     <record id="view_task_ganttaps_progress_model" model="ir.ui.view">
