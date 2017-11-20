@@ -184,7 +184,6 @@ class TrackingWip(models.Model):
         If not task created, create a task and
         link it to record.
         """
-        # import ipdb; ipdb.set_trace()
         self.ensure_one()
         if not o.task_id:
             date_start = False

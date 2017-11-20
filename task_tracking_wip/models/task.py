@@ -22,13 +22,14 @@ class ProjectTask(models.Model):
 
             if task.model_reference:
                 m = task.model_reference
-                if m == 'sale.order.line' and m.product_uom_qty:
+                if m._name == 'sale.order.line' and m.product_uom_qty:
                     progress = m.qty_delivered / m.product_uom_qty
-                elif m == 'stock.move' and m.production_id and m.quantity:
-                    progress = m.quantity_done / m.quantity
-                elif m == 'stock.move' and m.state == 'done':
+                # elif m._name == 'stock.move' and m.production_id and \
+                #         m.production_id.quantity:
+                #     progress = m.quantity_done / m.production_id.quantity
+                elif m._name == 'stock.move' and m.state == 'done':
                     progress = 100
-                elif m == 'mrp.workorder' and m.qty_production:
+                elif m._name == 'mrp.workorder' and m.qty_production:
                     progress = m.qty_produced / m.qty_production
 
             task.progress_model = progress * 100.0
@@ -72,8 +73,16 @@ class ProjectTask(models.Model):
                             parent_task_id.date_end < \
                             task.date_end else task.date_end
                     else:
-                        task.mapped('predecessor_ids.parent_task_id').\
-                            write({'date_end': task.date_end})
+                        # date_end = task.date_end if \
+                        #     task.date_end >= task.date_start else \
+                        #     task.date_start
+                        # task.mapped('predecessor_ids.parent_task_id').\
+                        #     write({'date_end': date_end})
+                        for t in task.mapped('predecessor_ids.parent_task_id'):
+                            date_end = task.date_end if \
+                                task.date_end >= t.date_start else \
+                                t.date_start
+                            t.write({'date_end': date_end})
         return res
 
     @api.multi
