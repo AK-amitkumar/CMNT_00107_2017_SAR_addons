@@ -13,7 +13,7 @@ class ProjectTask(models.Model):
     progress_model = fields.Float(compute='_get_model_progress', store=False,
                                   string='Origin Progress',
                                   group_operator="avg")
-    sale_id = fields.Many2one('sale_order', 'Related Sale', readonly=True)
+    sale_id = fields.Many2one('sale.order', 'Related Sale', readonly=True)
 
     @api.multi
     def _get_model_progress(self):
@@ -22,7 +22,7 @@ class ProjectTask(models.Model):
 
             if task.model_reference:
                 m = task.model_reference
-                if m == 'sale_order_line' and m.product_uom_qty:
+                if m == 'sale.order.line' and m.product_uom_qty:
                     progress = m.qty_delivered / m.product_uom_qty
                 elif m == 'stock.move' and m.production_id and m.quantity:
                     progress = m.quantity_done / m.quantity

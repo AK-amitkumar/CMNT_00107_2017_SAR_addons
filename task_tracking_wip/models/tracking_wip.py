@@ -155,6 +155,29 @@ class TrackingWip(models.Model):
         self.link_predecessor_task(task_recs, parent_task)
         return
 
+    @api.model
+    def _get_task_tale_id(self, o):
+        res = False
+        proc_group = False
+        if o._name in ['stock.picking', 'stock.move']:
+            proc_group = o.group_id
+        elif o._name == 'sale.order.line':  # Need do it after action confirm
+            proc_group = o.order_id and o.order_id.procurement_group_id or \
+                False
+        elif o._name == 'mrp.production':
+            proc_group = o.procurement_group_id
+        elif o._name == 'mrp.workorder':
+            proc_group = o.production_id and \
+                o.production_id.procurement_group_id or False
+
+        if proc_group:
+            domain = [('procurement_group_id', '=', proc_group.id)]
+            sale_obj = self.env['sale.order'].search(domain, limit=1)
+            if sale_obj:
+                res = sale_obj.id
+
+        return res
+
     @api.multi
     def create_task_tracking(self, o):
         """
@@ -191,6 +214,7 @@ class TrackingWip(models.Model):
                 'model_reference': o._name + ',' + str(o.id),
                 'color_gantt': self.color_gantt,
                 'color_gantt_set': True,
+                'sale_id': self._get_task_tale_id(o),
             }
             task_obj = self.env['project.task'].create(vals)
             o.write({'task_id': task_obj.id})

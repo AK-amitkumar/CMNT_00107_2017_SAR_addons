@@ -16,11 +16,16 @@ class SaleOrder(models.Model):
         Create a task in each order line
         """
         track_model = self.env['tracking.wip']
-        for line in self.order_line:
-            track_record = track_model.get_track_for_model(line._name, line)
-            if track_record:
-                track_record.create_task_tracking(line)
-        res = super(SaleOrder, self).action_confirm()
+        for order in self:
+            for line in order.order_line:
+                track_record = track_model.get_track_for_model(line._name,
+                                                               line)
+                if track_record:
+                    track_record.create_task_tracking(line)
+            res = super(SaleOrder, order).action_confirm()
+
+            # Set sale_id to order_lines task
+            order.order_line.mapped('task_id').write({'sale_id': order.id})
 
         visited_mo = self.env['mrp.production']
         stop_search_mo = False

@@ -55,6 +55,13 @@
                 <filter string="Subtasks" name="subtasks" domain="[('parent_id', '!=', False)]"/>
                 <filter string="Parent Tasks" name="parenttask" domain="[('parent_id', '=', False)]"/>
             </filter>
+
+            <field name="partner_id" position="after">
+                <field name="sale_id"/>
+            </field>
+            <filter name="Stage" position="after">
+                <filter string="Sale" name="Related Sale" context="{'group_by':'sale_id'}"/>
+            </filter>
         </field>
     </record> 
 
