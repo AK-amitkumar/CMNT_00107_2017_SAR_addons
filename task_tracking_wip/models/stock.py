@@ -30,18 +30,18 @@ class StockPicking(models.Model):
     project_wip_id = fields.Many2one('project.project', 'Project',
                                      compute='_get_related_project')
 
-    @api.multi
-    def write(self, vals):
-        """
-        Propagate to task da date expected to date end
-        """
-        res = super(StockPicking, self).write(vals)
-        if 'min_date' in vals:
-            for pick in self:
-                if pick.task_id and \
-                        pick.task_id.date_end != pick.min_date:
-                    pick.task_id.date_end = pick.min_date
-        return res
+    # @api.multi
+    # def write(self, vals):
+    #     """
+    #     Propagate to task da date expected to date end
+    #     """
+    #     res = super(StockPicking, self).write(vals)
+    #     if 'min_date' in vals:
+    #         for pick in self:
+    #             if pick.task_id and \
+    #                     pick.task_id.date_end != pick.min_date:
+    #                 pick.task_id.date_end = pick.min_date
+    #     return res
 
     @api.multi
     def action_cancel(self):
@@ -126,15 +126,19 @@ class StockMove(models.Model):
 
         return res
 
-    @api.multi
-    def write(self, vals):
-        """
-        Propagate to task da date expected to date end
-        """
-        res = super(StockMove, self).write(vals)
-        if 'date_expected' in vals:
-            for move in self:
-                if move.task_id and \
-                        move.task_id.date_end != move.date_expected:
-                    move.task_id.date_end = move.date_expected
-        return res
+    # @api.multi
+    # def write(self, vals):
+    #     """
+    #     Propagate to task da date expected to date end
+    #     # review
+    #     """
+    #     res = super(StockMove, self).write(vals)
+    #     import ipdb; ipdb.set_trace()
+    #     if 'date_expected' in vals:
+    #         for move in self:
+    #             if move.task_id and \
+    #                     move.task_id.date_end != move.date_expected:
+    #                 move.task_id.date_end = move.date_expected \
+    #                     if move.date_expected >= move.task_id.date_start \
+    #                     else move.task_id.date_start
+    #     return res
