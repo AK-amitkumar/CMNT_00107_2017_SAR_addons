@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="purchase_order_form_wip_lines" model="ir.ui.view">
+            <field name="name">purchase.order.form.wip.lines</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']" position="attributes">
+                    <attribute name="editable">0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/form/sheet/group[1]" position="after">
+                    <group string="Distribution Lines">
+                        <field name="wip_line_ids" nolabel="1">
+                            <tree string="Distribution Wip Lines" editable="bottom">
+                                <field name="qty"/>
+                                <field name="sale_id"/>
+                            </tree>
+                        </field>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+</odoo>
