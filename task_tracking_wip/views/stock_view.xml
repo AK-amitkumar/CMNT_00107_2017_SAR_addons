@@ -18,13 +18,20 @@
         <field name="inherit_id" ref="stock.view_move_picking_form"/>
         <field name="arch" type="xml">
             <field name="location_dest_id" position="after">
-                  <field name="task_id"/>
-                  <field name="project_wip_id"/>
+                <field name="project_wip_id"/>
+                <field name="task_ids" colspan="4">
+                    <tree>
+                        <field name="name"/>
+                        <field name="project_id"/>
+                        <field name="sale_id"/>
+                        <field name="progress_model" widget="progressbar"/>
+                    </tree>
+                </field>
             </field>
         </field>
     </record>
        
-    <record id="stock_view_move_picking_tree_add_task" model="ir.ui.view">
+<!--     <record id="stock_view_move_picking_tree_add_task" model="ir.ui.view">
         <field name="name">stock_view_move_picking_tree_add_task</field>
         <field name="model">stock.move</field>
         <field name="inherit_id" ref="stock.view_move_picking_tree"/>
@@ -33,7 +40,7 @@
                 <field name="task_id"/>
             </field>
         </field>
-    </record>
+    </record> -->
 
 
 </odoo>

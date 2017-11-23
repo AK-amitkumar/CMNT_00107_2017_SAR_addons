@@ -14,6 +14,7 @@ class ProjectTask(models.Model):
                                   string='Origin Progress',
                                   group_operator="avg")
     sale_id = fields.Many2one('sale.order', 'Related Sale', readonly=True)
+    move_id = fields.Many2one('stock.move', 'Related Move', readonly=True)
 
     @api.multi
     def _get_model_progress(self):

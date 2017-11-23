@@ -49,7 +49,7 @@ class MrpProduction(models.Model):
 
             # Create parent-child relationship
             if mo.task_id:
-                    mo.move_finished_ids.mapped('task_id').\
+                    mo.move_finished_ids.mapped('task_ids').\
                         write({'parent_id': mo.task_id.id})
         return mo
 

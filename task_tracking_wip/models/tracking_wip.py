@@ -45,7 +45,8 @@ class TrackingWip(models.Model):
         """
         for track in self:
             model_name = self.model_id.model
-            if not hasattr(self.env[model_name], 'task_id'):
+            if not hasattr(self.env[model_name], 'task_id') or \
+                    not hasattr(self.env[model_name], 'task_ids'):
                 raise ValidationError(_(
                     "The selected model can not be tracked because is not "
                     "related with task model"))
@@ -117,20 +118,20 @@ class TrackingWip(models.Model):
         elif o.move_dest_id:
             if o.move_dest_id.raw_material_production_id:
                 task_recs += o.move_dest_id.raw_material_production_id.\
-                    move_finished_ids.mapped('task_id')
+                    move_finished_ids.mapped('task_ids')
             else:
-                task_recs += o.move_dest_id.task_id
+                task_recs += o.move_dest_id.task_ids
         # Set dependency of consume moves to finished move in production
         # elif o.raw_material_production_id:
         #     task_recs = o.raw_material_production_id.move_finished_ids.\
         #         mapped('task_id')
 
         # Write dependency if exists
-        parent_task = o.task_id
+        parent_task = o.task_ids[0]
         self.link_predecessor_task(task_recs, parent_task)
 
-        if o.task_id and o.production_id and o.production_id.task_id:
-            o.task_id.write({'parent_id': o.production_id.task_id.id})
+        if o.task_ids and o.production_id and o.production_id.task_id:
+            o.task_ids.write({'parent_id': o.production_id.task_id.id})
 
     @api.model
     def set_production_task_dependencies(self, o):
@@ -151,12 +152,12 @@ class TrackingWip(models.Model):
         if o.production_id and o.production_id.move_finished_ids:
             task_recs += o.production_id.task_id
         # Write dependency if exists
-        parent_task = o.task_id
+        parent_task = o.task_ids[0]
         self.link_predecessor_task(task_recs, parent_task)
         return
 
     @api.model
-    def _get_task_tale_id(self, o):
+    def _get_task_sale_id(self, o):
         res = False
         proc_group = False
         if o._name in ['stock.picking', 'stock.move']:
@@ -185,7 +186,13 @@ class TrackingWip(models.Model):
         link it to record.
         """
         self.ensure_one()
-        if not o.task_id:
+        exist_task = False
+        if o._name != 'stock.move' and o.task_id:
+            exist_task = True
+        if o._name == 'stock.move' and o.task_ids:
+            exist_task = True
+
+        if not exist_task:
             date_start = False
             date_end = False
             if o._name == 'sale.order.line':
@@ -213,10 +220,13 @@ class TrackingWip(models.Model):
                 'model_reference': o._name + ',' + str(o.id),
                 'color_gantt': self.color_gantt,
                 'color_gantt_set': True,
-                'sale_id': self._get_task_tale_id(o),
+                'sale_id': self._get_task_sale_id(o),
             }
             task_obj = self.env['project.task'].create(vals)
-            o.write({'task_id': task_obj.id})
+            if o._name != 'stock.move':
+                o.write({'task_id': task_obj.id})
+            else:
+                o.write({'task_ids': [(6, 0, [task_obj.id])]})
 
             if o._name == 'stock.picking':
                 self.set_pick_task_dependencies(o)
