@@ -28,6 +28,17 @@
                     </tree>
                 </field>
             </field>
+
+            <xpath expr="//group[2]" position="after">
+                <group string="Distribution Lines">
+                    <field name="wip_line_ids" nolabel="1">
+                        <tree string="Distribution Wip Lines" editable="bottom">
+                            <field name="qty"/>
+                            <field name="sale_id"/>
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
         </field>
     </record>
        

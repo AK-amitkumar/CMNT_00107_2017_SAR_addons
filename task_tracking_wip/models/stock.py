@@ -77,6 +77,8 @@ class StockMove(models.Model):
                                readonly=True)
     project_wip_id = fields.Many2one('project.project', 'Project',
                                      compute='_get_related_project')
+    wip_line_ids = fields.One2many('wip.distribution.line', 'move_id',
+                                   'Distribution Lines')
 
     @api.multi
     def assign_picking(self):
@@ -132,7 +134,7 @@ class StockMove(models.Model):
     # def write(self, vals):
     #     """
     #     Propagate to task da date expected to date end
-    #     # review
+    #     # TODO review
     #     """
     #     res = super(StockMove, self).write(vals)
     #     import ipdb; ipdb.set_trace()
@@ -144,3 +146,21 @@ class StockMove(models.Model):
     #                     if move.date_expected >= move.task_id.date_start \
     #                     else move.task_id.date_start
     #     return res
+
+    @api.multi
+    def break_links(self):
+        """
+        Break all move_dest_id links, making state in confirmed
+        """
+        domain = [('move_dest_id', 'in', self.ids)]
+        # Break moves links
+        prev_moves = self.search(domain)
+        prev_moves.write({'move_dest_id': False})
+        # Break procurements links
+        prev_procs = self.env['procurement.order'].search(domain)
+        prev_procs.write({'move_dest_id': False})
+        # Change waitigs moves to confirmed
+        self.filtered(lambda m: m.state == 'waiting').write({
+            'state': 'confirmed'
+        })
+        return
