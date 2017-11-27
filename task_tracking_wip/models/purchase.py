@@ -16,7 +16,7 @@ class PurchaseOrderLine(models.Model):
     def _prepare_stock_moves(self, picking):
         """
         If distribution line, we break links in move_dest_id and avoid
-        to create a move for each procurement. Instead it we create an unique
+        to create a move for each procurement. Instead it, we create an unique
         move with same distribution lines
         """
         res = super(PurchaseOrderLine, self)._prepare_stock_moves(picking)
@@ -62,3 +62,4 @@ class WipDistributionLine(models.Model):
     qty = fields.Float(string='Quantity',
                        digits=dp.get_precision('Product Unit of Measure'))
     sale_id = fields.Many2one('sale.order', 'For Sale')
+    task_id = fields.Many2one('project.task', 'Related Task')

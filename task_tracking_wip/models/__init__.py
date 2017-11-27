@@ -9,3 +9,4 @@ import mrp_workorder
 import mrp_production
 import procurement
 import purchase
+import distribution

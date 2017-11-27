@@ -6,7 +6,7 @@
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='order_line']" position="attributes">
-                    <attribute name="editable">0</attribute>
+                    <attribute name="editable">False</attribute>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/form/sheet/group[1]" position="after">
                     <group>
@@ -15,7 +15,13 @@
                                 <tree string="Distribution Wip Lines" editable="bottom">
                                     <field name="qty"/>
                                     <field name="sale_id"/>
+                                    <field name="task_id"/>
                                 </tree>
+                                <form string="Distribution Wip Lines">
+                                    <field name="qty"/>
+                                    <field name="sale_id"/>
+                                    <field name="task_id"/>
+                                </form>
                             </field>
                         </group>
                     </group>

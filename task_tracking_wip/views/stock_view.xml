@@ -35,6 +35,7 @@
                         <tree string="Distribution Wip Lines" editable="bottom">
                             <field name="qty"/>
                             <field name="sale_id"/>
+                            <field name="task_id"/>
                         </tree>
                     </field>
                 </group>

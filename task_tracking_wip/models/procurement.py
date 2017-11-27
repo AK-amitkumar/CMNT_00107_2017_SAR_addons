@@ -151,9 +151,11 @@ class ProcurementOrder(models.Model):
             # CREATE DEFAULT DISTRIBUTION LINE FOR EACH PROCUREMENT
             for proc in po_line.procurement_ids:
                 related_sale_id = False
+                related_task_id = False
                 if proc.move_dest_id and proc.move_dest_id.task_ids\
                         and proc.move_dest_id.task_ids[0].sale_id:
                     related_sale_id = proc.move_dest_id.task_ids[0].sale_id.id
+                    related_task_id = proc.move_dest_id.task_ids[0].id
 
                 proc_qty = proc.product_uom.\
                     _compute_quantity(proc.product_qty,
@@ -161,5 +163,6 @@ class ProcurementOrder(models.Model):
                 self.env['wip.distribution.line'].\
                     create({'pl_id': po_line.id,
                             'qty': proc_qty,
-                            'sale_id': related_sale_id})
+                            'sale_id': related_sale_id,
+                            'task_id': related_task_id})
         return res

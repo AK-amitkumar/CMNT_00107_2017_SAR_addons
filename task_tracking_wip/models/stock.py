@@ -148,6 +148,14 @@ class StockMove(models.Model):
     #     return res
 
     @api.multi
+    def action_assign(self):
+        """
+        """
+        res = super(StockMove, self.with_context(custom_assign=True))\
+            .action_assign()
+        return res
+
+    @api.multi
     def break_links(self):
         """
         Break all move_dest_id links, making state in confirmed
@@ -161,6 +169,55 @@ class StockMove(models.Model):
         prev_procs.write({'move_dest_id': False})
         # Change waitigs moves to confirmed
         self.filtered(lambda m: m.state == 'waiting').write({
-            'state': 'confirmed'
+            'state': 'confirmed',
+            'procure_method': 'make_to_stock'
         })
         return
+
+    @api.multi
+    def action_done(self):
+        """
+        Create as many quants as distribution lines, and reserve moves for it.
+        """
+        res = super(StockMove, self).action_done()
+        todo_quants = self.env['stock.quant']
+        for move in self:
+            todo_quants += move.quant_ids
+            for line in move.wip_line_ids:
+                rel_move = line.task_id.model_reference
+                rem_qty = line.qty
+                while rem_qty:
+                    for q in todo_quants:
+                        if q.qty > rem_qty:
+                            new_quant = q._quant_split(line.qty)
+                            todo_quants += new_quant
+
+                        q.write({'reservation_id': rel_move.id})
+                        todo_quants -= q
+                        rem_qty -= q.qty
+        return res
+
+    @api.multi
+    def do_unreserve(self):
+        self2 = self.env['stock.move']
+        for move in self:
+            if move._context.get('custom_assign', False):
+                continue
+            self2 += move
+        super(StockMove, self2).do_unreserve()
+
+
+class StockQuant(models.Model):
+    _inherit = 'stock.quant'
+
+    @api.model
+    def quants_get_preferred_domain(self, qty, move, ops=False,
+                                    lot_id=False, domain=None,
+                                    preferred_domain_list=[]):
+        pdl = preferred_domain_list
+        if move._context.get('custom_assign', False):
+            domain = [('reservation_id', '=', move.id), ('qty', '>', 0)]
+        return super(StockQuant, self).\
+            quants_get_preferred_domain(qty, move, ops=ops, lot_id=lot_id,
+                                        domain=domain,
+                                        preferred_domain_list=pdl)
