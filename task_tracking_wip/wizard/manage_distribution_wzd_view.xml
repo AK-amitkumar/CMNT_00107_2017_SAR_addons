@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="manage_distribution_wzd_form" model="ir.ui.view">
+        <field name="model">manage.distribution.wzd</field>
+        <field name="arch" type="xml">
+            <form string="Manage Product Variants">
+                <group>
+                    <field name="wip_lines">
+                        <tree editable="bottom">
+                            <field name="qty"/>
+                            <field name="sale_id"/>
+                            <field name="task_id"/>
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button name="apply"
+                            type="object"
+                            string="Apply"
+                            class="oe_highlight"
+                    />
+                    <button class="oe_link"
+                            special="cancel"
+                            string="Cancel"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_manage_distribution_wzd">
+        <field name="name">Manage Distribution</field>
+        <field name="res_model">manage.distribution.wzd</field>
+        <field name="view_mode">form</field>
+        <field name="view_type">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

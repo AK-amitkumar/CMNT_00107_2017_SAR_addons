@@ -148,14 +148,6 @@ class StockMove(models.Model):
     #     return res
 
     @api.multi
-    def action_assign(self):
-        """
-        """
-        res = super(StockMove, self.with_context(custom_assign=True))\
-            .action_assign()
-        return res
-
-    @api.multi
     def break_links(self):
         """
         Break all move_dest_id links, making state in confirmed
@@ -192,23 +184,19 @@ class StockMove(models.Model):
                             new_quant = q._quant_split(line.qty)
                             todo_quants += new_quant
 
-                        q.write({'reservation_id': rel_move.id})
+                        q.write({'pre_reservation_id': rel_move.id})
                         todo_quants -= q
                         rem_qty -= q.qty
         return res
 
-    @api.multi
-    def do_unreserve(self):
-        self2 = self.env['stock.move']
-        for move in self:
-            if move._context.get('custom_assign', False):
-                continue
-            self2 += move
-        super(StockMove, self2).do_unreserve()
-
 
 class StockQuant(models.Model):
     _inherit = 'stock.quant'
+
+    pre_reservation_id = fields.Many2one('stock.move', 'Pre Reserved for Move',
+                                         index=True, readonly=True,
+                                         help="The move the quant is \
+                                         pre-reserved for")
 
     @api.model
     def quants_get_preferred_domain(self, qty, move, ops=False,
@@ -216,8 +204,29 @@ class StockQuant(models.Model):
                                     preferred_domain_list=[]):
         pdl = preferred_domain_list
         if move._context.get('custom_assign', False):
-            domain = [('reservation_id', '=', move.id), ('qty', '>', 0)]
+            domain.append = [('pre_reservation_id', '=', False)]
         return super(StockQuant, self).\
             quants_get_preferred_domain(qty, move, ops=ops, lot_id=lot_id,
                                         domain=domain,
                                         preferred_domain_list=pdl)
+
+    @api.model
+    def quants_reserve(self, quants, move, link=False):
+        """
+        If move appears in a distribution line, ignore quants param
+        and get the ones related with the distribution line (Those quants
+        reserved for the move param in the distribution line's move)
+        """
+
+        # Search if move in a distribution line
+        domain = [('move_id', '!=', False), ('move_dest_id', '=', move.id)]
+        wip_line = self.env['wip.distribution.line'].search(domain, limit=1)
+        orig_move = wip_line.move_id if wip_line else False
+
+        updated_quants = quants
+        if orig_move:
+            updated_quants = []
+            for quant in orig_move.quant_ids:
+                if quant.pre_reservation_id.id == move.id:
+                    updated_quants.append((quant, quant.qty))
+        super(StockQuant, self).quants_reserve(updated_quants, move, link=link)
