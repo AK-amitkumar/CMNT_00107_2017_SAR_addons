@@ -184,49 +184,54 @@ class StockMove(models.Model):
                             new_quant = q._quant_split(line.qty)
                             todo_quants += new_quant
 
-                        q.write({'pre_reservation_id': rel_move.id})
+                        # q.write({'pre_reservation_id': rel_move.id})
+                        q.write({'reservation_id': rel_move.id})
                         todo_quants -= q
                         rem_qty -= q.qty
         return res
 
 
-class StockQuant(models.Model):
-    _inherit = 'stock.quant'
+# class StockQuant(models.Model):
+#     _inherit = 'stock.quant'
 
-    pre_reservation_id = fields.Many2one('stock.move', 'Pre Reserved for Move',
-                                         index=True, readonly=True,
-                                         help="The move the quant is \
-                                         pre-reserved for")
+#     pre_reservation_id = fields.Many2one('stock.move',
+#                                          'Pre Reserved for Move',
+#                                          index=True, readonly=True,
+#                                          help="The move the quant is \
+#                                          pre-reserved for")
 
-    @api.model
-    def quants_get_preferred_domain(self, qty, move, ops=False,
-                                    lot_id=False, domain=None,
-                                    preferred_domain_list=[]):
-        pdl = preferred_domain_list
-        if move._context.get('custom_assign', False):
-            domain.append = [('pre_reservation_id', '=', False)]
-        return super(StockQuant, self).\
-            quants_get_preferred_domain(qty, move, ops=ops, lot_id=lot_id,
-                                        domain=domain,
-                                        preferred_domain_list=pdl)
+#     @api.model
+#     def quants_get_preferred_domain(self, qty, move, ops=False,
+#                                     lot_id=False, domain=None,
+#                                     preferred_domain_list=[]):
+#         pdl = preferred_domain_list
 
-    @api.model
-    def quants_reserve(self, quants, move, link=False):
-        """
-        If move appears in a distribution line, ignore quants param
-        and get the ones related with the distribution line (Those quants
-        reserved for the move param in the distribution line's move)
-        """
+#         domain.append = [('pre_reservation_id', '=', False)]
+#         return super(StockQuant, self).\
+#             quants_get_preferred_domain(qty, move, ops=ops, lot_id=lot_id,
+#                                         domain=domain,
+#                                         preferred_domain_list=pdl)
 
-        # Search if move in a distribution line
-        domain = [('move_id', '!=', False), ('move_dest_id', '=', move.id)]
-        wip_line = self.env['wip.distribution.line'].search(domain, limit=1)
-        orig_move = wip_line.move_id if wip_line else False
+#     @api.model
+#     def quants_reserve(self, quants, move, link=False):
+#         """
+#         PROBAMOS SIN GARANTIZAR QUE SE COGAN EXACTAMENTE ESTOS QUANTS
+#         PARA ASI NO GESTIONAR EL CAMPOR PRERESERVATION_ID
+#         If move appears in a distribution line, ignore quants param
+#         and get the ones related with the distribution line (Those quants
+#         reserved for the move param in the distribution line's move)
+#         """
 
-        updated_quants = quants
-        if orig_move:
-            updated_quants = []
-            for quant in orig_move.quant_ids:
-                if quant.pre_reservation_id.id == move.id:
-                    updated_quants.append((quant, quant.qty))
-        super(StockQuant, self).quants_reserve(updated_quants, move, link=link)
+#         # Search if move in a distribution line
+#         domain = [('move_id', '!=', False), ('move_dest_id', '=', move.id)]
+#         wip_line = self.env['wip.distribution.line'].search(domain, limit=1)
+#         orig_move = wip_line.move_id if wip_line else False
+
+#         updated_quants = quants
+#         if orig_move:
+#             updated_quants = []
+#             for quant in orig_move.quant_ids:
+#                 if quant.pre_reservation_id.id == move.id:
+#                     updated_quants.append((quant, quant.qty))
+#         super(StockQuant, self).quants_reserve(updated_quants, move,
+#                                                link=link)

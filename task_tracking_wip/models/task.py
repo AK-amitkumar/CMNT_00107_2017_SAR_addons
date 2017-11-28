@@ -15,6 +15,10 @@ class ProjectTask(models.Model):
                                   group_operator="avg")
     sale_id = fields.Many2one('sale.order', 'Related Sale', readonly=True)
     move_id = fields.Many2one('stock.move', 'Related Move', readonly=True)
+    product_id = fields.Many2one('product.product', 'Product',
+                                 related='move_id.product_id')
+    location_id = fields.Many2one('stock.location', 'Location',
+                                  related='move_id.location_id')
 
     @api.multi
     def _get_model_progress(self):

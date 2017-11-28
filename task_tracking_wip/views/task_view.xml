@@ -21,7 +21,8 @@
         </record>
 
     <!-- OVERWRITE PROJECT MODEL TO TASK VIEW -->
-    <record id="project_model_to_task.view_task_form2" model="ir.ui.view">
+    <record id="view_task_form2_wip" model="ir.ui.view">
+        <field name="name">view.task.form2.wip</field>
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
@@ -36,6 +37,8 @@
                              ('name', '=', False)]}"/>
                   <field name="progress_model"/>
                   <field name="sale_id"/>
+                  <field name="product_id"/>
+                  <field name="location_id"/>
                 </group>
                 <group>
                   <button name="goto_document" type="object" string="View Origin"
@@ -47,8 +50,23 @@
         </field>
     </record>
 
-    <record id="project_model_to_task.view_task_tree2" model="ir.ui.view">
+    <!-- OVERWRITE PROJECT MODEL TO TASK VIEW -->
+    <record id="view_task_tree2_wip" model="ir.ui.view">
+        <field name="name">view.task.tree2.wip</field>
         <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_tree2"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="sale_id"/>
+                <field name="product_id"/>
+                <field name="location_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_task_search_form_wip" model="ir.ui.view">
+       <field name="name">view.task.search.form.wip</field>
+       <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_search_form"/>
         <field name="arch" type="xml">
             <filter name="unassigned" position="after">
@@ -58,6 +76,8 @@
 
             <field name="partner_id" position="after">
                 <field name="sale_id"/>
+                <field name="product_id"/>
+                <field name="location_id"/>
             </field>
             <filter name="Stage" position="after">
                 <filter string="Sale" name="Related Sale" context="{'group_by':'sale_id'}"/>

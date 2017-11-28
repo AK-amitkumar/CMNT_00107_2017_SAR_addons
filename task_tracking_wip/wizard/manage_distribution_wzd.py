@@ -9,8 +9,14 @@ class ManageDistributionWzd(models.TransientModel):
     _name = 'manage.distribution.wzd'
     _description = 'Picking wizard'
 
-    move_id = fields.Many2one('stock.move', 'Move')
-    pl_id = fields.Many2one('purchase.order.line', 'Purchase Line')
+    move_id = fields.Many2one('stock.move', 'Move',
+                              readonly=True)
+    pl_id = fields.Many2one('purchase.order.line', 'Purchase Line',
+                            readonly=True)
+    product_id = fields.Many2one('product.product', 'Product',
+                                 readonly=True)
+    location_id = fields.Many2one('stock.location', 'To Location',
+                                  readonly=True)
     wip_lines = fields.One2many('manage.lines', 'wzd_id', 'Manage Lines')
 
     @api.model
@@ -22,11 +28,16 @@ class ManageDistributionWzd(models.TransientModel):
         pl_id = active_id if active_model == 'purchase.order.line' else False
 
         model = False
+        location_id = False
         if move_id:
             model = self.env['stock.move'].browse(move_id)
+            location_id = model.location_id.id
         else:
             model = self.env['purchase.order.line'].browse(pl_id)
+            location_id = model.order_id.\
+                picking_type_id.default_location_dest_id.id
 
+        product_id = model.product_id.id
         lines = []
         for line in model.wip_line_ids:
             vals = {
@@ -39,9 +50,28 @@ class ManageDistributionWzd(models.TransientModel):
         res.update({
             'move_id': move_id,
             'pl_id': pl_id,
+            'product_id': product_id,
+            'location_id': location_id,
             'wip_lines': lines
         })
         return res
+
+    @api.multi
+    def apply(self):
+        model = self.move_id if self.move_id else self.pl_id
+        model.wip_line_ids.unlink()
+        lines = []
+        for line in self.wip_lines:
+            vals = {
+                'qty': line.qty,
+                'sale_id': line.sale_id.id,
+                'task_id': line.task_id.id,
+                'pl_id': model.id if self.pl_id else False,
+                'move_id': model.id if self.move_id else False
+            }
+            lines.append((0, 0, vals))
+        model.write({'wip_line_ids': lines})
+        self.ensure_one()
 
 
 class ManageLines(models.TransientModel):

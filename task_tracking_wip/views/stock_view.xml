@@ -53,7 +53,7 @@
     </record>
        
 
-    <record model="ir.ui.view" id="view_stock_quant_form">
+<!--     <record model="ir.ui.view" id="view_stock_quant_form">
         <field name="name">stock.quant.form.pre.reservation</field>
         <field name="model">stock.quant</field>
         <field name="inherit_id" ref="stock.view_stock_quant_form"/>
@@ -63,6 +63,6 @@
             </field>
         </field>
     </record>
-
+ -->
 
 </odoo>

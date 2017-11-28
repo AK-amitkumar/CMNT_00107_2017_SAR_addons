@@ -4,13 +4,17 @@
     <record id="manage_distribution_wzd_form" model="ir.ui.view">
         <field name="model">manage.distribution.wzd</field>
         <field name="arch" type="xml">
-            <form string="Manage Product Variants">
+            <form string="Manage Lines">
                 <group>
-                    <field name="wip_lines">
+                    <field name="product_id"/>
+                    <field name="location_id"/>
+                </group>
+                <group string="Manage Lines">
+                    <field name="wip_lines" nolabel="1">
                         <tree editable="bottom">
                             <field name="qty"/>
                             <field name="sale_id"/>
-                            <field name="task_id"/>
+                            <field name="task_id" domain="[('sale_id', '=', sale_id), ('product_id', '=', parent.product_id), ('location_id', '=', parent.location_id)]"/>
                         </tree>
                     </field>
                 </group>
