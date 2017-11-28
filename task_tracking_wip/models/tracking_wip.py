@@ -82,7 +82,7 @@ class TrackingWip(models.Model):
         print o.name + " | " + o.origin
         print "#################################################"
         task_recs = self.env['project.task']
-        parent_task = o.task_id
+        parent_task = o.task_ids[0]
         pick_move = o.move_lines and o.move_lines[0]
         if not pick_move:
             return
@@ -98,18 +98,22 @@ class TrackingWip(models.Model):
         rel_mov = self.env['stock.move'].search(domain, limit=1)
         parent_task = False
         if rel_mov and rel_mov.picking_id:
-            task_recs = o.task_id
-            parent_task = rel_mov.picking_id.task_id
+            task_recs = o.task_ids[0]
+            parent_task = rel_mov.picking_id.task_ids[0]
 
         elif rel_mov and rel_mov.production_id:
-            task_recs = o.task_id
-            parent_task = rel_mov.production_id.task_id
+            task_recs = o.task_ids[0]
+            parent_task = rel_mov.production_id.task_ids and \
+                rel_mov.production_id.task_ids[0] or False
 
         self.link_predecessor_task(task_recs, parent_task)
         return
 
     @api.model
     def set_move_task_dependencies(self, o):
+        print "#################################################"
+        print o.name + " | " + o.origin
+        print "#################################################"
         task_recs = self.env['project.task']
         # Set dependency of move_dest_id task
         if o.procurement_id and o.procurement_id.sale_line_id:
@@ -130,8 +134,8 @@ class TrackingWip(models.Model):
         parent_task = o.task_ids[0]
         self.link_predecessor_task(task_recs, parent_task)
 
-        if o.task_ids and o.production_id and o.production_id.task_id:
-            o.task_ids.write({'parent_id': o.production_id.task_id.id})
+        if o.task_ids and o.production_id and o.production_id.task_ids:
+            o.task_ids.write({'parent_id': o.production_id.task_ids[0].id})
 
     @api.model
     def set_production_task_dependencies(self, o):
@@ -140,8 +144,9 @@ class TrackingWip(models.Model):
         if o.move_raw_ids:
             domain = [('move_dest_id', '=', o.move_raw_ids[0].id)]
             prev_move = self.env['stock.move'].search(domain)
-            parent_task = prev_move.picking_id.task_id
-        task_recs = o.task_id
+            parent_task = prev_move.picking_id.task_ids and \
+                prev_move.picking_id.task_ids[0] or False
+        task_recs = o.task_ids
         self.link_predecessor_task(task_recs, parent_task)
         return
 
@@ -150,7 +155,7 @@ class TrackingWip(models.Model):
         task_recs = self.env['project.task']
         # Set dependency of move_dest_id task
         if o.production_id and o.production_id.move_finished_ids:
-            task_recs += o.production_id.task_id
+            task_recs += o.production_id.task_ids
         # Write dependency if exists
         parent_task = o.task_ids[0]
         self.link_predecessor_task(task_recs, parent_task)
@@ -187,9 +192,11 @@ class TrackingWip(models.Model):
         """
         self.ensure_one()
         exist_task = False
-        if o._name != 'stock.move' and o.task_id:
+        if o._name not in ['stock.move', 'stock.picking', 'mrp.production'] \
+                and o.task_id:
             exist_task = True
-        if o._name == 'stock.move' and o.task_ids:
+        if o._name in ['stock.move', 'stock.picking', 'mrp.production'] \
+                and o.task_ids:
             exist_task = True
 
         if not exist_task:
@@ -223,7 +230,8 @@ class TrackingWip(models.Model):
                 'sale_id': self._get_task_sale_id(o),
             }
             task_obj = self.env['project.task'].create(vals)
-            if o._name != 'stock.move':
+            if o._name not in ['stock.move', 'stock.picking',
+                               'mrp.production']:
                 o.write({'task_id': task_obj.id})
             else:
                 o.write({'task_ids': [(6, 0, [task_obj.id])]})

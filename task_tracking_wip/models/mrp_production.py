@@ -24,7 +24,8 @@ class MrpProduction(models.Model):
                     project_id = sale_obj.project_wip_id.id
             mo.project_wip_id = project_id
 
-    task_id = fields.Many2one('project.task', 'Task', readonly=True)
+    task_ids = fields.One2many('project.task', 'production_id', 'Tasks',
+                               readonly=True)
     project_wip_id = fields.Many2one('project.project', 'Project',
                                      compute='_get_related_project')
 
@@ -48,9 +49,9 @@ class MrpProduction(models.Model):
                 track_record.create_task_tracking(mo)
 
             # Create parent-child relationship
-            if mo.task_id:
+            if mo.task_ids:
                     mo.move_finished_ids.mapped('task_ids').\
-                        write({'parent_id': mo.task_id.id})
+                        write({'parent_id': mo.task_ids[0].id})
         return mo
 
     # @api.multi
@@ -72,5 +73,5 @@ class MrpProduction(models.Model):
         Remove related task when cancel sale order
         """
         res = super(MrpProduction, self).action_cancel()
-        self.mapped('task_id').unlink()
+        self.mapped('task_ids').unlink()
         return res

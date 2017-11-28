@@ -26,7 +26,8 @@ class StockPicking(models.Model):
                     picking_id.project_wip_id.id
             pick.project_wip_id = project_id
 
-    task_id = fields.Many2one('project.task', 'Task', readonly=True)
+    task_ids = fields.One2many('project.task', 'picking_id', 'Tasks',
+                               readonly=True)
     project_wip_id = fields.Many2one('project.project', 'Project',
                                      compute='_get_related_project')
 
@@ -49,7 +50,7 @@ class StockPicking(models.Model):
         Remove related task when cancel sale order
         """
         res = super(StockPicking, self).action_cancel()
-        self.mapped('task_id').unlink()
+        self.mapped('task_ids').unlink()
         return res
 
 
@@ -86,18 +87,18 @@ class StockMove(models.Model):
         res = super(StockMove, self).assign_picking()
         for move in self:
             pick = move.picking_id
-            if pick and not pick.task_id:
+            if pick and not pick.task_ids:
                 track_record = track_model.get_track_for_model(pick._name,
                                                                pick)
                 if track_record:
                     track_record.create_task_tracking(pick)
 
             # Create parent-child relationship
-            if move.task_ids and pick.task_id:
+            if move.task_ids and pick.task_ids:
                 # We need both writes
                 pick.move_lines.mapped('task_ids').\
-                    write({'parent_id': pick.task_id.id})
-                move.task_ids.write({'parent_id': pick.task_id.id})
+                    write({'parent_id': pick.task_ids[0].id})
+                move.task_ids.write({'parent_id': pick.task_ids[0].id})
             return res
 
     @api.multi
@@ -106,7 +107,7 @@ class StockMove(models.Model):
         Remove related task when cancel sale order
         """
         res = super(StockMove, self).action_cancel()
-        self.mapped('picking_id.task_id').unlink()
+        self.mapped('picking_id.task_ids').unlink()
         self.mapped('task_ids').unlink()
         return res
 

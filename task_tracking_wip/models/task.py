@@ -15,6 +15,10 @@ class ProjectTask(models.Model):
                                   group_operator="avg")
     sale_id = fields.Many2one('sale.order', 'Related Sale', readonly=True)
     move_id = fields.Many2one('stock.move', 'Related Move', readonly=True)
+    production_id = fields.Many2one('mrp.production', 'Related Move',
+                                    readonly=True)
+    picking_id = fields.Many2one('stock.picking', 'Related Picking',
+                                 readonly=True)
     product_id = fields.Many2one('product.product', 'Product',
                                  related='move_id.product_id')
     location_id = fields.Many2one('stock.location', 'Location',

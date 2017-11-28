@@ -6,8 +6,8 @@
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
             <field name="origin" position="after">
-                <field name="task_id"/>
                 <field name="project_wip_id"/>
+                <field name="task_ids" colspan="4"/>
             </field>
         </field>
     </record>
