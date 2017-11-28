@@ -244,3 +244,31 @@ class TrackingWip(models.Model):
                 self.set_production_task_dependencies(o)
             elif o._name == 'mrp.workorder':
                 self.set_workorder_task_dependencies(o)
+
+    @api.multi
+    def create_move_tasks_tracking(self, o):
+        """
+        Only for moves with distribution lines, o reference is allways a move.
+        """
+        import ipdb; ipdb.set_trace()
+        self.ensure_one()
+        date_start = o.date_expected
+        date_end = o.date_expected
+        task_objs = self.env['project.task']
+        for line in o.wip_line_ids:
+            next_task = line.task_id
+            vals = {
+                'name': eval(self.name_eval),
+                'project_id': next_task.project_id.id,
+                'date_start': date_start,
+                'date_end': date_end if date_end > date_start else date_start,
+                'model_reference': o._name + ',' + str(o.id),
+                'color_gantt': self.color_gantt,
+                'color_gantt_set': True,
+                'sale_id': line.sale_id,
+                'sucessor_ids': [(6, 0, next_task.ids)]
+            }
+            task_objs += self.env['project.task'].create(vals)
+
+        o.write({'task_ids': [(6, 0, task_objs.ids)]})
+        self.set_move_task_dependencies(o)

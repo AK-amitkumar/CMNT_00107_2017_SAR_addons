@@ -71,6 +71,9 @@ class StockMove(models.Model):
                     project_id = sale_obj.project_wip_id.id
             if not project_id and move.move_dest_id:
                 project_id = move.move_dest_id.project_wip_id.id
+            if not project_id and move.wip_line_ids:
+                project_id = move.wip_line_ids[0].task_id.project_id.id and \
+                    move.wip_line_ids[0].task_id.project_id.id
             move.project_wip_id = project_id
 
     # task_id = fields.Many2one('project.task', 'Task', readonly=True)
@@ -127,8 +130,10 @@ class StockMove(models.Model):
         res = super(StockMove, self).create(vals)
         track_record = track_model.get_track_for_model(res._name, res)
         if track_record:
-            track_record.create_task_tracking(res)
-
+            if res.wip_line_ids:
+                track_record.create_move_tasks_tracking(res)
+            else:
+                track_record.create_task_tracking(res)
         return res
 
     # @api.multi
