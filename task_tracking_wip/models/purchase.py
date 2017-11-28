@@ -53,6 +53,25 @@ class PurchaseOrderLine(models.Model):
             res = [dic_tmp]
         return res
 
+    @api.multi
+    def _create_stock_moves(self, picking):
+        """
+        Function called when creating incoming moves from purchase.order.line
+        After super, moves were created aud assigend to several tasks, one for
+        each distribution line.
+        """
+        track_model = self.env['tracking.wip']
+        res = super(PurchaseOrderLine, self)._create_stock_moves(picking)
+
+        # CREATE TASK FOR INCOMING PICKING
+        if picking and not picking.task_ids:
+            track_record = track_model.get_track_for_model(picking._name,
+                                                           picking)
+            if track_record:
+                track_record.create_task_tracking(picking)
+                track_record.manage_parent_child_tasks(picking)
+        return res
+
 
 class WipDistributionLine(models.Model):
     _name = 'wip.distribution.line'

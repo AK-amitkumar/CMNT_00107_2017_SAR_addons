@@ -69,6 +69,9 @@ class TrackingWip(models.Model):
 
     @api.model
     def link_predecessor_task(self, task_recs, parent_task, link_move="FS"):
+        """
+        Write parent task like predecessors for the task recs.
+        """
         if task_recs and parent_task:
             vals = {
                 'parent_task_id': parent_task.id,
@@ -209,7 +212,7 @@ class TrackingWip(models.Model):
                 date_start = o.min_date
                 date_end = o.min_date
                 if o.move_lines and o.move_lines[0].purchase_line_id:
-                    date_start = o.purchase_line_id.date_order
+                    date_start = o.move_lines[0].purchase_line_id.date_order
             elif o._name == 'stock.move':
                 date_start = o.date_expected
                 date_end = o.date_expected
@@ -250,7 +253,6 @@ class TrackingWip(models.Model):
         """
         Only for moves with distribution lines, o reference is allways a move.
         """
-        import ipdb; ipdb.set_trace()
         self.ensure_one()
         date_start = o.date_expected
         date_end = o.date_expected
@@ -265,10 +267,56 @@ class TrackingWip(models.Model):
                 'model_reference': o._name + ',' + str(o.id),
                 'color_gantt': self.color_gantt,
                 'color_gantt_set': True,
-                'sale_id': line.sale_id,
-                'sucessor_ids': [(6, 0, next_task.ids)]
+                'sale_id': line.sale_id.id,
             }
-            task_objs += self.env['project.task'].create(vals)
+
+            created_task = self.env['project.task'].create(vals)
+            # Write dependency if exists.
+            # Write next_task predecessor = created_task
+            self.link_predecessor_task(next_task, created_task)
+            task_objs += created_task
 
         o.write({'task_ids': [(6, 0, task_objs.ids)]})
-        self.set_move_task_dependencies(o)
+
+    @api.multi
+    def manage_parent_child_tasks(self, o):
+        """
+        o is picking
+        Ùpdate task_ids in picking, one for each sale related in move's tasks.
+        Get parent - child relationship between them.
+        """
+
+        # Group move tasks by sale
+        tasks_by_sale = {}
+        for move in o.move_lines:
+            for task in move.task_ids:
+                if task.sale_id.id not in tasks_by_sale:
+                    tasks_by_sale[task.sale_id.id] = self.env['project.task']
+                tasks_by_sale[task.sale_id.id] += task
+        # TODO this must not hapen
+        tasks_without_sale = o.task_ids.filtered(lambda t: not t.sale_id)
+        tasks_without_sale.unlink()
+        for sale_id in tasks_by_sale:
+            so_task = False
+            child_tasks = tasks_by_sale[sale_id]
+            so_task = o.task_ids.\
+                filtered(lambda t: t.sale_id.id == sale_id)
+            # Create New grouping task
+            if not so_task:
+                ref_task = child_tasks[0]
+                vals = {
+                    'name': eval(self.name_eval),
+                    'project_id': ref_task.project_id.id,
+                    'date_start': ref_task.date_start,
+                    'date_end': ref_task.date_end
+                    if ref_task.date_end > ref_task.date_start
+                    else ref_task.date_start,
+                    'model_reference': o._name + ',' + str(o.id),
+                    'color_gantt': self.color_gantt,
+                    'color_gantt_set': True,
+                    'sale_id': sale_id,
+                }
+                so_task = self.env['project.task'].create(vals)
+                o.write({'task_ids': [(4, so_task.id)]})
+            # Create parent-child relationship
+            child_tasks.write({'parent_id': so_task.id})

@@ -24,12 +24,27 @@ class StockPicking(models.Model):
                     and pick.move_lines[0].move_dest_id:
                 project_id = pick.move_lines[0].move_dest_id.\
                     picking_id.project_wip_id.id
+            # Incoming picking
+            if not project_id and pick.move_lines:
+                    for move in pick.move_lines:
+                        if move.task_ids:
+                            project_id = move.task_ids[0].project_id.id
+                        break
             pick.project_wip_id = project_id
 
     task_ids = fields.One2many('project.task', 'picking_id', 'Tasks',
                                readonly=True)
     project_wip_id = fields.Many2one('project.project', 'Project',
                                      compute='_get_related_project')
+
+    @api.multi
+    def action_cancel(self):
+        """
+        Remove related task when cancel sale order
+        """
+        res = super(StockPicking, self).action_cancel()
+        self.mapped('task_ids').unlink()
+        return res
 
     # @api.multi
     # def write(self, vals):
@@ -43,15 +58,6 @@ class StockPicking(models.Model):
     #                     pick.task_id.date_end != pick.min_date:
     #                 pick.task_id.date_end = pick.min_date
     #     return res
-
-    @api.multi
-    def action_cancel(self):
-        """
-        Remove related task when cancel sale order
-        """
-        res = super(StockPicking, self).action_cancel()
-        self.mapped('task_ids').unlink()
-        return res
 
 
 class StockMove(models.Model):
@@ -71,6 +77,8 @@ class StockMove(models.Model):
                     project_id = sale_obj.project_wip_id.id
             if not project_id and move.move_dest_id:
                 project_id = move.move_dest_id.project_wip_id.id
+
+            # Incoming move or move with distribution lines
             if not project_id and move.wip_line_ids:
                 project_id = move.wip_line_ids[0].task_id.project_id.id and \
                     move.wip_line_ids[0].task_id.project_id.id
@@ -118,7 +126,6 @@ class StockMove(models.Model):
     def action_confirm(self):
         """
         """
-        # import ipdb; ipdb.set_trace()
         res = False
         if not self._context.get('no_confirm', False):
             res = super(StockMove, self).action_confirm()
@@ -131,27 +138,12 @@ class StockMove(models.Model):
         track_record = track_model.get_track_for_model(res._name, res)
         if track_record:
             if res.wip_line_ids:
+                # CREATE TASKS FOR INCOMING MOVES
                 track_record.create_move_tasks_tracking(res)
             else:
+                # CREATE TASKS FOR INTERNl, OUTGOING, PRODUCTION, MOVES
                 track_record.create_task_tracking(res)
         return res
-
-    # @api.multi
-    # def write(self, vals):
-    #     """
-    #     Propagate to task da date expected to date end
-    #     # TODO review
-    #     """
-    #     res = super(StockMove, self).write(vals)
-    #     import ipdb; ipdb.set_trace()
-    #     if 'date_expected' in vals:
-    #         for move in self:
-    #             if move.task_id and \
-    #                     move.task_id.date_end != move.date_expected:
-    #                 move.task_id.date_end = move.date_expected \
-    #                     if move.date_expected >= move.task_id.date_start \
-    #                     else move.task_id.date_start
-    #     return res
 
     @api.multi
     def break_links(self):
@@ -196,6 +188,22 @@ class StockMove(models.Model):
                         rem_qty -= q.qty
         return res
 
+    # @api.multi
+    # def write(self, vals):
+    #     """
+    #     Propagate to task da date expected to date end
+    #     # TODO review
+    #     """
+    #     res = super(StockMove, self).write(vals)
+    #     import ipdb; ipdb.set_trace()
+    #     if 'date_expected' in vals:
+    #         for move in self:
+    #             if move.task_id and \
+    #                     move.task_id.date_end != move.date_expected:
+    #                 move.task_id.date_end = move.date_expected \
+    #                     if move.date_expected >= move.task_id.date_start \
+    #                     else move.task_id.date_start
+    #     return res
 
 # class StockQuant(models.Model):
 #     _inherit = 'stock.quant'
