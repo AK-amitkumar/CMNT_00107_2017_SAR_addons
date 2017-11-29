@@ -176,11 +176,12 @@ class StockMove(models.Model):
             for line in move.wip_line_ids:
                 rel_move = line.task_id.model_reference
                 rem_qty = line.qty
-                while rem_qty:
+                while rem_qty > 0:
                     for q in todo_quants:
                         if q.qty > rem_qty:
                             new_quant = q._quant_split(line.qty)
-                            todo_quants += new_quant
+                            if new_quant:
+                                todo_quants += new_quant
 
                         # q.write({'pre_reservation_id': rel_move.id})
                         q.write({'reservation_id': rel_move.id})
