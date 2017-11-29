@@ -307,6 +307,10 @@ class TrackingWip(models.Model):
                     tasks_by_sale[task.sale_id.id] = self.env['project.task']
                 tasks_by_sale[task.sale_id.id] += task
 
+        # If not task ids in moves delete all tasks and finish
+        if not o.move_lines.task_ids:
+            o.task_ids.unlink()
+
         # TODO this must not hapen, MAYBE RESOLVED
         tasks_without_sale = o.task_ids.filtered(lambda t: not t.sale_id)
         tasks_without_sale.unlink()
@@ -361,6 +365,8 @@ class TrackingWip(models.Model):
         o.task_ids.unlink()
         track_record = track_model.get_track_for_model(o._name, o)
         if track_record:
+            # Not task record when incoming move without distribution lines
+            # It couldent eval project_wip_id
             track_record.create_move_tasks_tracking(o)
 
         picking = o.picking_id
@@ -368,3 +374,7 @@ class TrackingWip(models.Model):
                                                        picking)
         if track_record:
             track_record.manage_parent_child_tasks(picking)
+        elif not picking.mapped('move_lines.task_ids'):
+            # Not task record when incoming move without distribution lines
+            # It couldent eval project_wip_id
+            picking.task_ids.unlink()
