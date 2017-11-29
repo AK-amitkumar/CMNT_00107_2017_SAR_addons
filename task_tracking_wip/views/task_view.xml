@@ -21,10 +21,9 @@
         </record>
 
     <!-- OVERWRITE PROJECT MODEL TO TASK VIEW -->
-    <record id="view_task_form2_wip" model="ir.ui.view">
+    <record id="project_model_to_task.view_task_form2" model="ir.ui.view">
         <field name="name">view.task.form2.wip</field>
         <field name="model">project.task</field>
-        <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
             <xpath expr="//group/group[2]" position="after">
               <group colspan="4">

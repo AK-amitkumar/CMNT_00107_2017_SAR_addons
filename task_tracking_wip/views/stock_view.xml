@@ -33,7 +33,7 @@
               <xpath expr="//group[3]" position="after">
                 <notebook colespan="4">
                     <page string="Distribution Lines">
-                        <group string="Distribution Lines">
+                        <group>
                             <field name="wip_line_ids" nolabel="1">
                                 <tree string="Distribution Wip Lines" editable="bottom">
                                     <field name="qty"/>
@@ -54,7 +54,7 @@
                     </page>
 
                     <page string="Wip Tasks">
-                        <group string="Wip Tasks">
+                        <group>
                             <field name="project_wip_id"/>
                             <field name="task_ids" colspan="4" nolabel="1">
                                  <tree>

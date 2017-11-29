@@ -20,7 +20,7 @@ class MrpWorkorder(models.Model):
             wo.project_wip_id = project_id
 
     task_id = fields.Many2one('project.task', 'Task', readonly=True)
-    project_wip_id = fields.Many2one('project.project', 'Project',
+    project_wip_id = fields.Many2one('project.project', 'Initial Project',
                                      compute='_get_related_project')
 
     @api.model

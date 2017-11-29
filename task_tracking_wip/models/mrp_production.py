@@ -26,7 +26,7 @@ class MrpProduction(models.Model):
 
     task_ids = fields.One2many('project.task', 'production_id', 'Tasks',
                                readonly=True)
-    project_wip_id = fields.Many2one('project.project', 'Project',
+    project_wip_id = fields.Many2one('project.project', 'Initial Project',
                                      compute='_get_related_project')
 
     # def _generate_raw_moves(self, exploded_lines):

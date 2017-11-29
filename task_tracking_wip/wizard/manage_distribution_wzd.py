@@ -31,7 +31,7 @@ class ManageDistributionWzd(models.TransientModel):
         location_id = False
         if move_id:
             model = self.env['stock.move'].browse(move_id)
-            location_id = model.location_id.id
+            location_id = model.location_dest_id.id
         else:
             model = self.env['purchase.order.line'].browse(pl_id)
             location_id = model.order_id.\
@@ -58,6 +58,7 @@ class ManageDistributionWzd(models.TransientModel):
 
     @api.multi
     def apply(self):
+        track_model = self.env['tracking.wip']
         model = self.move_id if self.move_id else self.pl_id
         model.wip_line_ids.unlink()
         lines = []
@@ -71,6 +72,9 @@ class ManageDistributionWzd(models.TransientModel):
             }
             lines.append((0, 0, vals))
         model.write({'wip_line_ids': lines})
+
+        if model._name == 'stock.move':
+            track_model.recompute_move_task_ids(model)
         self.ensure_one()
 
 
@@ -80,6 +84,14 @@ class ManageLines(models.TransientModel):
 
     wzd_id = fields.Many2one('manage.distribution.wzd', 'Wizard')
     qty = fields.Float(string='Quantity',
-                       digits=dp.get_precision('Product Unit of Measure'))
-    sale_id = fields.Many2one('sale.order', 'For Sale')
-    task_id = fields.Many2one('project.task', 'Related Task')
+                       digits=dp.get_precision('Product Unit of Measure'),
+                       required=True)
+    sale_id = fields.Many2one('sale.order', 'For Sale',
+                              required=True)
+    task_id = fields.Many2one('project.task', 'Related Task',
+                              required=True)
+
+    @api.onchange('sale_id')
+    def onchange_sale_id(self):
+        if self.sale_id:
+            self.task_id = False

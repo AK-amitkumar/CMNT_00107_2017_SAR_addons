@@ -34,7 +34,7 @@ class StockPicking(models.Model):
 
     task_ids = fields.One2many('project.task', 'picking_id', 'Tasks',
                                readonly=True)
-    project_wip_id = fields.Many2one('project.project', 'Project',
+    project_wip_id = fields.Many2one('project.project', 'Initial Project',
                                      compute='_get_related_project')
 
     @api.multi
@@ -87,7 +87,7 @@ class StockMove(models.Model):
     # task_id = fields.Many2one('project.task', 'Task', readonly=True)
     task_ids = fields.One2many('project.task', 'move_id', 'Tasks',
                                readonly=True)
-    project_wip_id = fields.Many2one('project.project', 'Project',
+    project_wip_id = fields.Many2one('project.project', 'Initial Project',
                                      compute='_get_related_project')
     wip_line_ids = fields.One2many('wip.distribution.line', 'move_id',
                                    'Distribution Lines')
@@ -138,10 +138,9 @@ class StockMove(models.Model):
         track_record = track_model.get_track_for_model(res._name, res)
         if track_record:
             if res.wip_line_ids:
-                # CREATE TASKS FOR INCOMING MOVES
+                # CREATE TASKS FOR INCOMING MOVES WITH DISTRIBUTION LINES
                 track_record.create_move_tasks_tracking(res)
             else:
-                # CREATE TASKS FOR INTERNl, OUTGOING, PRODUCTION, MOVES
                 track_record.create_task_tracking(res)
         return res
 
@@ -185,6 +184,7 @@ class StockMove(models.Model):
 
                         # q.write({'pre_reservation_id': rel_move.id})
                         q.write({'reservation_id': rel_move.id})
+                        # TODO reserve
                         todo_quants -= q
                         rem_qty -= q.qty
         return res

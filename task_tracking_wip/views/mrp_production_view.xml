@@ -5,10 +5,21 @@
             <field name="model">mrp.production</field>
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="arch" type="xml">
-                <field name="origin" position="after">
-                        <field name="task_ids"/>
-                        <field name="project_wip_id"/>
-                </field>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Wip Tasks">
+                        <group string="Wip Tasks">
+                            <field name="project_wip_id"/>
+                            <field name="task_ids" colspan="4" nolabel="1">
+                                 <tree>
+                                    <field name="name"/>
+                                    <field name="project_id"/>
+                                    <field name="sale_id"/>
+                                    <field name="progress_model" widget="progressbar"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+            </xpath>
             </field>
         </record>
 </odoo>

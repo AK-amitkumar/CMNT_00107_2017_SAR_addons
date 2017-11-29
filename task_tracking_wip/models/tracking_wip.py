@@ -81,9 +81,9 @@ class TrackingWip(models.Model):
 
     @api.model
     def set_pick_task_dependencies(self, o):
-        print "#################################################"
+        print "############DEPENDENCY FOR PICKING#####################"
         print o.name + " | " + o.origin
-        print "#################################################"
+        print "#######################################################"
         task_recs = self.env['project.task']
         parent_task = o.task_ids[0]
         pick_move = o.move_lines and o.move_lines[0]
@@ -114,7 +114,7 @@ class TrackingWip(models.Model):
 
     @api.model
     def set_move_task_dependencies(self, o):
-        print "#################################################"
+        print "###########DEPENDENCY FOR MOVE###################"
         print o.name + " | " + o.origin
         print "#################################################"
         task_recs = self.env['project.task']
@@ -259,7 +259,10 @@ class TrackingWip(models.Model):
     @api.multi
     def create_move_tasks_tracking(self, o):
         """
-        Only for moves with distribution lines, o reference is allways a move.
+        Called when creating moves from purchase line or when update
+        a distribution for a move.
+        o reference is allways a move.
+        Create  a task for each distribution lines
         """
         self.ensure_one()
         date_start = o.date_expected
@@ -290,7 +293,7 @@ class TrackingWip(models.Model):
     def manage_parent_child_tasks(self, o):
         """
         o is picking
-        Ùpdate task_ids in picking, one for each sale related in move's tasks.
+        Update task_ids in picking, one for each sale related in move's tasks.
         Get parent - child relationship between them.
         Wè siposse child task dependencies are setted so we link picking tasks
         with the nex picking related
@@ -303,9 +306,11 @@ class TrackingWip(models.Model):
                 if task.sale_id.id not in tasks_by_sale:
                     tasks_by_sale[task.sale_id.id] = self.env['project.task']
                 tasks_by_sale[task.sale_id.id] += task
+
         # TODO this must not hapen, MAYBE RESOLVED
         tasks_without_sale = o.task_ids.filtered(lambda t: not t.sale_id)
         tasks_without_sale.unlink()
+
         for sale_id in tasks_by_sale:
             so_task = False
             child_tasks = tasks_by_sale[sale_id]
@@ -340,3 +345,26 @@ class TrackingWip(models.Model):
                     # Write dependency if exists.
                     # Write next_task predecessor = so_task
                     self.link_predecessor_task(next_task, so_task)
+
+        # Delete old parent tasks witch sale_id not in th related task moves
+        task_to_delete = o.task_ids.\
+            filtered(lambda t: t.sale_id.id not in tasks_by_sale)
+        task_to_delete.unlink()
+
+    @api.model
+    def recompute_move_task_ids(self, o):
+        """
+        Recreate task based in distribution lines.
+        Link sucessors and recompute parent task in the related picking
+        """
+        track_model = self.env['tracking.wip']
+        o.task_ids.unlink()
+        track_record = track_model.get_track_for_model(o._name, o)
+        if track_record:
+            track_record.create_move_tasks_tracking(o)
+
+        picking = o.picking_id
+        track_record = track_model.get_track_for_model(picking._name,
+                                                       picking)
+        if track_record:
+            track_record.manage_parent_child_tasks(picking)
