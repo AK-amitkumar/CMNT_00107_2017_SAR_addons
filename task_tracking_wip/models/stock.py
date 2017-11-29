@@ -195,7 +195,6 @@ class StockMove(models.Model):
     #     # TODO review
     #     """
     #     res = super(StockMove, self).write(vals)
-    #     import ipdb; ipdb.set_trace()
     #     if 'date_expected' in vals:
     #         for move in self:
     #             if move.task_id and \

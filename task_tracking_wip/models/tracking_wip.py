@@ -184,7 +184,15 @@ class TrackingWip(models.Model):
             sale_obj = self.env['sale.order'].search(domain, limit=1)
             if sale_obj:
                 res = sale_obj.id
+            else:
+                # Incoming move, whithout distribution lines
+                if o._name == 'stock.move':
+                    dest_id_sales = o.move_dest_id.mapped('task_ids.sale_id')
+                elif o._name == 'stock.picking':
+                    dest_id_sales = o.mapped('move_lines.task_ids.sale_id')
 
+                if dest_id_sales:
+                    res = dest_id_sales[0].id
         return res
 
     @api.multi
@@ -284,6 +292,8 @@ class TrackingWip(models.Model):
         o is picking
         Ùpdate task_ids in picking, one for each sale related in move's tasks.
         Get parent - child relationship between them.
+        Wè siposse child task dependencies are setted so we link picking tasks
+        with the nex picking related
         """
 
         # Group move tasks by sale
@@ -293,7 +303,7 @@ class TrackingWip(models.Model):
                 if task.sale_id.id not in tasks_by_sale:
                     tasks_by_sale[task.sale_id.id] = self.env['project.task']
                 tasks_by_sale[task.sale_id.id] += task
-        # TODO this must not hapen
+        # TODO this must not hapen, MAYBE RESOLVED
         tasks_without_sale = o.task_ids.filtered(lambda t: not t.sale_id)
         tasks_without_sale.unlink()
         for sale_id in tasks_by_sale:
@@ -320,3 +330,13 @@ class TrackingWip(models.Model):
                 o.write({'task_ids': [(4, so_task.id)]})
             # Create parent-child relationship
             child_tasks.write({'parent_id': so_task.id})
+
+            # Set grouping task dependecies
+            if not so_task.sucessor_ids:
+                if child_tasks[0].sucessor_ids \
+                        and child_tasks[0].sucessor_ids[0].task_id.parent_id:
+                    next_task = child_tasks[0].sucessor_ids[0].task_id.\
+                        parent_id
+                    # Write dependency if exists.
+                    # Write next_task predecessor = so_task
+                    self.link_predecessor_task(next_task, so_task)

@@ -20,9 +20,9 @@ class ProjectTask(models.Model):
     picking_id = fields.Many2one('stock.picking', 'Related Picking',
                                  readonly=True)
     product_id = fields.Many2one('product.product', 'Product',
-                                 related='move_id.product_id')
+                                 related='move_id.product_id', readonly=True)
     location_id = fields.Many2one('stock.location', 'Location',
-                                  related='move_id.location_id')
+                                  related='move_id.location_id', readonly=True)
 
     @api.multi
     def _get_model_progress(self):

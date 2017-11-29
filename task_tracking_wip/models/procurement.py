@@ -160,6 +160,7 @@ class ProcurementOrder(models.Model):
                 proc_qty = proc.product_uom.\
                     _compute_quantity(proc.product_qty,
                                       proc.product_id.uom_po_id)
+                # TODO GROUP IF SAME TASK
                 self.env['wip.distribution.line'].\
                     create({'pl_id': po_line.id,
                             'qty': proc_qty,
