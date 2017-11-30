@@ -9,7 +9,7 @@
                     <page string="Sucessors">
                         <field name="sucessor_ids" nolabel="1" widget="one2many_list">
                             <tree string="Sucessor" editable="bottom" >
-                                <field name="task_id" string="Child Task"/>
+                                <field name="task_id" string="Succesor Task"/>
                                 <field name="type"/>
                                 <field name="lag_qty"/>
                                 <field name="lag_type"/>

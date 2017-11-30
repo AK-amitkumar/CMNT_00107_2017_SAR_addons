@@ -188,7 +188,19 @@ class StockMove(models.Model):
                         # TODO reserve
                         todo_quants -= q
                         rem_qty -= q.qty
+                import ipdb; ipdb.set_trace()
+                updated_quants = []
+                for quant in rel_move.reserved_quant_ids:
+                    updated_quants.append((quant, quant.qty))
+                self.env['stock.quant'].quants_reserve(updated_quants,
+                                                       rel_move)
         return res
+
+    @api.multi
+    def recompute_task_links(self):
+        self.ensure_one()
+        track_model = self.env['tracking.wip']
+        track_model.recompute_tasks_from_reserve(self)
 
     # @api.multi
     # def write(self, vals):
@@ -207,20 +219,18 @@ class StockMove(models.Model):
     #     return res
 
 
-# class StockQuant(models.Model):
-#     _inherit = 'stock.quant'
+class StockQuant(models.Model):
+    _inherit = 'stock.quant'
 
-#     @api.model
-#     def quants_reserve(self, quants, move, link=False):
-#         """
-#         Update wip from reserved quants
-#         """
-#         track_model = self.env['tracking.wip']
-#         super(StockQuant, self).quants_reserve(quants, move, link=link)
-#         if move.state == 'assigned' or move.partially_available:
-#             track_model.recompute_tasks_from_reserve(move)
-
-
+    @api.model
+    def quants_reserve(self, quants, move, link=False):
+        """
+        Update wip from reserved quants
+        """
+        track_model = self.env['tracking.wip']
+        super(StockQuant, self).quants_reserve(quants, move, link=link)
+        if move.state == 'assigned' or move.partially_available:
+            track_model.recompute_tasks_from_reserve(move)
 
 
     # pre_reservation_id = fields.Many2one('stock.move',

@@ -37,7 +37,9 @@ class ProjectTask(models.Model):
                 #         m.production_id.quantity:
                 #     progress = m.quantity_done / m.production_id.quantity
                 elif m._name == 'stock.move' and m.state == 'done':
-                    progress = 100
+                    progress = 1
+                elif m._name == 'stock.picking' and m.state == 'done':
+                    progress = 1
                 elif m._name == 'mrp.workorder' and m.qty_production:
                     progress = m.qty_produced / m.qty_production
 
@@ -104,6 +106,12 @@ class ProjectTask(models.Model):
         if child_tasks:
             child_tasks.unlink()
         return super(ProjectTask, self).unlink()
+
+    def do_sorting(self, subtask_project_id=None, project_id=None):
+        """
+        Slow Function, called allways in write by project native
+        """
+        pass
 
 
 class ProjectTaskPresecessor(models.Model):

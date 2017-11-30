@@ -108,7 +108,6 @@ class TrackingWip(models.Model):
             task_recs = o.task_ids[0]
             parent_task = rel_mov.production_id.task_ids and \
                 rel_mov.production_id.task_ids[0] or False
-
         self.link_predecessor_task(task_recs, parent_task)
         return
 
@@ -118,9 +117,11 @@ class TrackingWip(models.Model):
         print o.name + " | " + o.origin
         print "#################################################"
         task_recs = self.env['project.task']
+        link = "FS"
         # Set dependency of move_dest_id task
         if o.procurement_id and o.procurement_id.sale_line_id:
             task_recs += o.procurement_id.sale_line_id.task_id
+            link = "FF"
         # Set dependecy in sale_line_id task
         elif o.move_dest_id:
             if o.move_dest_id.raw_material_production_id:
@@ -135,7 +136,7 @@ class TrackingWip(models.Model):
 
         # Write dependency if exists
         parent_task = o.task_ids[0]
-        self.link_predecessor_task(task_recs, parent_task)
+        self.link_predecessor_task(task_recs, parent_task, link)
 
         if o.task_ids and o.production_id and o.production_id.task_ids:
             o.task_ids.write({'parent_id': o.production_id.task_ids[0].id})
@@ -160,7 +161,7 @@ class TrackingWip(models.Model):
         if o.production_id and o.production_id.move_finished_ids:
             task_recs += o.production_id.task_ids
         # Write dependency if exists
-        parent_task = o.task_ids[0]
+        parent_task = o.task_id
         self.link_predecessor_task(task_recs, parent_task)
         return
 
@@ -308,7 +309,7 @@ class TrackingWip(models.Model):
                 tasks_by_sale[task.sale_id.id] += task
 
         # If not task ids in moves delete all tasks and finish
-        if not o.move_lines.task_ids:
+        if not o.mapped('move_lines.task_ids'):
             o.task_ids.unlink()
 
         # TODO this must not hapen, MAYBE RESOLVED
@@ -379,16 +380,25 @@ class TrackingWip(models.Model):
             # It couldent eval project_wip_id
             picking.task_ids.unlink()
 
-    # @api.model
-    # def recompute_tasks_from_reserve(self, move):
-    #     """
-    #     """
-    #     # import ipdb; ipdb.set_trace()
-    #     orig_moves = self.env['stock.move']
-    #     for quant in move.reserved_quant_ids:
-    #         orig_moves += quant._get_latest_move()
+    @api.model
+    def recompute_tasks_from_reserve(self, move):
+        """
+        """
+        print "------------ RECOMPUTE TASKS LINKS BY QUANT-------------"
+        orig_moves = self.env['stock.move']
+        for quant in move.reserved_quant_ids:
+            orig_moves += quant._get_latest_move()
 
-    #     if move.task_ids:
-    #         for orig_move in orig_moves:
-    #             for task in orig_move.task_ids:
-    #                 self.link_predecessor_task(move.task_ids, task)
+        move.mapped('task_ids.predecessor_ids').unlink()
+        for current_task in move.task_ids:
+            for orig_move in orig_moves:
+                # First try to linkl only tasks of the same sale
+                no_task_linked = True
+                for orig_task in orig_move.task_ids:
+                    if orig_task.sale_id.id == current_task.sale_id.id:
+                        self.link_predecessor_task(current_task, orig_task)
+                        no_task_linked = False
+                # If no task linked link any of them
+                if no_task_linked and orig_move.task_ids:
+                    self.link_predecessor_task(current_task,
+                                               orig_move.task_ids[0])
