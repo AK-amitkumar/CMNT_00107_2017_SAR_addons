@@ -378,3 +378,17 @@ class TrackingWip(models.Model):
             # Not task record when incoming move without distribution lines
             # It couldent eval project_wip_id
             picking.task_ids.unlink()
+
+    # @api.model
+    # def recompute_tasks_from_reserve(self, move):
+    #     """
+    #     """
+    #     # import ipdb; ipdb.set_trace()
+    #     orig_moves = self.env['stock.move']
+    #     for quant in move.reserved_quant_ids:
+    #         orig_moves += quant._get_latest_move()
+
+    #     if move.task_ids:
+    #         for orig_move in orig_moves:
+    #             for task in orig_move.task_ids:
+    #                 self.link_predecessor_task(move.task_ids, task)

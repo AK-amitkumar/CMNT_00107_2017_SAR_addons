@@ -84,12 +84,9 @@ class ManageLines(models.TransientModel):
 
     wzd_id = fields.Many2one('manage.distribution.wzd', 'Wizard')
     qty = fields.Float(string='Quantity',
-                       digits=dp.get_precision('Product Unit of Measure'),
-                       required=True)
-    sale_id = fields.Many2one('sale.order', 'For Sale',
-                              required=True)
-    task_id = fields.Many2one('project.task', 'Related Task',
-                              required=True)
+                       digits=dp.get_precision('Product Unit of Measure'))
+    sale_id = fields.Many2one('sale.order', 'For Sale')
+    task_id = fields.Many2one('project.task', 'Related Task')
 
     @api.onchange('sale_id')
     def onchange_sale_id(self):

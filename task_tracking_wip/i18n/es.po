@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-09 11:19+0000\n"
-"PO-Revision-Date: 2017-10-09 11:19+0000\n"
+"POT-Creation-Date: 2017-11-30 00:12+0000\n"
+"PO-Revision-Date: 2017-11-30 00:12+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,14 +26,34 @@ msgid "Active"
 msgstr "Activo"
 
 #. module: task_tracking_wip
+#: model:ir.ui.view,arch_db:task_tracking_wip.manage_distribution_wzd_form
+msgid "Apply"
+msgstr "Aplicar"
+
+#. module: task_tracking_wip
+#: model:ir.ui.view,arch_db:task_tracking_wip.manage_distribution_wzd_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: task_tracking_wip
 #: model:ir.ui.view,arch_db:task_tracking_wip.ganttaps_view_task_form2_sucessors
 msgid "Child Task"
 msgstr "Tarea hija"
 
 #. module: task_tracking_wip
+#: model:ir.model.fields,help:task_tracking_wip.field_tracking_wip_color_gantt
+msgid "Choose your color for Task Bar"
+msgstr "Selecciona el color de la barra de la tarea"
+
+#. module: task_tracking_wip
 #: model:ir.actions.act_window,help:task_tracking_wip.action_tracking_wip
 msgid "Click to add a tracking wip model."
 msgstr "Click para añadir un registro de seguimiento web"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_color_gantt
+msgid "Color Task Bar"
+msgstr "Color de la barra de tarea"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_condition_eval
@@ -46,12 +66,18 @@ msgid "Configuration"
 msgstr "Configuración"
 
 #. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_create_uid
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_create_uid
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_create_uid
+#: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_create_uid
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_create_date
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_create_date
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_create_date
+#: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_create_date
 msgid "Created on"
 msgstr "Creado el"
 
@@ -75,9 +101,31 @@ msgstr "Define los modelos a hacer seguimiento, si la condición del modelo es v
 "                la tarea relaccionada con el proyecto."
 
 #. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_move_dest_id
+msgid "Destination move"
+msgstr "Movimiento de destino"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_display_name
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_display_name
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_display_name
+#: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_display_name
 msgid "Display Name"
 msgstr "Nombre a mostrar"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_purchase_order_line_wip_line_ids
+#: model:ir.model.fields,field_description:task_tracking_wip.field_stock_move_wip_line_ids
+#: model:ir.ui.view,arch_db:task_tracking_wip.purchase_order_form_wip_lines
+#: model:ir.ui.view,arch_db:task_tracking_wip.stock_view_move_picking_form_add_task
+msgid "Distribution Lines"
+msgstr "Líneas distribución"
+
+#. module: task_tracking_wip
+#: model:ir.ui.view,arch_db:task_tracking_wip.purchase_order_form_wip_lines
+#: model:ir.ui.view,arch_db:task_tracking_wip.stock_view_move_picking_form_add_task
+msgid "Distribution Wip Lines"
+msgstr "Lineas de distribución"
 
 #. module: task_tracking_wip
 #: model:ir.ui.view,arch_db:task_tracking_wip.tracking_wip_form_view
@@ -85,24 +133,71 @@ msgid "Evaluations"
 msgstr "Evaluaciones"
 
 #. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_sale_id
+#: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_sale_id
+msgid "For Sale"
+msgstr "Para la venta"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_id
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_id
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_id
+#: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_id
 msgid "ID"
 msgstr "ID"
 
 #. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_mrp_production_project_wip_id
+#: model:ir.model.fields,field_description:task_tracking_wip.field_mrp_workorder_project_wip_id
+#: model:ir.model.fields,field_description:task_tracking_wip.field_stock_move_project_wip_id
+#: model:ir.model.fields,field_description:task_tracking_wip.field_stock_picking_project_wip_id
+msgid "Initial Project"
+msgstr "Proyecto inicial"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd___last_update
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines___last_update
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip___last_update
+#: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line___last_update
 msgid "Last Modified on"
 msgstr "Última modificación en"
 
 #. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_write_uid
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_write_uid
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_write_uid
+#: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_write_uid
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
 #. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_write_date
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_write_date
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_write_date
+#: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_write_date
 msgid "Last Updated on"
 msgstr "Última actualización el"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_location_id
+msgid "Location"
+msgstr "Ubicación"
+
+#. module: task_tracking_wip
+#: model:ir.actions.act_window,name:task_tracking_wip.action_manage_distribution_wzd
+msgid "Manage Distribution"
+msgstr "Planificar distribución"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_wip_lines
+#: model:ir.ui.view,arch_db:task_tracking_wip.manage_distribution_wzd_form
+msgid "Manage Lines"
+msgstr "Planificar Líneas"
+
+#. module: task_tracking_wip
+#: model:ir.model,name:task_tracking_wip.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "Orden de Fabricación"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_model_id
@@ -110,16 +205,108 @@ msgid "Model to track"
 msgstr "Modelo a seguir"
 
 #. module: task_tracking_wip
+#: model:ir.ui.view,arch_db:task_tracking_wip.purchase_order_form_wip_lines
+#: model:ir.ui.view,arch_db:task_tracking_wip.view_move_picking_tree_wip_lines
+msgid "Modify Distribution"
+msgstr "Modificar distribución"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_move_id
+#: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_move_id
+msgid "Move"
+msgstr "Movimiento"
+
+#. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_name
 msgid "Name"
 msgstr "Nombre"
 
 #. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_progress_model
+msgid "Origin Progress"
+msgstr "Progreso del origen"
+
+#. module: task_tracking_wip
+#: model:ir.ui.view,arch_db:task_tracking_wip.view_task_search_form_wip
+msgid "Parent Tasks"
+msgstr "Tareas Padre"
+
+#. module: task_tracking_wip
+#: model:ir.model,name:task_tracking_wip.model_manage_distribution_wzd
+#: model:ir.model,name:task_tracking_wip.model_manage_lines
+msgid "Picking wizard"
+msgstr "Picking wizard"
+
+#. module: task_tracking_wip
+#: model:ir.model,name:task_tracking_wip.model_procurement_order
+msgid "Procurement"
+msgstr "Abastecimiento"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_product_id
+#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_product_id
+msgid "Product"
+msgstr "Producto"
+
+#. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_sale_order_project_wip_id
-#: model:ir.model.fields,field_description:task_tracking_wip.field_stock_move_project_wip_id
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_project_eval
 msgid "Project"
 msgstr "Proyecto"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_pl_id
+#: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_pl_id
+msgid "Purchase Line"
+msgstr "L´inea de compra"
+
+#. module: task_tracking_wip
+#: model:ir.model,name:task_tracking_wip.model_purchase_order
+msgid "Purchase Order"
+msgstr "Pedido de compra"
+
+#. module: task_tracking_wip
+#: model:ir.model,name:task_tracking_wip.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Línea pedido de compra"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_qty
+#: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_qty
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: task_tracking_wip
+#: model:ir.model,name:task_tracking_wip.model_stock_quant
+msgid "Quants"
+msgstr "Quants"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_move_id
+#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_production_id
+msgid "Related Move"
+msgstr "Movimiento relacionado"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_picking_id
+msgid "Related Picking"
+msgstr "Albarán relacionado"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_sale_id
+msgid "Related Sale"
+msgstr "Venta relacionada"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_task_id
+#: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_task_id
+msgid "Related Task"
+msgstr "Tarea relacionada"
+
+#. module: task_tracking_wip
+#: model:ir.ui.view,arch_db:task_tracking_wip.view_task_search_form_wip
+msgid "Sale"
+msgstr "Venta"
 
 #. module: task_tracking_wip
 #: model:ir.model,name:task_tracking_wip.model_sale_order
@@ -132,6 +319,11 @@ msgid "Sales Order Line"
 msgstr "Línea de pedido de venta"
 
 #. module: task_tracking_wip
+#: model:ir.model.fields,help:task_tracking_wip.field_project_task_location_id
+msgid "Sets a location if you produce at a fixed location. This can be a partner location if you subcontract the manufacturing operations."
+msgstr "Indica una ubicación si se producen en una ubicación fija. Puede ser una ubicación de empresa si subcontrata las operaciones de fabricación."
+
+#. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_state
 msgid "State"
 msgstr "Estado"
@@ -140,6 +332,11 @@ msgstr "Estado"
 #: model:ir.model,name:task_tracking_wip.model_stock_move
 msgid "Stock Move"
 msgstr "Movimiento de existencias"
+
+#. module: task_tracking_wip
+#: model:ir.ui.view,arch_db:task_tracking_wip.view_task_search_form_wip
+msgid "Subtasks"
+msgstr "Subtareas"
 
 #. module: task_tracking_wip
 #: model:ir.ui.view,arch_db:task_tracking_wip.ganttaps_view_task_form2_sucessors
@@ -154,8 +351,8 @@ msgstr "Sucesores"
 
 #. module: task_tracking_wip
 #: model:ir.model,name:task_tracking_wip.model_project_task
+#: model:ir.model.fields,field_description:task_tracking_wip.field_mrp_workorder_task_id
 #: model:ir.model.fields,field_description:task_tracking_wip.field_sale_order_line_task_id
-#: model:ir.model.fields,field_description:task_tracking_wip.field_stock_move_task_id
 msgid "Task"
 msgstr "Tarea"
 
@@ -165,10 +362,22 @@ msgid "Task Name"
 msgstr "Nombre tarea"
 
 #. module: task_tracking_wip
-#: code:addons/task_tracking_wip/models/tracking_wip.py:44
+#: model:ir.model.fields,field_description:task_tracking_wip.field_mrp_production_task_ids
+#: model:ir.model.fields,field_description:task_tracking_wip.field_stock_move_task_ids
+#: model:ir.model.fields,field_description:task_tracking_wip.field_stock_picking_task_ids
+msgid "Tasks"
+msgstr "Tareas"
+
+#. module: task_tracking_wip
+#: code:addons/task_tracking_wip/models/tracking_wip.py:50
 #, python-format
 msgid "The selected model can not be tracked because is not related with task model"
-msgstr "The selected model can not be tracked because is not related with task model"
+msgstr "El modelo no puede ser seleccionado porque no hay tareas asociadas a el"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_location_id
+msgid "To Location"
+msgstr "Para la ubicación"
 
 #. module: task_tracking_wip
 #: model:ir.actions.act_window,name:task_tracking_wip.action_tracking_wip
@@ -179,9 +388,31 @@ msgid "Tracking WIP"
 msgstr "Seguimiento WIP"
 
 #. module: task_tracking_wip
+#: model:ir.model,name:task_tracking_wip.model_stock_picking
+msgid "Transfer"
+msgstr "Transferir"
+
+#. module: task_tracking_wip
 #: model:ir.ui.menu,name:task_tracking_wip.menu_main_wip
 msgid "WIP"
 msgstr "WIP"
+
+#. module: task_tracking_wip
+#: model:ir.ui.view,arch_db:task_tracking_wip.mrp_production_form_view_inherit_wip
+#: model:ir.ui.view,arch_db:task_tracking_wip.stock_picking_form_add_task
+#: model:ir.ui.view,arch_db:task_tracking_wip.stock_view_move_picking_form_add_task
+msgid "Wip Tasks"
+msgstr "Tareas WIP"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_wzd_id
+msgid "Wizard"
+msgstr "Asistente"
+
+#. module: task_tracking_wip
+#: model:ir.model,name:task_tracking_wip.model_mrp_workorder
+msgid "Work Order"
+msgstr "Orden de trabajo"
 
 #. module: task_tracking_wip
 #: model:ir.model,name:task_tracking_wip.model_project_task_predecessor
@@ -192,4 +423,9 @@ msgstr "project.task.predecessor"
 #: model:ir.model,name:task_tracking_wip.model_tracking_wip
 msgid "tracking.wip"
 msgstr "tracking.wip"
+
+#. module: task_tracking_wip
+#: model:ir.model,name:task_tracking_wip.model_wip_distribution_line
+msgid "wip.distribution.line"
+msgstr "wip.distribution.line"
 
