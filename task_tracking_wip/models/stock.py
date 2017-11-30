@@ -207,18 +207,18 @@ class StockMove(models.Model):
     #     return res
 
 
-class StockQuant(models.Model):
-    _inherit = 'stock.quant'
+# class StockQuant(models.Model):
+#     _inherit = 'stock.quant'
 
-    @api.model
-    def quants_reserve(self, quants, move, link=False):
-        """
-        Update wip from reserved quants
-        """
-        track_model = self.env['tracking.wip']
-        super(StockQuant, self).quants_reserve(quants, move, link=link)
-        if move.state == 'assigned' or move.partially_available:
-            track_model.recompute_tasks_from_reserve(move)
+#     @api.model
+#     def quants_reserve(self, quants, move, link=False):
+#         """
+#         Update wip from reserved quants
+#         """
+#         track_model = self.env['tracking.wip']
+#         super(StockQuant, self).quants_reserve(quants, move, link=link)
+#         if move.state == 'assigned' or move.partially_available:
+#             track_model.recompute_tasks_from_reserve(move)
 
 
 
