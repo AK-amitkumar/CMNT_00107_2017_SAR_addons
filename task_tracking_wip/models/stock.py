@@ -46,6 +46,33 @@ class StockPicking(models.Model):
         self.mapped('task_ids').unlink()
         return res
 
+    @api.multi
+    def _create_backorder(self, backorder_moves=[]):
+        track_model = self.env['tracking.wip']
+        res = super(StockPicking, self)._create_backorder(backorder_moves)
+        for backorder in res:
+            for move in backorder.move_lines:
+                if not move.split_from:
+                    continue
+
+                # Delete distribution
+                move.split_from.wip_line_ids.unlink()
+                for t in move.split_from.task_ids:
+                    new_task = t.copy({'move_id': move.id})
+                    # Write successors to new task
+                    sucessors = t.mapped('sucessor_ids.task_id')
+                    track_model.link_predecessor_task(sucessors, new_task)
+                    # Write pedecessors to new task
+                    for predecessor in t.mapped('sucessor_ids.parent_task_id'):
+                        track_model.link_predecessor_task(new_task,
+                                                          predecessor)
+                track_record = track_model.get_track_for_model(backorder._name,
+                                                               backorder)
+                # Recompute child tasks
+                if track_record:
+                    track_record.manage_parent_child_tasks(backorder)
+        return res
+
     # @api.multi
     # def write(self, vals):
     #     """
@@ -188,7 +215,7 @@ class StockMove(models.Model):
                         # TODO reserve
                         todo_quants -= q
                         rem_qty -= q.qty
-                import ipdb; ipdb.set_trace()
+
                 updated_quants = []
                 for quant in rel_move.reserved_quant_ids:
                     updated_quants.append((quant, quant.qty))
