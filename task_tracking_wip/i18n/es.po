@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-30 00:12+0000\n"
-"PO-Revision-Date: 2017-11-30 00:12+0000\n"
+"POT-Creation-Date: 2017-12-03 20:13+0000\n"
+"PO-Revision-Date: 2017-12-03 20:13+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -31,14 +31,27 @@ msgid "Apply"
 msgstr "Aplicar"
 
 #. module: task_tracking_wip
+#: code:addons/task_tracking_wip/models/task.py:114
+#, python-format
+msgid "Can not set date to                                            production / workorder because                                            is done"
+msgstr " No se puede establecer la fecha en la producción / orden de trabajo porque ya está realizada"
+
+#. module: task_tracking_wip
+#: code:addons/task_tracking_wip/models/task.py:98
+#, python-format
+msgid "Can not set date to move                                            because is done"
+msgstr "Can not set date to move                                            because is done"
+
+#. module: task_tracking_wip
+#: code:addons/task_tracking_wip/models/task.py:87
+#, python-format
+msgid "Can not set date to picking                                            because is done"
+msgstr "No se puede establecer la fecha al albarán porque ya está realizado"
+
+#. module: task_tracking_wip
 #: model:ir.ui.view,arch_db:task_tracking_wip.manage_distribution_wzd_form
 msgid "Cancel"
 msgstr "Cancelar"
-
-#. module: task_tracking_wip
-#: model:ir.ui.view,arch_db:task_tracking_wip.ganttaps_view_task_form2_sucessors
-msgid "Child Task"
-msgstr "Tarea hija"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,help:task_tracking_wip.field_tracking_wip_color_gantt
@@ -118,12 +131,14 @@ msgstr "Nombre a mostrar"
 #: model:ir.model.fields,field_description:task_tracking_wip.field_stock_move_wip_line_ids
 #: model:ir.ui.view,arch_db:task_tracking_wip.purchase_order_form_wip_lines
 #: model:ir.ui.view,arch_db:task_tracking_wip.stock_view_move_picking_form_add_task
+#: model:ir.ui.view,arch_db:task_tracking_wip.view_move_form_add_taks
 msgid "Distribution Lines"
 msgstr "Líneas distribución"
 
 #. module: task_tracking_wip
 #: model:ir.ui.view,arch_db:task_tracking_wip.purchase_order_form_wip_lines
 #: model:ir.ui.view,arch_db:task_tracking_wip.stock_view_move_picking_form_add_task
+#: model:ir.ui.view,arch_db:task_tracking_wip.view_move_form_add_taks
 msgid "Distribution Wip Lines"
 msgstr "Lineas de distribución"
 
@@ -197,7 +212,7 @@ msgstr "Planificar Líneas"
 #. module: task_tracking_wip
 #: model:ir.model,name:task_tracking_wip.model_mrp_production
 msgid "Manufacturing Order"
-msgstr "Orden de Fabricación"
+msgstr "Orden de fabricación"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_model_id
@@ -205,6 +220,7 @@ msgid "Model to track"
 msgstr "Modelo a seguir"
 
 #. module: task_tracking_wip
+#: model:ir.ui.view,arch_db:task_tracking_wip.mrp_production_form_view_inherit_wip
 #: model:ir.ui.view,arch_db:task_tracking_wip.purchase_order_form_wip_lines
 #: model:ir.ui.view,arch_db:task_tracking_wip.view_move_picking_tree_wip_lines
 msgid "Modify Distribution"
@@ -229,6 +245,11 @@ msgstr "Progreso del origen"
 #. module: task_tracking_wip
 #: model:ir.ui.view,arch_db:task_tracking_wip.view_task_search_form_wip
 msgid "Parent Tasks"
+msgstr "Tareas Padre"
+
+#. module: task_tracking_wip
+#: model:ir.ui.view,arch_db:task_tracking_wip.view_task_search_form_wip
+msgid "Parents"
 msgstr "Tareas Padre"
 
 #. module: task_tracking_wip
@@ -304,6 +325,12 @@ msgid "Related Task"
 msgstr "Tarea relacionada"
 
 #. module: task_tracking_wip
+#: model:ir.ui.view,arch_db:task_tracking_wip.stock_view_move_picking_form_add_task
+#: model:ir.ui.view,arch_db:task_tracking_wip.view_move_form_add_taks
+msgid "Reserves"
+msgstr "Reservas"
+
+#. module: task_tracking_wip
 #: model:ir.ui.view,arch_db:task_tracking_wip.view_task_search_form_wip
 msgid "Sale"
 msgstr "Venta"
@@ -340,8 +367,13 @@ msgstr "Subtareas"
 
 #. module: task_tracking_wip
 #: model:ir.ui.view,arch_db:task_tracking_wip.ganttaps_view_task_form2_sucessors
+msgid "Succesor Task"
+msgstr "Sucesores"
+
+#. module: task_tracking_wip
+#: model:ir.ui.view,arch_db:task_tracking_wip.ganttaps_view_task_form2_sucessors
 msgid "Sucessor"
-msgstr "Sucesor"
+msgstr "Sucesores"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_sucessor_ids
@@ -369,10 +401,10 @@ msgid "Tasks"
 msgstr "Tareas"
 
 #. module: task_tracking_wip
-#: code:addons/task_tracking_wip/models/tracking_wip.py:50
+#: code:addons/task_tracking_wip/models/tracking_wip.py:53
 #, python-format
 msgid "The selected model can not be tracked because is not related with task model"
-msgstr "El modelo no puede ser seleccionado porque no hay tareas asociadas a el"
+msgstr "el modelo seleccionado no puede ser seguido porque no está relacionado con una tarea"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_location_id
@@ -401,6 +433,7 @@ msgstr "WIP"
 #: model:ir.ui.view,arch_db:task_tracking_wip.mrp_production_form_view_inherit_wip
 #: model:ir.ui.view,arch_db:task_tracking_wip.stock_picking_form_add_task
 #: model:ir.ui.view,arch_db:task_tracking_wip.stock_view_move_picking_form_add_task
+#: model:ir.ui.view,arch_db:task_tracking_wip.view_move_form_add_taks
 msgid "Wip Tasks"
 msgstr "Tareas WIP"
 

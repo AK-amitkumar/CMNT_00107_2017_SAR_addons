@@ -73,18 +73,29 @@ class StockPicking(models.Model):
                     track_record.manage_parent_child_tasks(backorder)
         return res
 
-    # @api.multi
-    # def write(self, vals):
-    #     """
-    #     Propagate to task da date expected to date end
-    #     """
-    #     res = super(StockPicking, self).write(vals)
-    #     if 'min_date' in vals:
-    #         for pick in self:
-    #             if pick.task_id and \
-    #                     pick.task_id.date_end != pick.min_date:
-    #                 pick.task_id.date_end = pick.min_date
-    #     return res
+    @api.multi
+    def write(self, vals):
+        """
+        Propagate to task da date expected to date end.
+        # TODO maybe date done too?
+        """
+        res = super(StockPicking, self).write(vals)
+        if 'min_date' in vals:
+            for pick in self:
+                if not pick.task_ids:
+                    continue
+                ref_task = pick.task_ids[0]  # because all tasks same date
+                new_date_end = pick.min_date
+                # Skip innecesary write
+                if new_date_end == ref_task.date_end:
+                    continue
+
+                if new_date_end < ref_task.date_start:
+                    new_date_end = ref_task.date_start
+
+                # Update task_ids date end
+                pick.task_ids.write({'date_end': new_date_end})
+        return res
 
 
 class StockMove(models.Model):
@@ -229,21 +240,29 @@ class StockMove(models.Model):
         track_model = self.env['tracking.wip']
         track_model.recompute_tasks_from_reserve(self)
 
-    # @api.multi
-    # def write(self, vals):
-    #     """
-    #     Propagate to task da date expected to date end
-    #     # TODO review
-    #     """
-    #     res = super(StockMove, self).write(vals)
-    #     if 'date_expected' in vals:
-    #         for move in self:
-    #             if move.task_id and \
-    #                     move.task_id.date_end != move.date_expected:
-    #                 move.task_id.date_end = move.date_expected \
-    #                     if move.date_expected >= move.task_id.date_start \
-    #                     else move.task_id.date_start
-    #     return res
+    @api.multi
+    def write(self, vals):
+        """
+        Propagate to task date expected to date end.
+        # TODO maybe date done too?
+        """
+        res = super(StockMove, self).write(vals)
+        if 'date_expected' in vals:
+            for move in self:
+                if not move.task_ids:
+                    continue
+                ref_task = move.task_ids[0]
+                new_date_end = move.date_expected
+                # Skip innecesary write
+                if new_date_end == ref_task.date_end:
+                    continue
+
+                if new_date_end < ref_task.date_start:
+                    new_date_end = ref_task.date_start
+
+                # Update task_ids date end
+                move.task_ids.write({'date_end': new_date_end})
+        return res
 
 
 class StockQuant(models.Model):
@@ -258,7 +277,6 @@ class StockQuant(models.Model):
         super(StockQuant, self).quants_reserve(quants, move, link=link)
         if move.state == 'assigned' or move.partially_available:
             track_model.recompute_tasks_from_reserve(move)
-
 
     # pre_reservation_id = fields.Many2one('stock.move',
     #                                      'Pre Reserved for Move',

@@ -2,7 +2,11 @@
 # © 2017 Comunitea Servicios Tecnológicos S.L. (http://comunitea.com)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import fields, models, api
+from odoo import fields, models, api, _
+from odoo.exceptions import UserError
+from datetime import datetime
+from dateutil import relativedelta as rd
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as FD
 
 
 class ProjectTask(models.Model):
@@ -50,50 +54,69 @@ class ProjectTask(models.Model):
         res = super(ProjectTask, self).write(vals)
         if 'date_end' in vals:
             for task in self:
-                # Propagate date end to date_start succesor
+                task_date_end = datetime.strptime(task.date_end, FD)
+                new_start_date = (task_date_end + rd.relativedelta(hours=2)).\
+                    strftime(FD)
+                # PROPAGATE DATE END TO DATE START SUCESSOR
                 # except sale.order.line
                 if task.sucessor_ids and \
                         task.sucessor_ids[0].task_id.model_reference and \
                         task.sucessor_ids[0].task_id.\
                         model_reference._name != 'sale.order.line':
+                    # garantice that not date end rebased
+                    # because of relative delta
+                    # TODO REVIEW, maybe write date done too
+                    if task.sucessor_ids[0].task_id.date_end < new_start_date:
+                            new_start_date = task.sucessor_ids[0].\
+                                task_id.date_end
+                            # task.mapped('sucessor_ids.task_id').\
+                            #     write({'date_end': new_start_date})
                     task.mapped('sucessor_ids.task_id').\
-                        write({'date_start': task.date_end})
+                        write({'date_start': new_start_date})
 
-                # Change min date in picking
+                # UPDATE DATE IN THE LINKED TASK MODEL
+                # But Skip when conevnient (from link predecessors)
+                if task._context.get('no_propagate', False):
+                        continue
+
+                # UPDATE STOCK PINKING MIN DATE
                 if task.model_reference and \
                         task.model_reference._name == 'stock.picking' and \
                         task.model_reference.min_date != task.date_end:
+                    if task.model_reference.state == 'done':
+                        raise UserError(_('Can not set date to picking \
+                                           because is done'))
                     task.model_reference.write({
-                        'min_date': task.date_end})
+                        'min_date': task.date_end
+                    })
 
+                # UPDATE STOCK MOVE DATE EXPECTED
                 if task.model_reference and \
                         task.model_reference._name == 'stock.move' and \
                         task.model_reference.date_expected != task.date_end:
+                    if task.model_reference.state == 'done':
+                        raise UserError(_('Can not set date to move \
+                                           because is done'))
                     task.model_reference.write({
                         'date_expected': task.date_end
                     })
 
-        if 'predecessor_ids' in vals:
-            for task in self:
-                if task.predecessor_ids and task.model_reference:
-                    if task.model_reference._name != 'sale.order.line':
-                        task.date_start = \
-                            task.predecessor_ids[0].\
-                            parent_task_id.date_end if \
-                            task.predecessor_ids[0].\
-                            parent_task_id.date_end < \
-                            task.date_end else task.date_end
-                    else:
-                        # date_end = task.date_end if \
-                        #     task.date_end >= task.date_start else \
-                        #     task.date_start
-                        # task.mapped('predecessor_ids.parent_task_id').\
-                        #     write({'date_end': date_end})
-                        for t in task.mapped('predecessor_ids.parent_task_id'):
-                            date_end = task.date_end if \
-                                task.date_end >= t.date_start else \
-                                t.date_start
-                            t.write({'date_end': date_end})
+                # UPDATE production date FINISHED DATE EXPECTED
+                if task.model_reference and \
+                        task.model_reference._name in ['mrp.production',
+                                                       'mrp.workorder'] and \
+                        task.model_reference.date_planned_finished != \
+                        task.date_end:
+                    print "999999999999999999999999999999999999999999999999"
+                    print "PROPAGO FECHA A LA PRODUCCIÓN"
+                    print "999999999999999999999999999999999999999999999999"
+                    if task.model_reference.state == 'done':
+                        raise UserError(_('Can not set date to \
+                                           production / workorder because \
+                                           is done'))
+                    task.model_reference.write({
+                        'date_planned_finished': task.date_end
+                    })
         return res
 
     @api.multi
@@ -115,6 +138,10 @@ class ProjectTask(models.Model):
 
 
 class ProjectTaskPresecessor(models.Model):
+    """
+    Called predecessors but represents links between successors and
+    predecessors.
+    """
     _inherit = 'project.task.predecessor'
 
     task_id = fields.Many2one(ondelete='cascade')

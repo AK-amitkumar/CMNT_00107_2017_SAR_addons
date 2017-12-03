@@ -4,6 +4,9 @@
 
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
+from datetime import datetime
+from dateutil import relativedelta as rd
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as FD
 
 
 class TrackingWip(models.Model):
@@ -78,6 +81,39 @@ class TrackingWip(models.Model):
                 'type': link_move
             }
             task_recs.write({'predecessor_ids': [(0, 0, vals)]})
+
+            for task in task_recs:
+                # UPDATE DATE START OF TASK_RECS IF NOT SALE ORDER LINE
+                if task.predecessor_ids and task.model_reference:
+                    if task.model_reference._name != 'sale.order.line':
+                        task_date_start = \
+                            task.predecessor_ids[0].\
+                            parent_task_id.date_end if \
+                            task.predecessor_ids[0].\
+                            parent_task_id.date_end < \
+                            task.date_end else task.date_end
+
+                        new_date_start = datetime.strptime(task_date_start,
+                                                           FD)
+                        new_start_date = \
+                            (new_date_start + rd.relativedelta(hours=2)).\
+                            strftime(FD)
+
+                        # garantice that not date end
+                        # because of relative delta
+                        if task.date_end < new_start_date:
+                            new_start_date = task_date_start
+                        task.with_context(no_propagate=True).write({
+                            'date_start': new_start_date
+                            # 'date_start': task_date_start
+                        })
+                    else:  # CASE TASK OF SALE ORDER LINE
+                        for t in task.mapped('predecessor_ids.parent_task_id'):
+                            date_end = task.date_end if \
+                                task.date_end >= t.date_start else \
+                                t.date_start
+                            t.with_context(no_propagate=True).\
+                                write({'date_end': date_end})
 
     @api.model
     def set_pick_task_dependencies(self, o):
@@ -299,7 +335,6 @@ class TrackingWip(models.Model):
         Wè siposse child task dependencies are setted so we link picking tasks
         with the nex picking related
         """
-
         # Group move tasks by sale
         tasks_by_sale = {}
         for move in o.move_lines:
@@ -379,6 +414,7 @@ class TrackingWip(models.Model):
             # Not task record when incoming move without distribution lines
             # It couldent eval project_wip_id
             picking.task_ids.unlink()
+        # TODO Create a task if none???
 
     @api.model
     def recompute_tasks_from_reserve(self, move):

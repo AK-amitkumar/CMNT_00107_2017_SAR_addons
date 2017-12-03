@@ -19,7 +19,15 @@
                             </field>
                         </group>
                     </page>
-            </xpath>
+                </xpath>
+
+                <xpath expr="//field[@name='move_finished_ids']/tree/field[@name='product_id']" position="before">
+                    <button name="%(action_manage_distribution_wzd)d"
+                        type="action"
+                        string="Modify Distribution"
+                        icon="fa-list-ul"
+                    />
+                </xpath>
             </field>
         </record>
 </odoo>

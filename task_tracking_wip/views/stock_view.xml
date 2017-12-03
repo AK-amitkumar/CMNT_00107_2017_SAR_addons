@@ -94,6 +94,59 @@
             </field>
         </field>
     </record>
+
+    <record id="view_move_form_add_taks" model="ir.ui.view">
+        <field name="name">stock.move.form.add.tasks</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_form"/>
+        <field eval="1" name="priority"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[1]" position="after">
+                <notebook colespan="4">
+                    <page string="Distribution Lines">
+                        <group>
+                            <field name="wip_line_ids" nolabel="1">
+                                <tree string="Distribution Wip Lines" editable="bottom">
+                                    <field name="qty"/>
+                                    <field name="sale_id"/>
+                                    <field name="task_id"/>
+                                    <field name="move_dest_id"/>
+                                </tree>
+                                <form string="Distribution Wip Lines">
+                                    <group>
+                                        <field name="qty"/>
+                                        <field name="sale_id"/>
+                                        <field name="task_id"/>
+                                        <field name="move_dest_id"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </group>
+                    </page>
+
+                    <page string="Wip Tasks">
+                        <group>
+                            <field name="project_wip_id"/>
+                            <field name="task_ids" colspan="4" nolabel="1">
+                                 <tree>
+                                    <field name="name"/>
+                                    <field name="project_id"/>
+                                    <field name="sale_id"/>
+                                    <field name="progress_model" widget="progressbar"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+
+                    <page string="Reserves">
+                        <group>
+                            <field name="reserved_quant_ids" nolabel="1"/>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+            </field>
+        </record>
        
 
 <!--     <record model="ir.ui.view" id="view_stock_quant_form">

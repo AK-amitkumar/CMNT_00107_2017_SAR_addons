@@ -79,7 +79,8 @@
                 <field name="location_id"/>
             </field>
             <filter name="Stage" position="after">
-                <filter string="Sale" name="Related Sale" context="{'group_by':'sale_id'}"/>
+                <filter string="Sale" name="related_sale" context="{'group_by':'sale_id'}"/>
+                <filter string="Parents" name="parent_task" context="{'group_by':'parent_id'}"/>
             </filter>
         </field>
     </record> 
@@ -94,8 +95,5 @@
                     <attribute name="progress">progress_model</attribute>
                 </xpath>
             </field>
-
-        </record>
-
-
+    </record>
 </odoo>
