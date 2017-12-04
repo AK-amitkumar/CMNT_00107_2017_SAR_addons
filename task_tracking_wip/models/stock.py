@@ -87,8 +87,8 @@ class StockPicking(models.Model):
                 ref_task = pick.task_ids[0]  # because all tasks same date
                 new_date_end = pick.min_date
                 # Skip innecesary write
-                if new_date_end == ref_task.date_end:
-                    continue
+                # if new_date_end == ref_task.date_end:
+                #     continue
 
                 if new_date_end < ref_task.date_start:
                     new_date_end = ref_task.date_start
@@ -254,14 +254,17 @@ class StockMove(models.Model):
                 ref_task = move.task_ids[0]
                 new_date_end = move.date_expected
                 # Skip innecesary write
-                if new_date_end == ref_task.date_end:
-                    continue
+                # if new_date_end == ref_task.date_end:
+                #     continue
 
                 if new_date_end < ref_task.date_start:
                     new_date_end = ref_task.date_start
 
                 # Update task_ids date end
                 move.task_ids.write({'date_end': new_date_end})
+                # Update_parent_tasks
+                move.task_ids.mapped('parent_id').write({'date_end':
+                                                         new_date_end})
         return res
 
 

@@ -86,9 +86,8 @@ class ProjectTask(models.Model):
                     if task.model_reference.state == 'done':
                         raise UserError(_('Can not set date to picking \
                                            because is done'))
-                    task.model_reference.write({
-                        'min_date': task.date_end
-                    })
+                    task.model_reference.with_context(do_not_propagate=False).\
+                        write({'min_date': task.date_end})
 
                 # UPDATE STOCK MOVE DATE EXPECTED
                 if task.model_reference and \
@@ -97,9 +96,8 @@ class ProjectTask(models.Model):
                     if task.model_reference.state == 'done':
                         raise UserError(_('Can not set date to move \
                                            because is done'))
-                    task.model_reference.write({
-                        'date_expected': task.date_end
-                    })
+                    task.model_reference.with_context(do_not_propagate=False).\
+                        write({'date_expected': task.date_end})
 
                 # UPDATE production date FINISHED DATE EXPECTED
                 if task.model_reference and \
