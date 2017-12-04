@@ -48,7 +48,7 @@ class TrackingWip(models.Model):
         """
         for track in self:
             model_name = self.model_id.model
-            if not hasattr(self.env[model_name], 'task_id') or \
+            if not hasattr(self.env[model_name], 'task_id') and \
                     not hasattr(self.env[model_name], 'task_ids'):
                 raise ValidationError(_(
                     "The selected model can not be tracked because is not "

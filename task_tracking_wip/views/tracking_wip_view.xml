@@ -8,9 +8,9 @@
             <field name="arch" type="xml">
                 <tree string="Tracking WIP">                  
                     <field name="name"/>
-                    <field name="model_id"/>
-                    <field name="condition_eval"/>
-                    <field name="project_eval"/>
+                    <field name="model_id" readonly="1"/>
+                    <field name="condition_eval" readonly="1"/>
+                    <field name="project_eval" readonly="1"/>
                     <field name="name_eval"/>
                     <field name="color_gantt" widget="color"/>
                     <field name="state"/>
@@ -33,11 +33,11 @@
                     <sheet>
                         <group>
                             <field name="name"/>
-                            <field name="model_id"/>
+                            <field name="model_id" readonly="1"/>
                         </group>
                         <group string="Evaluations">
-                                <field name="condition_eval"/>
-                                <field name="project_eval"/>
+                                <field name="condition_eval" readonly="1"/>
+                                <field name="project_eval" readonly="1"/>
                                 <field name="name_eval"/>
                                 <field name="color_gantt" widget="color"/>
                         </group>

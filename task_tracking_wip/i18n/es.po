@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-03 20:13+0000\n"
-"PO-Revision-Date: 2017-12-03 20:13+0000\n"
+"POT-Creation-Date: 2017-12-04 11:34+0000\n"
+"PO-Revision-Date: 2017-12-04 11:34+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr " No se puede establecer la fecha en la producción / orden de trabajo po
 #: code:addons/task_tracking_wip/models/task.py:98
 #, python-format
 msgid "Can not set date to move                                            because is done"
-msgstr "Can not set date to move                                            because is done"
+msgstr "No se puede establecer la fecha al movimiento porque ya está actualizado"
 
 #. module: task_tracking_wip
 #: code:addons/task_tracking_wip/models/task.py:87
@@ -212,7 +212,7 @@ msgstr "Planificar Líneas"
 #. module: task_tracking_wip
 #: model:ir.model,name:task_tracking_wip.model_mrp_production
 msgid "Manufacturing Order"
-msgstr "Orden de fabricación"
+msgstr "Orden de Fabricación"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_model_id
@@ -256,7 +256,7 @@ msgstr "Tareas Padre"
 #: model:ir.model,name:task_tracking_wip.model_manage_distribution_wzd
 #: model:ir.model,name:task_tracking_wip.model_manage_lines
 msgid "Picking wizard"
-msgstr "Picking wizard"
+msgstr "Asistente albarán"
 
 #. module: task_tracking_wip
 #: model:ir.model,name:task_tracking_wip.model_procurement_order
@@ -279,7 +279,7 @@ msgstr "Proyecto"
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_pl_id
 #: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_pl_id
 msgid "Purchase Line"
-msgstr "L´inea de compra"
+msgstr "Línea de compra"
 
 #. module: task_tracking_wip
 #: model:ir.model,name:task_tracking_wip.model_purchase_order
@@ -373,7 +373,7 @@ msgstr "Sucesores"
 #. module: task_tracking_wip
 #: model:ir.ui.view,arch_db:task_tracking_wip.ganttaps_view_task_form2_sucessors
 msgid "Sucessor"
-msgstr "Sucesores"
+msgstr "Sucesor"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_sucessor_ids
@@ -404,7 +404,7 @@ msgstr "Tareas"
 #: code:addons/task_tracking_wip/models/tracking_wip.py:53
 #, python-format
 msgid "The selected model can not be tracked because is not related with task model"
-msgstr "el modelo seleccionado no puede ser seguido porque no está relacionado con una tarea"
+msgstr "El modelo seleccionado no puede ser seguido porque no está relacionada con el modelo de tareas"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_location_id

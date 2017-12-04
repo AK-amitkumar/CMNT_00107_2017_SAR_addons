@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- SALE LINES -->
+        <record id="wip_sale_order_line" model="tracking.wip">
+            <field name="name">Sale Order Lines</field>
+            <field name="model_id" search="[('model','=','sale.order.line')]" model="ir.model"/>
+            <field name="condition_eval">o.order_id and o.order_id.project_wip_id</field>
+            <field name="project_eval">o.order_id.project_wip_id.id</field>
+            <field name="name_eval">'LV -->  ' + o.product_id.display_name</field>
+            <field name="color_gantt">#485F82</field>
+            <field name="state">active</field>
+        </record>
+
+        <!-- OUTGOING PICKING -->
+        <record id="wip_picking_out" model="tracking.wip">
+            <field name="name">Outgoing Picking</field>
+            <field name="model_id" search="[('model','=','stock.picking')]" model="ir.model"/>
+            <field name="condition_eval">o.move_lines and o.move_lines[0].procurement_id.sale_line_id and o.project_wip_id</field>
+            <field name="project_eval"> o.project_wip_id.id</field>
+            <field name="name_eval">o.name + ' | '  + o.origin</field>
+            <field name="color_gantt">#FF7C5C</field>
+            <field name="state">active</field>
+        </record>
+
+        <!-- MANOFACTURE ORDER -->
+        <record id="wip_manofacture_order" model="tracking.wip">
+            <field name="name">Manofacture Order</field>
+            <field name="model_id" search="[('model','=','mrp.production')]" model="ir.model"/>
+            <field name="condition_eval">o.procurement_group_id</field>
+            <field name="project_eval"> o.project_wip_id.id</field>
+            <field name="name_eval">'FAB --> ' + '[' + o.name + ']' + o.product_id.name</field>
+            <field name="color_gantt">#0DFF25</field>
+            <field name="state">active</field>
+        </record>
+
+        <!-- ITERNAL PICKING -->
+        <record id="wip_picking_internal" model="tracking.wip">
+            <field name="name">Internal Picking</field>
+            <field name="model_id" search="[('model','=','stock.picking')]" model="ir.model"/>
+            <field name="condition_eval">o.move_lines and not o.move_lines[0].procurement_id.sale_line_id and not o.move_lines[0].purchase_line_id and o.move_lines[0].move_dest_id and o.project_wip_id</field>
+            <field name="project_eval">o.project_wip_id.id</field>
+            <field name="name_eval">o.name + ' | '  + o.origin</field>
+            <field name="color_gantt">#FFF714</field>
+            <field name="state">active</field>
+        </record>
+
+        <!-- INCOMING PICKING -->
+        <record id="wip_picking_incoming" model="tracking.wip">
+            <field name="name">Incoming Picking</field>
+            <field name="model_id" search="[('model','=','stock.picking')]" model="ir.model"/>
+            <field name="condition_eval">o.move_lines and o.move_lines[0].purchase_line_id and o.project_wip_id</field>
+            <field name="project_eval">o.project_wip_id.id</field>
+            <field name="name_eval">o.name + ' | '  + o.origin</field>
+            <field name="color_gantt">#B20CCC</field>
+            <field name="state">active</field>
+        </record>
+
+        <!-- WORKORDER -->
+        <record id="wip_workorder" model="tracking.wip">
+            <field name="name">Workorder</field>
+            <field name="model_id" search="[('model','=','mrp.workorder')]" model="ir.model"/>
+            <field name="condition_eval">o.production_id.project_wip_id</field>
+            <field name="project_eval">o.project_wip_id.id</field>
+            <field name="name_eval">o.name + ' [ ' + o.production_id.name  +  ' ] '</field>
+            <field name="color_gantt">#FFCCCC</field>
+            <field name="state">active</field>
+        </record>
+
+        <!-- OUTGOING MOVE -->
+        <record id="wip_move_outgoing" model="tracking.wip">
+            <field name="name">Outgoing Move</field>
+            <field name="model_id" search="[('model','=','stock.move')]" model="ir.model"/>
+            <field name="condition_eval">o.procurement_id.sale_line_id and o.project_wip_id</field>
+            <field name="project_eval">o.project_wip_id.id</field>
+            <field name="name_eval">'MS -->  ' +  o.product_id.display_name </field>
+            <field name="color_gantt">#FFDBDB</field>
+            <field name="state">active</field>
+        </record>
+
+        <!-- INCOMING MOVE -->
+        <record id="wip_move_incoming" model="tracking.wip">
+            <field name="name">Incoming Move</field>
+            <field name="model_id" search="[('model','=','stock.move')]" model="ir.model"/>
+            <field name="condition_eval">o.purchase_line_id and o.project_wip_id</field>
+            <field name="project_eval">o.project_wip_id.id</field>
+            <field name="name_eval">'ME -->  ' + o.product_id.display_name</field>
+            <field name="color_gantt">#DAD9FF</field>
+            <field name="state">active</field>
+        </record>
+
+         <!-- MANOFACTURE MOVE -->
+        <record id="wip_move_manofacture" model="tracking.wip">
+            <field name="name">Manofacture Move</field>
+            <field name="model_id" search="[('model','=','stock.move')]" model="ir.model"/>
+            <field name="condition_eval">o.production_id and o.project_wip_id</field>
+            <field name="project_eval">o.project_wip_id.id</field>
+            <field name="name_eval">'MF -->  ' + o.product_id.display_name </field>
+            <field name="color_gantt">#E8FFF9</field>
+            <field name="state">active</field>
+        </record>
+
+        <!-- INTERNAL MOVE -->
+        <record id="wip_move_internal" model="tracking.wip">
+            <field name="name">Internal Move</field>
+            <field name="model_id" search="[('model','=','stock.move')]" model="ir.model"/>
+            <field name="condition_eval">   not o.procurement_id.sale_line_id and not o.purchase_line_id and o.move_dest_id and o.project_wip_id</field>
+            <field name="project_eval">o.project_wip_id.id</field>
+            <field name="name_eval">'MI -->  ' + o.product_id.display_name </field>
+            <field name="color_gantt">#E8FFCF</field>
+            <field name="state">active</field>
+        </record>
+
+    </data>
+</odoo>

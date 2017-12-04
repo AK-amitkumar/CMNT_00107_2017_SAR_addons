@@ -30,6 +30,7 @@
         'views/mrp_production_view.xml',
         'wizard/manage_distribution_wzd_view.xml',
         'views/purchase_view.xml',
+        'data/tracking_wip_data.xml',
     ],
     "installable": True
 }
