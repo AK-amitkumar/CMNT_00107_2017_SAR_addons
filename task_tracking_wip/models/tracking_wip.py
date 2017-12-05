@@ -117,9 +117,9 @@ class TrackingWip(models.Model):
 
     @api.model
     def set_pick_task_dependencies(self, o):
-        print "############DEPENDENCY FOR PICKING#####################"
-        print o.name + " | " + o.origin
-        print "#######################################################"
+        # print "############DEPENDENCY FOR PICKING#####################"
+        # print o.name + " | " + o.origin
+        # print "#######################################################"
         task_recs = self.env['project.task']
         parent_task = o.task_ids[0]
         pick_move = o.move_lines and o.move_lines[0]
@@ -149,9 +149,9 @@ class TrackingWip(models.Model):
 
     @api.model
     def set_move_task_dependencies(self, o):
-        print "###########DEPENDENCY FOR MOVE###################"
-        print o.name + " | " + o.origin
-        print "#################################################"
+        # print "###########DEPENDENCY FOR MOVE###################"
+        # print o.name + " | " + o.origin
+        # print "#################################################"
         task_recs = self.env['project.task']
         link = "FS"
         # Set dependency of move_dest_id task
