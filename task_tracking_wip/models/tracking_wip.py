@@ -432,6 +432,7 @@ class TrackingWip(models.Model):
                 no_task_linked = True
                 for orig_task in orig_move.task_ids:
                     if orig_task.sale_id.id == current_task.sale_id.id:
+                        current_task.predecessor_ids.unlink()
                         self.link_predecessor_task(current_task, orig_task)
                         no_task_linked = False
                 # If no task linked link any of them

@@ -58,7 +58,13 @@ class StockPicking(models.Model):
                 # Delete distribution
                 move.split_from.wip_line_ids.unlink()
                 for t in move.split_from.task_ids:
-                    new_task = t.copy({'move_id': move.id})
+                    new_task = t.copy({
+                        'move_id': move.id,
+                        'name': t.name,
+                        'date_start': t.date_start,
+                        'date_end': t.date_end,
+                        'parent_id': False
+                    })
                     # Write successors to new task
                     sucessors = t.mapped('sucessor_ids.task_id')
                     track_model.link_predecessor_task(sucessors, new_task)
@@ -221,7 +227,7 @@ class StockMove(models.Model):
                                 todo_quants += new_quant
 
                         # q.write({'pre_reservation_id': rel_move.id})
-                        q.write({'reservation_id': rel_move.id})
+                        q.sudo().write({'reservation_id': rel_move.id})
                         # rel_move.action_assign()
                         # TODO reserve
                         todo_quants -= q

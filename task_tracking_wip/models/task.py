@@ -51,6 +51,16 @@ class ProjectTask(models.Model):
 
     @api.multi
     def write(self, vals):
+        if 'date_end' in vals:
+            for task in self:
+                if not task.date_start <= vals['date_end']:
+                    print "++++++++++++++++++++++++++++++++++++++++++++++++++"
+                    print task.ids
+                    print "Vals date end: " + vals['date_end']
+                    print "Task date start: " + task.date_start
+                    print "Task date end (finally write): " + task.date_end
+                    print "++++++++++++++++++++++++++++++++++++++++++++++++++"
+                    vals['date_end'] = task.date_end
         res = super(ProjectTask, self).write(vals)
         if 'date_end' in vals:
             for task in self:
@@ -71,6 +81,13 @@ class ProjectTask(models.Model):
                                 task_id.date_end
                             # task.mapped('sucessor_ids.task_id').\
                             #     write({'date_end': new_start_date})
+                    # if task.mapped('sucessor_ids.task_id').ids[0] == 515:
+                    #     import ipdb; ipdb.set_trace()
+                    # print "+++++++++++++++++++++++++++++++++++++++++++++++++"
+                    # print task.mapped('sucessor_ids.task_id').ids
+                    # print new_start_date
+                    # print task.mapped('sucessor_ids.task_id').date_end
+                    # print "+++++++++++++++++++++++++++++++++++++++++++++++++"
                     task.mapped('sucessor_ids.task_id').\
                         write({'date_start': new_start_date})
 
@@ -86,7 +103,7 @@ class ProjectTask(models.Model):
                     if task.model_reference.state == 'done':
                         raise UserError(_('Can not set date to picking \
                                            because is done'))
-                    task.model_reference.with_context(do_not_propagate=False).\
+                    task.model_reference.with_context(do_not_propagate=True).\
                         write({'min_date': task.date_end})
 
                 # UPDATE STOCK MOVE DATE EXPECTED
@@ -96,7 +113,7 @@ class ProjectTask(models.Model):
                     if task.model_reference.state == 'done':
                         raise UserError(_('Can not set date to move \
                                            because is done'))
-                    task.model_reference.with_context(do_not_propagate=False).\
+                    task.model_reference.with_context(do_not_propagate=True).\
                         write({'date_expected': task.date_end})
 
                 # UPDATE production date FINISHED DATE EXPECTED
