@@ -13,7 +13,7 @@
 
     <record id="xmldsig" model="e.invoice.schema">
         <field name="name">XMLDsig</field>
-        <field name="file_path">addons/l10n_es_base_facturae/data/xmldsig-core-schema.xsd</field>
+        <field name="file_path">addons/l10n_es_facturae/data/xmldsig-core-schema.xsd</field>
     </record>
 
 </odoo>

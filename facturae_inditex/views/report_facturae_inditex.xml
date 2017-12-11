@@ -9,7 +9,7 @@
             model="account.invoice"/>
 
     <template id="template_facturae_inditex">
-        <t t-call="l10n_es_base_facturae.facturae_header">
+        <t t-call="l10n_es_facturae.facturae_header">
             <t t-set="invoice" t-value="docs[0]"/>
             <t t-set="company" t-value="invoice.company_id"/>
             <t t-set="company_partner" t-value="company.partner_id"/>
@@ -46,14 +46,14 @@
                         <Name t-esc="company_partner.name"/>
                         <FirstSurname t-esc="''"/>
                         <SecondSurname t-esc="''"/>
-                        <t t-call="l10n_es_base_facturae.address_contact">
+                        <t t-call="l10n_es_facturae.address_contact">
                             <t t-set="partner" t-value="company_partner"/>
                         </t>
                     </Individual>
                     <LegalEntity t-if="seller_type == 'J'">
                         <CorporateName t-esc="company_partner.name"/>
                         <TradeName t-esc="company_partner.name"/>
-                        <t t-call="l10n_es_base_facturae.address_contact">
+                        <t t-call="l10n_es_facturae.address_contact">
                             <t t-set="partner" t-value="company_partner"/>
                         </t>
                     </LegalEntity>
@@ -70,14 +70,14 @@
                         <Name t-esc="invoice_partner.name"/>
                         <FirstSurname t-esc="''"/>
                         <SecondSurname t-esc="''"/>
-                        <t t-call="l10n_es_base_facturae.address_contact">
+                        <t t-call="l10n_es_facturae.address_contact">
                             <t t-set="partner" t-value="invoice_partner"/>
                         </t>
                     </Individual>
                     <LegalEntity t-if="buyer_type == 'J'">
                         <CorporateName t-esc="invoice_partner.name"/>
                         <TradeName t-esc="invoice_partner.name"/>
-                        <t t-call="l10n_es_base_facturae.address_contact">
+                        <t t-call="l10n_es_facturae.address_contact">
                             <t t-set="partner" t-value="invoice_partner"/>
                         </t>
                     </LegalEntity>
@@ -133,8 +133,12 @@
                                     <DeliveryNoteNumber t-esc="invoice.ple_number"/>
                                 </DeliveryNote>
                             </DeliveryNotesReferences>
-                            <ItemDescription>
+                            <!-- Comentado porque falla -->
+                         <!--    <ItemDescription>
                                 <![CDATA[<![CDATA[]]><t t-esc="'%s     %s]]' % (line.product_id.product_customer_codes.product_code , line.product_id.product_customer_codes.product_name)"/><![CDATA[>]]>
+                            </ItemDescription> -->
+                            <ItemDescription>
+                                <![CDATA[<![CDATA[]]><t t-esc="'%s     %s]]' % (line.product_id.default_code , line.product_id.display_name)"/><![CDATA[>]]>
                             </ItemDescription>
                             <Quantity t-esc="line.quantity"/>
                             <UnitPriceWithoutTax t-esc="'%.6f' % line.price_unit"/>
@@ -164,7 +168,8 @@
                                 <SpecialTaxableEventCode  t-esc="'02'"/>
                                 <SpecialTaxableEventReason t-esc="'Mercancía a nacionalizar por el cliente'"/>
                             </SpecialTaxableEvent>
-                            <ArticleCode t-esc="line.product_id.product_customer_codes.product_code"/>
+                            <!-- CMNT COMENTADO, NO HAY MODULO CON CAMPO product_customer_codes -->
+                            <!-- <ArticleCode t-esc="line.product_id.product_customer_codes.product_code"/> -->
                         </InvoiceLine>
                     </Items>
                     <!-- TODO: Inditex recomienda no rellenar esta parte
@@ -181,7 +186,8 @@
                             </AccountToBeCredited>
                         </Installment>
                     </PaymentDetails> -->
-                    <AdditionalData>
+                    <!-- CMNT COMENTADO PORQUE FALLA -->
+                    <!-- <AdditionalData>
                         <InvoiceAdditionalInformation t-esc="invoice.comment"/>
                         <Extensions>
                              <v1:InditexInvoiceExtension xmlns:v1="http://www.inditex.com/documents/einvoicing/Facturae/InditexInvoiceExtension/v1.0">
@@ -197,7 +203,7 @@
                                  </LogisticExtension>
                              </v1:InditexInvoiceExtension>
                         </Extensions>
-                    </AdditionalData>
+                    </AdditionalData> -->
                 </Invoice>
             </Invoices>
         </t>
