@@ -55,6 +55,8 @@ class ProjectTask(models.Model):
     @api.multi
     def write(self, vals):
         updated_tasks = self
+        if not self:
+            return
         ref_task = self[0]
         # Avoid errors by constraints
         if 'date_end' in vals:
