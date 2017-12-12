@@ -54,18 +54,18 @@ class MrpProduction(models.Model):
                         write({'parent_id': mo.task_ids[0].id})
         return mo
 
-    # @api.multi
-    # def write(self, vals):
-    #     """
-    #     Propagate to task da date expected to date end
-    #     """
-    #     res = super(StockMove, self).write(vals)
-    #     if 'date_expected' in vals:
-    #         for move in self:
-    #             if move.task_id and \
-    #                     move.task_id.date_end != move.date_expected:
-    #                 move.task_id.date_end = move.date_expected
-    #     return res
+    @api.multi
+    def write(self, vals):
+        """
+        Propagate to task da date expected to date end
+        """
+        res = super(MrpProduction, self).write(vals)
+        if 'date_planned_finished' in vals:
+            for mo in self:
+                if mo.task_ids and \
+                        mo.task_ids[0].date_end != mo.date_planned_finished:
+                    mo.task_ids.write({'date_end': mo.date_planned_finished})
+        return res
 
     @api.multi
     def action_cancel(self):

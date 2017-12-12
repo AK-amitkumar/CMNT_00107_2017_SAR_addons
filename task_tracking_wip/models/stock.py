@@ -86,18 +86,20 @@ class StockPicking(models.Model):
         # TODO maybe date done too?
         """
         res = super(StockPicking, self).write(vals)
-        if 'min_date' in vals:
+        if 'min_date' in vals or 'date_done' in vals:
             for pick in self:
                 if not pick.task_ids:
                     continue
-                ref_task = pick.task_ids[0]  # because all tasks same date
+                # ref_task = pick.task_ids[0]  # because all tasks same date
                 new_date_end = pick.min_date
+                if 'date_done' in vals:
+                    new_date_end = pick.date_done
                 # Skip innecesary write
                 # if new_date_end == ref_task.date_end:
                 #     continue
 
-                if new_date_end < ref_task.date_start:
-                    new_date_end = ref_task.date_start
+                # if new_date_end < ref_task.date_start:
+                #     new_date_end = ref_task.date_start
 
                 # Update task_ids date end
                 pick.task_ids.write({'date_end': new_date_end})
@@ -249,28 +251,27 @@ class StockMove(models.Model):
     @api.multi
     def write(self, vals):
         """
-        Propagate to task date expected to date end.
-        # TODO maybe date done too?
+        Propagate to task date expected or date_done to date end.
         """
         res = super(StockMove, self).write(vals)
         if 'date_expected' in vals:
             for move in self:
                 if not move.task_ids:
                     continue
-                ref_task = move.task_ids[0]
+                # ref_task = move.task_ids[0]
                 new_date_end = move.date_expected
                 # Skip innecesary write
                 # if new_date_end == ref_task.date_end:
                 #     continue
 
-                if new_date_end < ref_task.date_start:
-                    new_date_end = ref_task.date_start
+                # if new_date_end < ref_task.date_start:
+                #     new_date_end = ref_task.date_start
 
                 # Update task_ids date end
                 move.task_ids.write({'date_end': new_date_end})
                 # Update_parent_tasks
-                move.task_ids.mapped('parent_id').write({'date_end':
-                                                         new_date_end})
+                # move.task_ids.mapped('parent_id').write({'date_end':
+                #                                          new_date_end})
         return res
 
 

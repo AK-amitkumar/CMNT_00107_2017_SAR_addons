@@ -57,6 +57,8 @@
         <field name="arch" type="xml">
             <field name="name" position="after">
                 <field name="sale_id"/>
+                <field name="partner_sale_id"/>
+                <field name="shipping_sale_id"/>
                 <field name="product_id"/>
                 <field name="location_id"/>
             </field>
@@ -75,6 +77,8 @@
 
             <field name="partner_id" position="after">
                 <field name="sale_id"/>
+                <field name="partner_sale_id"/>
+                <field name="shipping_sale_id"/>
                 <field name="product_id"/>
                 <field name="location_id"/>
             </field>

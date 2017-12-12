@@ -160,10 +160,19 @@ class ProcurementOrder(models.Model):
                 proc_qty = proc.product_uom.\
                     _compute_quantity(proc.product_qty,
                                       proc.product_id.uom_po_id)
-                # TODO GROUP IF SAME TASK AND MOVE
-                self.env['wip.distribution.line'].\
-                    create({'pl_id': po_line.id,
-                            'qty': proc_qty,
-                            'sale_id': related_sale_id,
-                            'task_id': related_task_id})
+                domain = [('pl_id', '=', po_line.id),
+                          ('sale_id', '=', related_sale_id)
+                          ('task_id', '=', related_task_id)]
+                exist_line = self.env['wip.distribution.line'].search(domain,
+                                                                      limit=1)
+                if exist_line:
+                    exist_line.write({'qty': proc_qty})
+                else:
+                    vals = {
+                        'pl_id': po_line.id,
+                        'qty': proc_qty,
+                        'sale_id': related_sale_id,
+                        'task_id': related_task_id
+                    }
+                    self.env['wip.distribution.line'].create(vals)
         return res
