@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-04 11:34+0000\n"
-"PO-Revision-Date: 2017-12-04 11:34+0000\n"
+"POT-Creation-Date: 2017-12-12 16:06+0000\n"
+"PO-Revision-Date: 2017-12-12 16:06+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -31,22 +31,62 @@ msgid "Apply"
 msgstr "Aplicar"
 
 #. module: task_tracking_wip
-#: code:addons/task_tracking_wip/models/task.py:114
-#, python-format
-msgid "Can not set date to                                            production / workorder because                                            is done"
-msgstr " No se puede establecer la fecha en la producción / orden de trabajo porque ya está realizada"
+#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_partner_sale_id
+msgid "Associated Customer"
+msgstr "Cliente asociado"
 
 #. module: task_tracking_wip
-#: code:addons/task_tracking_wip/models/task.py:98
-#, python-format
-msgid "Can not set date to move                                            because is done"
-msgstr "No se puede establecer la fecha al movimiento porque ya está actualizado"
+#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_location_id
+msgid "Associated Location"
+msgstr "Ubicación asociada"
 
 #. module: task_tracking_wip
-#: code:addons/task_tracking_wip/models/task.py:87
+#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_move_id
+msgid "Associated Move"
+msgstr "Movimiento asociadp"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_picking_id
+msgid "Associated Picking"
+msgstr "Albarán asociado"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_product_id
+msgid "Associated Product"
+msgstr "Producto asociado"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_production_id
+msgid "Associated Production"
+msgstr "Producción asociada"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_sale_id
+msgid "Associated Sale"
+msgstr "Venta asociada"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_shipping_sale_id
+msgid "Associated Shipping Address"
+msgstr "Dir. envío Asociada"
+
+#. module: task_tracking_wip
+#: code:addons/task_tracking_wip/models/task.py:125
 #, python-format
-msgid "Can not set date to picking                                            because is done"
-msgstr "No se puede establecer la fecha al albarán porque ya está realizado"
+msgid "Can not set date to                                        production / workorder because                                        is done"
+msgstr "No se puede establecer la fecha a la producción / orden de trabajo porque ya está realizada"
+
+#. module: task_tracking_wip
+#: code:addons/task_tracking_wip/models/task.py:112
+#, python-format
+msgid "Can not set date to move                                        because is done"
+msgstr "No se puede establecer la fecha en el movinmiento porque ya está realizado"
+
+#. module: task_tracking_wip
+#: code:addons/task_tracking_wip/models/task.py:100
+#, python-format
+msgid "Can not set date to picking                                        because is done"
+msgstr "No se puede establecer la fecha en el albarán porque ya está realizado"
 
 #. module: task_tracking_wip
 #: model:ir.ui.view,arch_db:task_tracking_wip.manage_distribution_wzd_form
@@ -112,6 +152,11 @@ msgid "Define the models to do tracking. If condition of model is True\n"
 msgstr "Define los modelos a hacer seguimiento, si la condición del modelo es verdader\n"
 "                cuando creemos o actualicemos el modelo el sistema creará y gestionará\n"
 "                la tarea relaccionada con el proyecto."
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,help:task_tracking_wip.field_project_task_shipping_sale_id
+msgid "Delivery address for current sales order."
+msgstr "Dirección de envío para el pedido de ventas actual."
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_move_dest_id
@@ -194,11 +239,6 @@ msgid "Last Updated on"
 msgstr "Última actualización el"
 
 #. module: task_tracking_wip
-#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_location_id
-msgid "Location"
-msgstr "Ubicación"
-
-#. module: task_tracking_wip
 #: model:ir.actions.act_window,name:task_tracking_wip.action_manage_distribution_wzd
 msgid "Manage Distribution"
 msgstr "Planificar distribución"
@@ -212,7 +252,7 @@ msgstr "Planificar Líneas"
 #. module: task_tracking_wip
 #: model:ir.model,name:task_tracking_wip.model_mrp_production
 msgid "Manufacturing Order"
-msgstr "Orden de Fabricación"
+msgstr "Fabricación"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_model_id
@@ -265,7 +305,6 @@ msgstr "Abastecimiento"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_product_id
-#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_product_id
 msgid "Product"
 msgstr "Producto"
 
@@ -280,11 +319,6 @@ msgstr "Proyecto"
 #: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_pl_id
 msgid "Purchase Line"
 msgstr "Línea de compra"
-
-#. module: task_tracking_wip
-#: model:ir.model,name:task_tracking_wip.model_purchase_order
-msgid "Purchase Order"
-msgstr "Pedido de compra"
 
 #. module: task_tracking_wip
 #: model:ir.model,name:task_tracking_wip.model_purchase_order_line
@@ -303,26 +337,10 @@ msgid "Quants"
 msgstr "Quants"
 
 #. module: task_tracking_wip
-#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_move_id
-#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_production_id
-msgid "Related Move"
-msgstr "Movimiento relacionado"
-
-#. module: task_tracking_wip
-#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_picking_id
-msgid "Related Picking"
-msgstr "Albarán relacionado"
-
-#. module: task_tracking_wip
-#: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_sale_id
-msgid "Related Sale"
-msgstr "Venta relacionada"
-
-#. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_task_id
 #: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_task_id
 msgid "Related Task"
-msgstr "Tarea relacionada"
+msgstr "Tarea asociada"
 
 #. module: task_tracking_wip
 #: model:ir.ui.view,arch_db:task_tracking_wip.stock_view_move_picking_form_add_task
@@ -404,7 +422,7 @@ msgstr "Tareas"
 #: code:addons/task_tracking_wip/models/tracking_wip.py:53
 #, python-format
 msgid "The selected model can not be tracked because is not related with task model"
-msgstr "El modelo seleccionado no puede ser seguido porque no está relacionada con el modelo de tareas"
+msgstr "El modelo seleccionado no puede ser seguido porque no está relacionado contra el modelo de tareas"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_location_id

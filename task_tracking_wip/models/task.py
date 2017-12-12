@@ -14,21 +14,21 @@ class ProjectTask(models.Model):
     progress_model = fields.Float(compute='_get_model_progress', store=False,
                                   string='Origin Progress',
                                   group_operator="avg")
-    sale_id = fields.Many2one('sale.order', 'Related Sale', readonly=True)
-    move_id = fields.Many2one('stock.move', 'Related Move', readonly=True)
-    production_id = fields.Many2one('mrp.production', 'Related Move',
+    sale_id = fields.Many2one('sale.order', 'Associated Sale', readonly=True)
+    move_id = fields.Many2one('stock.move', 'Associated Move', readonly=True)
+    production_id = fields.Many2one('mrp.production', 'Associated Production',
                                     readonly=True)
-    picking_id = fields.Many2one('stock.picking', 'Related Picking',
+    picking_id = fields.Many2one('stock.picking', 'Associated Picking',
                                  readonly=True)
-    product_id = fields.Many2one('product.product', 'Product',
+    product_id = fields.Many2one('product.product', 'Associated Product',
                                  related='move_id.product_id', readonly=True)
-    location_id = fields.Many2one('stock.location', 'Location',
+    location_id = fields.Many2one('stock.location', 'Associated Location',
                                   related='move_id.location_id', readonly=True)
-    partner_sale_id = fields.Many2one('res.partner', 'Sale Patner',
+    partner_sale_id = fields.Many2one('res.partner', 'Associated Customer',
                                       readonly=True,
                                       related='sale_id.partner_id')
     shipping_sale_id = \
-        fields.Many2one('res.partner', 'Sale Shipping Dir', readonly=True,
+        fields.Many2one('res.partner', 'Associated Shipping Address', readonly=True,
                         related='sale_id.partner_shipping_id')
 
     @api.multi

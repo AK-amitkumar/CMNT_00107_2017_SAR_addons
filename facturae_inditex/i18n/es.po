@@ -154,7 +154,7 @@ msgstr "Transporte marítimo"
 #. module: facturae_inditex
 #: model:transport.mode,name:facturae_inditex.TransportMode6
 msgid "Multimodal transport"
-msgstr "Multimodal transport"
+msgstr "Transporte multimodal"
 
 #. module: facturae_inditex
 #: model:ir.model.fields,field_description:facturae_inditex.field_transport_mode_name
@@ -184,12 +184,12 @@ msgstr "Empresa"
 #. module: facturae_inditex
 #: model:transport.mode,name:facturae_inditex.TransportMode3
 msgid "Rail transport"
-msgstr "Rail transport"
+msgstr "Transporte Ferroviario"
 
 #. module: facturae_inditex
 #: model:transport.mode,name:facturae_inditex.TransportMode4
 msgid "Road transport"
-msgstr "Road transport"
+msgstr "Transporte por carretera"
 
 #. module: facturae_inditex
 #: model:ir.model.fields,field_description:facturae_inditex.field_res_partner_seller_party_id
