@@ -101,7 +101,7 @@ class ProcurementOrder(models.Model):
                     'propagate': exist_mo.propagate,
                     'unit_factor': quantity / original_quantity,
                 }
-        return self.env['stock.move'].create(vals)
+                self.env['stock.move'].create(vals)
         return
 
     @api.multi
