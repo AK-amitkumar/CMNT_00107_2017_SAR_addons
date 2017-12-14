@@ -19,7 +19,7 @@ from poplib import POP3_SSL
 from lxml import etree
 
 
-from odoo import models, _
+from odoo import models, _, api
 from odoo.addons.l10n_es_base_facturae.models.e_invoice import FILE_NAME_STRATEGY, REPORT_TEMPLATE, SIGN_STRATEGY,\
     PUSH_STRATEGY
 from odoo.exceptions import UserError

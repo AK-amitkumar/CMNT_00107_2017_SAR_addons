@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.inditex.com/documents/einvoicing/Facturae/InditexInvoiceExtension/v1.0" xmlns:fe="http://www.facturae.es/Facturae/2009/v3.2/Facturae" targetNamespace="http://www.inditex.com/documents/einvoicing/Facturae/InditexInvoiceExtension/v1.0" version="1.0">
-	<xs:import namespace="http://www.facturae.es/Facturae/2009/v3.2/Facturae" schemaLocation="Facturae_v_3_2.xsd"/>
+	<xs:import namespace="http://www.facturae.es/Facturae/2009/v3.2/Facturae" schemaLocation="Facturaev3_2.xsd"/>
 	<!-- INFORMACION DE VERSION EN ESPAÑOL -->
 	<!-- Version 1.0 revision 10 (1.0r10), con los cambios siguientes: -->
 	<!-- (1) Tipo de datos de RPI: de boolean a string -->

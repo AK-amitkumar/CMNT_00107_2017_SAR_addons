@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
 <data>
 
     <report id="report_facturae_inditex"
@@ -133,7 +133,7 @@
                                     <DeliveryNoteNumber t-esc="invoice.ple_number"/>
                                 </DeliveryNote>
                             </DeliveryNotesReferences>
-                            <!-- Comentado porque falla -->
+                            <!-- CMNT Comentado porque falla -->
                          <!--    <ItemDescription>
                                 <![CDATA[<![CDATA[]]><t t-esc="'%s     %s]]' % (line.product_id.product_customer_codes.product_code , line.product_id.product_customer_codes.product_name)"/><![CDATA[>]]>
                             </ItemDescription> -->
@@ -170,6 +170,7 @@
                             </SpecialTaxableEvent>
                             <!-- CMNT COMENTADO, NO HAY MODULO CON CAMPO product_customer_codes -->
                             <!-- <ArticleCode t-esc="line.product_id.product_customer_codes.product_code"/> -->
+                            <ArticleCode t-esc="line.product_id.default_code"/>
                         </InvoiceLine>
                     </Items>
                     <!-- TODO: Inditex recomienda no rellenar esta parte
@@ -187,12 +188,12 @@
                         </Installment>
                     </PaymentDetails> -->
                     <!-- CMNT COMENTADO PORQUE FALLA -->
-                    <!-- <AdditionalData>
+                    <AdditionalData>
                         <InvoiceAdditionalInformation t-esc="invoice.comment"/>
                         <Extensions>
-                             <v1:InditexInvoiceExtension xmlns:v1="http://www.inditex.com/documents/einvoicing/Facturae/InditexInvoiceExtension/v1.0">
-                                  <Version t-esc="'1.0'"/>
-                                  <InvoiceFamily t-esc="'PRODUCT_INVOICE'"/>
+                            <v1:InditexInvoiceExtension xmlns:v1='http://www.inditex.com/documents/einvoicing/Facturae/InditexInvoiceExtension/v1.0'>
+                                    <Version t-esc="'1.0'"/>
+                                    <InvoiceFamily t-esc="'PRODUCT_INVOICE'"/>
                                   <Campaign t-esc="invoice.campaign"/>
                                  <LogisticExtension>
                                     <TransportCode t-esc="invoice.transport_mode_id.id"/>
@@ -201,13 +202,13 @@
                                     <TotalVolume t-esc="invoice.volume"/>
                                     <NumberOfCartons t-esc="invoice.number_of_cartons"/>
                                  </LogisticExtension>
-                             </v1:InditexInvoiceExtension>
+                            </v1:InditexInvoiceExtension>
                         </Extensions>
-                    </AdditionalData> -->
+                    </AdditionalData>
                 </Invoice>
             </Invoices>
         </t>
     </template>
 
 </data>
-</openerp>
+</odoo>
