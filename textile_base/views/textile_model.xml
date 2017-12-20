@@ -47,8 +47,9 @@
                             <field name="customer" attrs="{'required': [('model_type', '=', 'model')]}"/>
                             <field name="article_type"/>
                             <field name="analytic_tag" attrs="{'required': [('model_type', '=', 'model')]}"/>
+                            <field name="color_attribute_id" invisible="1"/>
                             <field name="color" context="{'form_view_ref':'textile_base.colors_form_view'}" attrs="{'invisible': [('model_type', '=', 'model')]}" options="{'no_create_edit': True}"/>
-                            <field name="colors" widget="many2many_tags" context="{'form_view_ref':'textile_base.colors_form_view', 'customer': customer, 'season': analytic_tag}" attrs="{'invisible': [('model_type', '=', 'premodel')]}" options="{'no_create_edit': True}"/>
+                            <field name="colors" widget="many2many_tags" context="{'default_attribute_id': color_attribute_id, 'form_view_ref':'textile_base.colors_form_view', 'customer': customer, 'season': analytic_tag}" attrs="{'invisible': [('model_type', '=', 'premodel')]}" options="{'no_create_edit': True}"/>
                             <field name="size_type"  attrs="{'invisible': [('model_type', '=', 'premodel')]}" options="{'no_create_edit': True}"/>
                             <field name="sizes" widget="many2many_tags" attrs="{'invisible': [('model_type', '=', 'premodel')]}" domain="[('attribute_id', '=', size_type)]" options="{'no_create_edit': True}"/>
                             <field name="premodel_variant" readonly="True" attrs="{'invisible': [('model_type', '=', 'model')]}"/>

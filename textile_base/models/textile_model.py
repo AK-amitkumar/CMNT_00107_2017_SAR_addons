@@ -75,6 +75,17 @@ class TextileModel(models.Model):
     model_margin = fields.Float(compute='_get_model_margin', string='Margin')
     model_margin_per = fields.Float(compute='_get_model_margin',
                                     string='Margin %')
+    color_attribute_id = fields.Many2one('product.attribute',
+                                         string="Color Type",
+                                         compute='_get_color_attribute')
+
+    @api.multi
+    def _get_color_attribute(self):
+        domain = [('name', '=', 'Color')]
+        att_obj = self.env['product.attribute'].search(domain, limit=1)
+        if att_obj:
+            for model in self:
+                model.color_attribute_id = att_obj.id
 
     @api.multi
     @api.depends('bom_lines.product_id', 'bom_lines.product_qty')
