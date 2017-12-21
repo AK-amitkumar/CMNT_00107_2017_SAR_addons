@@ -12,6 +12,7 @@
     "depends": [
         'analytic',
         'sale',
+        'purchase',
         'web_widget_color',
         'product_harmonized_system_extend',
         'base_multi_image',
@@ -28,6 +29,7 @@
         'views/assets.xml',
         'views/product_view.xml',
         'views/sale.xml',
+        'views/purchase.xml',
         'views/label.xml',
         'views/mrp_bom.xml',
         'security/ir.model.access.csv'
