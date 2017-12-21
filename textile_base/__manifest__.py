@@ -17,7 +17,8 @@
         'product_harmonized_system_extend',
         'base_multi_image',
         'mrp',
-        'sale_order_variant_mgmt'
+        'sale_order_variant_mgmt',
+        'purchase_order_variant_mgmt'
     ],
     "data": [
         'data/textile_base_data.xml',
