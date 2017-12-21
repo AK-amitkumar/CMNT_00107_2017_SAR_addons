@@ -110,13 +110,14 @@ class ProcurementOrder(models.Model):
         Add new product quantity, recalculate raw material,
         and add finished product
         """
+        self.ensure_one()
         # Add the finished move
         self._add_finished_moves(exist_mo)
         # Update quantity on raw material id
         self._update_raw_material_moves(exist_mo)
         # Write Sum product_quantity ¿Debo hacerlo con compute quantity?
         exist_mo.product_qty = exist_mo.product_qty + self.product_qty
-        self.ensure_one()
+        exist_mo._adjust_procure_method()
         return
 
     @api.multi
