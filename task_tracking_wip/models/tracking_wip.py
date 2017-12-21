@@ -252,7 +252,7 @@ class TrackingWip(models.Model):
             date_end = False
             if o._name == 'sale.order.line':
                 date_start = o.order_id.date_order
-                date_end = o.order_id.commitment_date
+                date_end = o.order_id.requested_date
             elif o._name == 'stock.picking':
                 date_start = o.min_date
                 date_end = o.min_date
