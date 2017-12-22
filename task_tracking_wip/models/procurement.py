@@ -162,7 +162,7 @@ class ProcurementOrder(models.Model):
                     _compute_quantity(proc.product_qty,
                                       proc.product_id.uom_po_id)
                 domain = [('pl_id', '=', po_line.id),
-                          ('sale_id', '=', related_sale_id)
+                          ('sale_id', '=', related_sale_id),
                           ('task_id', '=', related_task_id)]
                 exist_line = self.env['wip.distribution.line'].search(domain,
                                                                       limit=1)
