@@ -17,8 +17,8 @@ class ProcurementOrder(models.Model):
             ('product_id.product_tmpl_id', '=', product.product_tmpl_id.id),
             ('state', '=', 'confirmed')
         ]
-        mo = self.env['mrp.production'].search(domain, limit=1)
-        if mo:
+        mo_objs = self.env['mrp.production'].search(domain)
+        for mo in mo_objs:
             mo_color = mo.product_id.attribute_value_ids.filtered('is_color')
             prod_color = product.attribute_value_ids.filtered('is_color')
             if mo_color == prod_color:
