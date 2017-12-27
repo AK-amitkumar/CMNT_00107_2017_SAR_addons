@@ -61,5 +61,5 @@ def _setup_complete(self):
 BaseModel._patch_method("_add_magic_fields", _add_magic_fields)
 BaseModel._patch_method("fields_view_get", fields_view_get)
 
-# Este aveces hace que las cosas fallen (o hacía)
-BaseModel._patch_method("_setup_complete", _setup_complete)
+# Este aveces hace que las cosas fallen (es muy lento con un update all)
+# BaseModel._patch_method("_setup_complete", _setup_complete)
