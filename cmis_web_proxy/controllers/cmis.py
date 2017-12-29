@@ -218,7 +218,17 @@ class CmisProxy(http.Controller):
         r = requests.get(
             url, params=params,
             auth=(proxy_info['username'], proxy_info['password']))
-        r.raise_for_status()
+        # CMNT patched: When no folder in alfresco but a path is setted in
+        # cmis folder, the beahaibour is to raise an exception, and the widget
+        # gets blocked.
+        # We fix by deleting the value path, so next time, it will appear
+        # the button to creare folder in DMS
+        try:
+            r.raise_for_status()
+        except Exception, e:
+            if e.message == '404 Client Error: No Encontrado' and model_inst:
+                model_inst._fields['cmis_folder'].__set__(model_inst, False)
+
         if r.text:
             return self._prepare_json_response(
                 r.json(), dict(r.headers.items()), proxy_info, model_inst)
@@ -417,7 +427,7 @@ class CmisProxy(http.Controller):
         requesting the global services provided by the CMIS Container
         """
         # proxy_info are informations available into the cache without loading
-        # the cmis.backend from the database 
+        # the cmis.backend from the database
         proxy_info = request.env['cmis.backend'].get_proxy_info_by_id(
             backend_id)
         method = request.httprequest.method
