@@ -3,6 +3,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import fields, models, api
+from datetime import datetime
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class MrpProduction(models.Model):
@@ -28,13 +30,6 @@ class MrpProduction(models.Model):
                                readonly=True)
     project_wip_id = fields.Many2one('project.project', 'Initial Project',
                                      compute='_get_related_project')
-
-    # def _generate_raw_moves(self, exploded_lines):
-    #     self.ensure_one()
-    #     moves = self.env['stock.move']
-    #     for bom_line, line_data in exploded_lines:
-    #         moves += self._generate_raw_move(bom_line, line_data)
-    #     return moves
 
     @api.multi
     def _generate_moves(self):
@@ -74,4 +69,42 @@ class MrpProduction(models.Model):
         """
         res = super(MrpProduction, self).action_cancel()
         self.mapped('task_ids').unlink()
+        return res
+
+    @api.model
+    def _create_subcontrated_procurement(self, bom_line, line_data):
+        """
+        Create a procurement for the subcontrated products in the BoM.
+        """
+        if self.move_finished_ids and self.move_finished_ids[0].procurement_id:
+            warehouse_id = self.move_finished_ids[0].procurement_id.\
+                warehouse_id.id
+        if not warehouse_id:
+            warehouse_id = self.env['stock.warehouse'].search([], limit=1).id
+        vals = {
+            'name': 'SUBCONTRATED ' + bom_line.product_id.name,
+            'origin': self.name,
+            'date_planned': datetime.strptime(self.date_planned_start,
+                                              DEFAULT_SERVER_DATETIME_FORMAT),
+            'product_id': bom_line.product_id.id,
+            'product_qty': line_data['qty'],
+            'product_uom': bom_line.product_uom_id.id,
+            'company_id': self.company_id.id,
+            'group_id': self.procurement_group_id.id,
+            'warehouse_id': warehouse_id
+        }
+        new_proc = self.env["procurement.order"].create(vals)
+        new_proc.run()
+        return
+
+    def _generate_raw_move(self, bom_line, line_data):
+        """
+        When a subcontrated service is in the bom, create a procurement, in
+        order to get the purchase order of the service
+        """
+        res = super(MrpProduction, self).\
+            _generate_raw_move(bom_line, line_data)
+        if bom_line.product_id.type == 'service' and \
+                bom_line.product_id.property_subcontracted_service:
+            self._create_subcontrated_procurement(bom_line, line_data)
         return res

@@ -19,6 +19,7 @@
         'sale_order_dates',
         'project_native',
         'stock_split_picking',
+        'subcontracted_service',
     ],
     "data": [
         'security/ir.model.access.csv',
