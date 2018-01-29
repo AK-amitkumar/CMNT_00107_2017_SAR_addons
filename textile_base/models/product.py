@@ -21,3 +21,4 @@ class ProductTemplate(models.Model):
 
     composition_id = fields.Many2one('product.composition',
                                      string="Composition")
+    ref = fields.Char('Template Ref')

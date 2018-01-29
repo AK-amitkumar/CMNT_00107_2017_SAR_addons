@@ -147,6 +147,15 @@ class ProcurementOrder(models.Model):
         for po_line in purchase_lines:
             # Skip if one or none procuremetns
             if len(po_line.procurement_ids) < 2:
+                # Get related sale to write it in the line:
+                related_sale_id = False
+                if po_line.procurement_ids:
+                    proc = po_line.procurement_ids[0]
+                    if proc.move_dest_id and proc.move_dest_id.task_ids\
+                            and proc.move_dest_id.task_ids[0].sale_id:
+                        related_sale_id = proc.move_dest_id.task_ids[0].\
+                            sale_id.id
+                        po_line.write({'related_sale_id': related_sale_id})
                 continue
 
             # CREATE DEFAULT DISTRIBUTION LINE FOR EACH PROCUREMENT

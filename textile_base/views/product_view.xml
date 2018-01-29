@@ -10,6 +10,7 @@
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="arch" type="xml">
                 <field name="categ_id" position="after">
+                    <field name="ref"/>
                     <field name="article_type"/>
                     <field name="composition_id" attrs="{'required': [('article_type', '=', 'lining')]}"/>
                 </field>

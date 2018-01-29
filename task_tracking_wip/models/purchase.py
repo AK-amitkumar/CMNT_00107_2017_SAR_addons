@@ -11,6 +11,7 @@ class PurchaseOrderLine(models.Model):
 
     wip_line_ids = fields.One2many('wip.distribution.line', 'pl_id',
                                    'Distribution Lines')
+    related_sale_id = fields.Many2one('sale.order', 'Related Sale')
 
     @api.multi
     def _prepare_stock_moves(self, picking):

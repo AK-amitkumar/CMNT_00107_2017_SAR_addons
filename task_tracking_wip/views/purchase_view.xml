@@ -17,6 +17,7 @@
                 </xpath>
                 <xpath expr="//field[@name='order_line']/form/sheet/group[1]" position="after">
                     <group>
+                        <field name="related_sale_id"/>
                         <group string="Distribution Lines">
                             <field name="wip_line_ids" nolabel="1">
                                 <tree string="Distribution Wip Lines" editable="bottom">
