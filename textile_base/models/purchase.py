@@ -4,7 +4,6 @@
 
 from odoo import fields, models, api
 from odoo import tools
-from openerp.addons.cmis_field import fields as fields2
 
 
 class PurchaseOrderLine(models.Model):
@@ -23,7 +22,7 @@ class PurchaseOrderLine(models.Model):
 
 class GroupPoLine(models.Model):
     _name = "group.po.line"
-    _auto = False
+    _auto = True
     _description = "Groping Purchase Order Lines"
 
     id = fields.Integer('Id', readonly=True)
@@ -39,10 +38,10 @@ class GroupPoLine(models.Model):
     thread = fields.Float('thread', readonly=True)
     qty = fields.Float('Qty', readonly=True)
     price = fields.Float('Price', readonly=True)
-    cmis_folder = fields2.CmisFolder()
 
     @api.multi
     def _get_lines_ungruped(self):
+        import ipdb; ipdb.set_trace()
         self.ensure_one()
         res = self.env['purchase.order.line']
         for line in self.order_id.order_line:
