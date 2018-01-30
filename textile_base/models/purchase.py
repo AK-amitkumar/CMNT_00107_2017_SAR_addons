@@ -41,7 +41,6 @@ class GroupPoLine(models.Model):
 
     @api.multi
     def _get_lines_ungruped(self):
-        import ipdb; ipdb.set_trace()
         self.ensure_one()
         res = self.env['purchase.order.line']
         for line in self.order_id.order_line:
