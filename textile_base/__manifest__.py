@@ -18,7 +18,8 @@
         'base_multi_image',
         'mrp',
         'sale_order_variant_mgmt',
-        'purchase_order_variant_mgmt'
+        'purchase_order_variant_mgmt',
+        'cmis_field'
     ],
     "data": [
         'data/textile_base_data.xml',
