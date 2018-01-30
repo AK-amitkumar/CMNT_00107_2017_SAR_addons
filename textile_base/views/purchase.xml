@@ -76,7 +76,7 @@
                 </xpath>
 
                 <notebook position="inside">
-                    <page string="Gruped Lines">
+                    <page string="Grouped Lines">
                         <field name="grouped_line_ids">
                             <tree>
                                 <field name="template_id"/>
