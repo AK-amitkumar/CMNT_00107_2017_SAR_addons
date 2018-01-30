@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 @api.model
 def _add_magic_fields(self):
     _add_magic_fields.origin(self)
-    if "cmis_folder" not in self._fields:
+    if "cmis_folder" not in self._fields and self._auto:
         self._add_field("cmis_folder", fields.CmisFolder())
 
 
