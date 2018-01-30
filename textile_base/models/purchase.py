@@ -4,7 +4,7 @@
 
 from odoo import fields, models, api
 from odoo import tools
-from openerp.addons.cmis_field import fields2
+from openerp.addons.cmis_field import fields as fields2
 
 
 class PurchaseOrderLine(models.Model):
