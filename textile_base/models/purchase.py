@@ -98,12 +98,12 @@ min(pol.id) as id,
 pp.product_tmpl_id AS template_id,
 pol.order_id AS order_id,
 pol.color_id AS color_id,
-nullif(sum(pol.width), 0) as width,
-nullif(sum(pol.grammage), 0) as grammage,
-nullif(sum(pt.gauge), 0) as gauge,
-nullif(sum(pt.thread), 0) as thread,
-nullif(sum(pol.product_qty), 0) AS qty,
-nullif(sum(pol.price_unit), 0) AS price
+coalesce(sum(pol.width), 0) as width,
+coalesce(sum(pol.grammage), 0) as grammage,
+coalesce(sum(pt.gauge), 0) as gauge,
+coalesce(sum(pt.thread), 0) as thread,
+coalesce(sum(pol.product_qty), 0) AS qty,
+coalesce(sum(pol.price_unit), 0) AS price
 FROM purchase_order_line pol
 LEFT JOIN product_product pp ON pp.id = pol.product_id
 LEFT JOIN product_template pt on pt.id = pp.product_tmpl_id
