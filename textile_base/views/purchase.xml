@@ -80,7 +80,6 @@
                         <field name="grouped_line_ids">
                             <tree>
                                 <field name="template_id"/>
-                                <field name="order_id"/>
                                 <field name="color_id"/>
                                 <field name="width"/>
                                 <field name="grammage"/>
@@ -91,15 +90,18 @@
                             </tree>
                              <form>
                                 <group>
-                                    <field name="template_id"/>
-                                    <field name="order_id"/>
-                                    <field name="color_id"/>
-                                    <field name="width"/>
-                                    <field name="grammage"/>
-                                    <field name="gauge"/>
-                                    <field name="thread"/>
-                                    <field name="qty"/>
-                                    <field name="price"/>
+                                    <group>
+                                        <field name="template_id"/>
+                                        <field name="color_id"/>
+                                        <field name="qty"/>
+                                        <field name="price"/>
+                                    </group>
+                                    <group>
+                                        <field name="width"/>
+                                        <field name="grammage"/>
+                                        <field name="gauge"/>
+                                        <field name="thread"/>
+                                    </group>
                                  </group>
                                  <group>
                                     <field name="att_detail"/>

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-10 16:45+0000\n"
-"PO-Revision-Date: 2017-10-10 16:45+0000\n"
+"POT-Creation-Date: 2018-01-30 17:29+0000\n"
+"PO-Revision-Date: 2018-01-30 17:29+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -88,6 +88,11 @@ msgid "Attribute"
 msgstr "Atributo"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line_att_detail
+msgid "Attribute Detail"
+msgstr "Detalle atributos"
+
+#. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_textile_model_bom_cost
 msgid "BOM Cost"
 msgstr "Coste LdM"
@@ -101,6 +106,11 @@ msgstr "Peso LdM"
 #: model:ir.model.fields,field_description:textile_base.field_textile_model_base_version
 msgid "Base version"
 msgstr "Versión base"
+
+#. module: textile_base
+#: model:ir.model,name:textile_base.model_mrp_bom
+msgid "Bill of Material"
+msgstr "Lista de materiales"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_textile_model_blanqueado
@@ -143,6 +153,17 @@ msgid "Color"
 msgstr "Color"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_textile_model_color_attribute_id
+msgid "Color Type"
+msgstr "Tipo color"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line_color_id
+#: model:ir.model.fields,field_description:textile_base.field_purchase_order_line_color_id
+msgid "Color id"
+msgstr "Color"
+
+#. module: textile_base
 #: model:ir.actions.act_window,name:textile_base.product_attribute_value_color_action
 #: model:ir.model.fields,field_description:textile_base.field_textile_model_colors
 #: model:ir.ui.menu,name:textile_base.menu_product_attribute_value_colors
@@ -166,13 +187,13 @@ msgid "Composition"
 msgstr "Composición"
 
 #. module: textile_base
-#: code:addons/textile_base/models/textile_model.py:139
+#: code:addons/textile_base/models/textile_model.py:150
 #, python-format
 msgid "Composition %s already exists"
 msgstr "La composición %s ya existe"
 
 #. module: textile_base
-#: code:addons/textile_base/models/textile_model.py:133
+#: code:addons/textile_base/models/textile_model.py:144
 #, python-format
 msgid "Composition is already setted."
 msgstr "La composición ya está establecida."
@@ -272,9 +293,25 @@ msgid "Fabric type"
 msgstr "Tipo tejido"
 
 #. module: textile_base
-#: model:ir.model,name:textile_base.model_hs_code
-msgid "H.S. Code"
-msgstr "Código HS"
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line_gauge
+msgid "Gauge"
+msgstr "Galga"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line_grammage
+msgid "Grammage"
+msgstr "Gramaje"
+
+#. module: textile_base
+#: model:ir.model,name:textile_base.model_group_po_line
+msgid "Groping Purchase Order Lines"
+msgstr "Agrupar líneas de compra"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_purchase_order_grouped_line_ids
+#: model:ir.ui.view,arch_db:textile_base.purchase_order_add_line_note
+msgid "Grouped Lines"
+msgstr "Líneas Agrupadas"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_composition_hs_code_id
@@ -384,6 +421,12 @@ msgid "Limpieza"
 msgstr "Limpieza"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_purchase_order_line_line_note
+#: model:ir.model.fields,field_description:textile_base.field_purchase_order_line_note
+msgid "Line Note"
+msgstr "Nota línea"
+
+#. module: textile_base
 #: selection:product.template,article_type:0
 msgid "Lining"
 msgstr "Forro"
@@ -480,10 +523,15 @@ msgid "New version"
 msgstr "Nueva versión"
 
 #. module: textile_base
-#: code:addons/textile_base/models/textile_model.py:135
+#: code:addons/textile_base/models/textile_model.py:146
 #, python-format
 msgid "No composition to create."
 msgstr "No hay nombre de composición para crear una."
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line_order_id
+msgid "Order"
+msgstr "Pedido"
 
 #. module: textile_base
 #: selection:product.composition,fabric_type:0
@@ -547,6 +595,7 @@ msgid "Premodel product"
 msgstr "Producto premodelo"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line_price
 #: model:ir.model.fields,field_description:textile_base.field_sale_label_price_price
 msgid "Price"
 msgstr "Precio"
@@ -565,6 +614,16 @@ msgstr "Plantilla de producto"
 #: model:ir.ui.view,arch_db:textile_base.color_refs_form_view
 msgid "Properties"
 msgstr "Propiedades"
+
+#. module: textile_base
+#: model:ir.model,name:textile_base.model_purchase_order
+msgid "Purchase Order"
+msgstr "Pedido de compra"
+
+#. module: textile_base
+#: model:ir.model,name:textile_base.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Línea pedido de compra"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_code
@@ -643,9 +702,8 @@ msgstr "Descripción corta"
 
 #. module: textile_base
 #: model:ir.ui.view,arch_db:textile_base.size_form_view
-#: model:product.attribute,name:textile_base.size_attribute
 msgid "Size"
-msgstr "Tallaje"
+msgstr "Talla"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_textile_model_size_type
@@ -667,6 +725,17 @@ msgid "State"
 msgstr "Estado"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line_template_id
+msgid "Template"
+msgstr "Plantilla"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_product_product_ref
+#: model:ir.model.fields,field_description:textile_base.field_product_template_ref
+msgid "Template Ref"
+msgstr "Referencia plantilla"
+
+#. module: textile_base
 #: selection:product.template,article_type:0
 msgid "Tissue"
 msgstr "Tejido"
@@ -675,11 +744,6 @@ msgstr "Tejido"
 #: model:ir.model.fields,field_description:textile_base.field_account_analytic_tag_type
 msgid "Type"
 msgstr "Tipo"
-
-#. module: textile_base
-#: model:ir.model.fields,field_description:textile_base.field_hs_code_url
-msgid "Url"
-msgstr "URL"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_textile_model_version
@@ -695,7 +759,12 @@ msgstr "Versiones"
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_mrp_bom_line_weight_per
 msgid "Weigth %"
-msgstr "Weigth %"
+msgstr "Peso %"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line_width
+msgid "Width"
+msgstr "Ancho"
 
 #. module: textile_base
 #: model:ir.ui.view,arch_db:textile_base.textile_model_view_form
@@ -771,4 +840,9 @@ msgstr "secado"
 #: model:ir.model,name:textile_base.model_textile_model
 msgid "textile.model"
 msgstr "textile.model"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line_thread
+msgid "thread"
+msgstr "hilo"
 
