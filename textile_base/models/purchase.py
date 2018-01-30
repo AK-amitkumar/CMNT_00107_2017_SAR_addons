@@ -83,7 +83,7 @@ class GroupPoLine(models.Model):
                 if size_att:
                     detail_dic[size_att.name] = pol.product_qty
 
-            self.att_detail = self._get_att_detail_str(gpl, detail_dic)
+            gpl.att_detail = self._get_att_detail_str(gpl, detail_dic)
 
     @api.model_cr
     def init(self):
