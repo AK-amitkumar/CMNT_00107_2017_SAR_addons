@@ -4,7 +4,8 @@
 
 from odoo import fields, models, api
 from odoo import tools
-from openerp.addons.cmis_field import fields
+from openerp.addons.cmis_field import fields2
+
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
@@ -38,7 +39,7 @@ class GroupPoLine(models.Model):
     thread = fields.Float('thread', readonly=True)
     qty = fields.Float('Qty', readonly=True)
     price = fields.Float('Price', readonly=True)
-    cmis_folder = fields.CmisFolder()
+    cmis_folder = fields2.CmisFolder()
 
     @api.multi
     def _get_lines_ungruped(self):
