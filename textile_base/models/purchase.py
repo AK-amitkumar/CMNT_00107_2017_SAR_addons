@@ -25,13 +25,65 @@ class GroupPoLine(models.Model):
     _auto = False
     _description = "Groping Purchase Order Lines"
 
-    att_detail = fields.Text('Attribute Detail', compute='_get_detail')
+    id = fields.Integer('Id', readonly=True)
+    template_id = fields.Many2one('product.template', 'Template',
+                                  readonly=True)
+    att_detail = fields.Text('Attribute Detail', readonly=True,
+                             compute='_get_detail')
+    order_id = fields.Many2one('purchase.order', 'Order', readonly=True)
+    color_id = fields.Many2one('product.attribute.value', readonly=True)
+    width = fields.Float('Width', readonly=True)
+    grammage = fields.Float('Grammage', readonly=True)
+    gauge = fields.Float('Gauge', readonly=True)
+    thread = fields.Float('thread', readonly=True)
+    qty = fields.Float('Qty', readonly=True)
+    price = fields.Float('Price', readonly=True)
+
+    @api.multi
+    def _get_lines_ungruped(self):
+        self.ensure_one()
+        res = self.env['purchase.order.line']
+        for line in self.order_id.order_line:
+            if line.color_id.id == self.color_id.id and \
+                    line.product_id.product_tmpl_id.id == self.template_id.id:
+                res += line
+        return res
+
+    @api.model
+    def _get_att_detail_str(self, gpl, detail_dic):
+        separator = '  '
+        res = ""
+        line1_str = ""
+        line2_str = ""
+        for v_name in detail_dic:
+            value_str = str(detail_dic[v_name])
+            len1 = len(v_name)
+            len2 = len(value_str)
+            max_len = max(len1, len2) + len(separator)
+            sepa1 = ''
+            for i in range(0, max_len - len1):
+                sepa1 += ' '
+            sepa2 = ''
+            for i in range(0, max_len - len2):
+                sepa2 += ' '
+            line1_str += v_name + sepa1
+            line2_str += value_str + sepa2
+
+        if line1_str and line2_str:
+            res = line1_str + '\n' + line2_str
+        return res
 
     @api.multi
     def _get_detail(self):
         for gpl in self:
-            self.att_detail = "XXS    XS    S     M       L       XL      \
-                XXL\n10       2       3      4      80      90      100"
+            detail_dic = {}
+            for pol in gpl._get_lines_ungruped():
+                size_att = pol.product_id.attribute_value_ids.\
+                    filtered(lambda v: v.is_color is False)
+                if size_att:
+                    detail_dic[size_att.name] = pol.product_qty
+
+            self.att_detail = self._get_att_detail_str(gpl, detail_dic)
 
     @api.model_cr
     def init(self):
@@ -57,3 +109,17 @@ LEFT JOIN product_product pp ON pp.id = pol.product_id
 LEFT JOIN product_template pt on pt.id = pp.product_tmpl_id
 GROUP BY pol.order_id, pp.product_tmpl_id, pol.color_id
 )""")
+
+
+class PurchaseOrder(models.Model):
+    _inherit = 'purchase.order'
+
+    @api.depends('product_id')
+    def _get_color(self):
+        for pol in self:
+            colors = pol.product_id.attribute_value_ids.filtered('is_color')
+            pol.color_id = colors[0] if colors else False
+
+    grouped_line_ids = fields.One2many('group.po.line', 'order_id',
+                                       'Grouped Lines')
+    line_note = fields.Text('Line Note')
