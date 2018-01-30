@@ -22,7 +22,7 @@ class PurchaseOrderLine(models.Model):
 
 class GroupPoLine(models.Model):
     _name = "group.po.line"
-    _auto = True
+    _auto = False
     _description = "Groping Purchase Order Lines"
 
     id = fields.Integer('Id', readonly=True)
