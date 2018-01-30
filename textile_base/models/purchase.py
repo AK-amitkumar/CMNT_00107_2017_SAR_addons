@@ -51,12 +51,12 @@ class GroupPoLine(models.Model):
 
     @api.model
     def _get_att_detail_str(self, gpl, detail_dic):
-        separator = '  '
+        separator = '   '
         res = ""
         line1_str = ""
         line2_str = ""
         for v_name in detail_dic:
-            value_str = str(detail_dic[v_name])
+            value_str = str(int(detail_dic[v_name]))
             len1 = len(v_name)
             len2 = len(value_str)
             max_len = max(len1, len2) + len(separator)
