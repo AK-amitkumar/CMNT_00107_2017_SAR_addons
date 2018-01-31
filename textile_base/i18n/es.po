@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-30 17:29+0000\n"
-"PO-Revision-Date: 2018-01-30 17:29+0000\n"
+"POT-Creation-Date: 2018-01-31 12:43+0000\n"
+"PO-Revision-Date: 2018-01-31 12:43+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -80,6 +80,11 @@ msgstr "Aprobado por"
 #: model:ir.model.fields,field_description:textile_base.field_textile_model_article_type
 msgid "Article type"
 msgstr "Tipo de artículo"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_purchase_order_attn
+msgid "Attention Of"
+msgstr "A la atención de"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_attribute_value
@@ -531,7 +536,7 @@ msgstr "No hay nombre de composición para crear una."
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_group_po_line_order_id
 msgid "Order"
-msgstr "Pedido"
+msgstr "Orden"
 
 #. module: textile_base
 #: selection:product.composition,fabric_type:0
@@ -624,6 +629,11 @@ msgstr "Pedido de compra"
 #: model:ir.model,name:textile_base.model_purchase_order_line
 msgid "Purchase Order Line"
 msgstr "Línea pedido de compra"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_purchase_order_origin_po_id
+msgid "Purchase Origin"
+msgstr "Pedido Compra Origen"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_code
@@ -844,5 +854,5 @@ msgstr "textile.model"
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_group_po_line_thread
 msgid "thread"
-msgstr "hilo"
+msgstr "Hilo"
 

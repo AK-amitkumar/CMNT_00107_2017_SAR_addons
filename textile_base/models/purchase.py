@@ -114,6 +114,9 @@ GROUP BY pol.order_id, pp.product_tmpl_id, pol.color_id
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
+    origin_po_id = fields.Many2one('purchase.order', 'Purchase Origin')
+    attn = fields.Char('Attention Of')
+
     @api.depends('product_id')
     def _get_color(self):
         for pol in self:
