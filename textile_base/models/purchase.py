@@ -37,7 +37,12 @@ class GroupPoLine(models.Model):
     gauge = fields.Float('Gauge', readonly=True)
     thread = fields.Float('thread', readonly=True)
     qty = fields.Float('Qty', readonly=True)
+    uom_id = fields.Many2one('product.uom', 'Unit', readonly=True)
     price = fields.Float('Price', readonly=True)
+    note = fields.Text('Note', readonly=True,
+                       compute='_get_group_note')
+    ref_prov = fields.Char('Ref Prov', readonly=True,
+                           compute='_get_ref_prov')
 
     @api.multi
     def _get_lines_ungruped(self):
@@ -85,6 +90,27 @@ class GroupPoLine(models.Model):
 
             gpl.att_detail = self._get_att_detail_str(gpl, detail_dic)
 
+    @api.multi
+    def _get_group_note(self):
+        for gpl in self:
+            note = ""
+            for pol in gpl._get_lines_ungruped():
+                if pol.line_note:
+                    note += pol.line_note
+                    note += '\n'
+            gpl.note = note
+
+    @api.multi
+    def _get_ref_prov(self):
+        for gpl in self:
+            ref_prov = ""
+            for seller in gpl.template_id.seller_ids:
+                if seller.name.id == gpl.order_id.partner_id.id:
+                    ref_prov = seller.product_code
+            if ref_prov:
+                ref_prov = "REF.PROV: " + ref_prov
+            gpl.ref_prov = ref_prov
+
     @api.model_cr
     def init(self):
         """
@@ -98,6 +124,7 @@ min(pol.id) as id,
 pp.product_tmpl_id AS template_id,
 pol.order_id AS order_id,
 pol.color_id AS color_id,
+pol.product_uom as uom_id,
 coalesce(sum(pol.width), 0) as width,
 coalesce(sum(pol.grammage), 0) as grammage,
 coalesce(sum(pt.gauge), 0) as gauge,
@@ -107,7 +134,7 @@ coalesce(sum(pol.price_unit), 0) AS price
 FROM purchase_order_line pol
 LEFT JOIN product_product pp ON pp.id = pol.product_id
 LEFT JOIN product_template pt on pt.id = pp.product_tmpl_id
-GROUP BY pol.order_id, pp.product_tmpl_id, pol.color_id
+GROUP BY pol.order_id, pp.product_tmpl_id, pol.color_id, pol.product_uom
 )""")
 
 
