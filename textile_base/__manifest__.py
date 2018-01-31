@@ -18,7 +18,8 @@
         'base_multi_image',
         'mrp',
         'sale_order_variant_mgmt',
-        'purchase_order_variant_mgmt'
+        'purchase_order_variant_mgmt',
+        'task_tracking_wip'
     ],
     "data": [
         'data/textile_base_data.xml',

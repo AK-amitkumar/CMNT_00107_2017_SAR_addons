@@ -43,6 +43,8 @@ class GroupPoLine(models.Model):
                        compute='_get_group_note')
     ref_prov = fields.Char('Ref Prov', readonly=True,
                            compute='_get_ref_prov')
+    sales_str = fields.Char('Origin Sales and Models',
+                            compute='_get_sales_str')
 
     @api.multi
     def _get_lines_ungruped(self):
@@ -110,6 +112,30 @@ class GroupPoLine(models.Model):
             if ref_prov:
                 ref_prov = "REF.PROV: " + ref_prov
             gpl.ref_prov = ref_prov
+
+    @api.multi
+    def _get_sales_str(self):
+        for gpl in self:
+            sales_str = ""
+            sale_ids = []
+            for pol in gpl._get_lines_ungruped():
+                for wip_line in pol.wip_line_ids:
+                    if not wip_line.sale_id:
+                        continue
+                    if wip_line.sale_id.id not in sale_ids:
+                        sale_ids.append(wip_line.sale_id.id)
+                if not sale_ids and pol.related_sale_id:
+                    sale_ids.append(wip_line.sale_id.ids)
+
+            for sale in self.env['sale.order'].browse(sale_ids):
+                if not sales_str:
+                    sales_str += sale.name
+                else:
+                    sales_str += ', ' + sale.name
+
+                if sale.model_id:
+                    sales_str += '/' + sale.model_id.name
+            gpl.sales_str = sales_str
 
     @api.model_cr
     def init(self):

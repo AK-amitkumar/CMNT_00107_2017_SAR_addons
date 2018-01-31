@@ -121,6 +121,7 @@
                                     <field name="att_detail"/>
                                  </group>
                                   <group>
+                                    <field name="sales_str"/>
                                     <field name="note"/>
                                  </group>
                             </form>
