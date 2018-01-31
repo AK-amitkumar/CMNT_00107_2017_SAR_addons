@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-31 15:32+0000\n"
-"PO-Revision-Date: 2018-01-31 15:32+0000\n"
+"POT-Creation-Date: 2018-01-31 18:16+0000\n"
+"PO-Revision-Date: 2018-01-31 18:16+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -313,11 +313,6 @@ msgid "Groping Purchase Order Lines"
 msgstr "Agrupar líneas de compra"
 
 #. module: textile_base
-#: model:ir.model.fields,field_description:textile_base.field_group_po_line_note
-msgid "GNote"
-msgstr "Nota"
-
-#. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_purchase_order_grouped_line_ids
 #: model:ir.ui.view,arch_db:textile_base.purchase_order_add_line_note
 msgid "Grouped Lines"
@@ -539,9 +534,19 @@ msgid "No composition to create."
 msgstr "No hay nombre de composición para crear una."
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line_note
+msgid "Note"
+msgstr "Nota"
+
+#. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_group_po_line_order_id
 msgid "Order"
 msgstr "Orden"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line_sales_str
+msgid "Origin Sales and Models"
+msgstr "Origen ventas y modelos"
 
 #. module: textile_base
 #: selection:product.composition,fabric_type:0
@@ -784,7 +789,7 @@ msgstr "Versiones"
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_mrp_bom_line_weight_per
 msgid "Weigth %"
-msgstr "Peso %"
+msgstr "Weigth %"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_group_po_line_width
