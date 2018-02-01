@@ -110,7 +110,7 @@ class GroupPoLine(models.Model):
                 if seller.name.id == gpl.order_id.partner_id.id:
                     ref_prov = seller.product_code
             if ref_prov:
-                ref_prov = "REF.PROV: " + ref_prov
+                ref_prov = ref_prov
             gpl.ref_prov = ref_prov
 
     @api.multi
@@ -127,7 +127,9 @@ class GroupPoLine(models.Model):
                 if not sale_ids and pol.related_sale_id:
                     sale_ids.append(wip_line.sale_id.ids)
 
-            for sale in self.env['sale.order'].browse(sale_ids):
+            domain = [('id', 'in', sale_ids)]
+            sale_objs = self.env['sale.order'].search(domain, order='id')
+            for sale in sale_objs:
                 if not sales_str:
                     sales_str += sale.name
                 else:
