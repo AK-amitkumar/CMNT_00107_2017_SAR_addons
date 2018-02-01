@@ -184,11 +184,14 @@ class PurchaseOrder(models.Model):
     origin_sale_id = fields.Many2one('sale.order', 'Origin sale',
                                      compute='_get_from_sale_id')
     origin_model_id = fields.Many2one('textile.model', 'Origin model',
-                                      compute='_get_from_sale_id')
+                                      compute='_get_from_sale_id',
+                                      readonly=True)
     origin_model_name = fields.Char('Origin model name',
-                                    compute='_get_from_sale_id')
+                                    compute='_get_from_sale_id',
+                                    readonly=True)
     origin_sale_name = fields.Char('Origin model name',
-                                   compute='_get_from_sale_id')
+                                   compute='_get_from_sale_id',
+                                   readonly=True)
 
     @api.multi
     def _get_from_sale_id(self):
