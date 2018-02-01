@@ -120,7 +120,7 @@
                                     </group>
                                  </group>
                                  <group>
-                                    <field name="att_detail"/>
+                                    <field name="att_detail" class="att_detail"/>
                                  </group>
                                   <group>
                                     <field name="sales_str"/>

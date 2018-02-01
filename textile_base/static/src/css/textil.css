@@ -17,3 +17,7 @@ span.textil_icon {
     font-family: Linotype Textile Pi;
     font-size: 30px;
 }
+span.att_detail {
+    font-family: monospace;
+    font-size: 20px;
+}
