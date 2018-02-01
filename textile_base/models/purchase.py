@@ -194,15 +194,15 @@ class PurchaseOrder(models.Model):
     def _get_from_sale_id(self):
         for po in self:
             origin_sale_id = False
-            sale_objs = []
+            sale_ids = []
             for pol in po.order_line:
                 for wip_line in pol.wip_line_ids:
                     if not wip_line.sale_id:
                         continue
-                    if wip_line.sale_id.id not in sale_objs:
-                        sale_objs.append(wip_line.sale_id)
-                if not sale_objs and pol.related_sale_id:
-                    sale_objs.append(wip_line.sale_id)
-            if len(sale_objs) == 1:
-                origin_sale_id = sale_objs[0].id
+                    if wip_line.sale_id.id not in sale_ids:
+                        sale_ids.append(wip_line.sale_id.id)
+                if not sale_ids and pol.related_sale_id:
+                    sale_ids.append(pol.sale_id.id)
+            if len(sale_ids) == 1:
+                origin_sale_id = sale_ids[0]
             po.origin_sale_id = origin_sale_id
