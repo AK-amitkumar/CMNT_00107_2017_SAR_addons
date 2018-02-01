@@ -184,16 +184,19 @@ class PurchaseOrder(models.Model):
     origin_sale_id = fields.Many2one('sale.order', 'Origin sale',
                                      compute='_get_from_sale_id')
     origin_model_id = fields.Many2one('textile.model', 'Origin model',
-                                      related='origin_sale_id.model_id')
+                                      compute='_get_from_sale_id')
     origin_model_name = fields.Char('Origin model name',
-                                    related='origin_model_id.name')
+                                    compute='_get_from_sale_id')
     origin_sale_name = fields.Char('Origin model name',
-                                   related='origin_sale_id.name')
+                                   compute='_get_from_sale_id')
 
     @api.multi
     def _get_from_sale_id(self):
         for po in self:
             origin_sale_id = False
+            origin_model_id = False
+            origin_sale_name = ""
+            origin_model_name = ""
             sale_ids = []
             for pol in po.order_line:
                 for wip_line in pol.wip_line_ids:
@@ -204,5 +207,15 @@ class PurchaseOrder(models.Model):
                 if not sale_ids and pol.related_sale_id:
                     sale_ids.append(pol.sale_id.id)
             if len(sale_ids) == 1:
-                origin_sale_id = sale_ids[0]
+                origin_sale = self.env['sale.order'].browse(sale_ids[0])
+                origin_model = origin_sale.model_id
+                if origin_sale:
+                    origin_sale_id = origin_sale.id
+                    origin_sale_name = origin_sale.name
+                if origin_model:
+                    origin_model_id = origin_model.id
+                    origin_model_name = origin_model.name
             po.origin_sale_id = origin_sale_id
+            po.origin_model_id = origin_model_id
+            po.origin_sale_name = origin_sale_name
+            po.origin_model_name = origin_model_name
