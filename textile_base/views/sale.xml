@@ -7,6 +7,10 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="model_id"/>
+            </field>
+
             <notebook position="inside">
                 <page string="label">
                     <group>

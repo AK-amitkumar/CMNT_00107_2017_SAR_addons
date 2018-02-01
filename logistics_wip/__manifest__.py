@@ -19,7 +19,6 @@
         'stock_mts_mto_rule',
         'task_tracking_wip',
     ],
-    "data": ['views/textile_model_view.xml',
-             'views/sale_order_view.xml'],
+    "data": ['views/textile_model_view.xml'],
     "installable": True
 }

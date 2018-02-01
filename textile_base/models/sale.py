@@ -18,3 +18,6 @@ class SaleOrder(models.Model):
     label_prices = fields.One2many(
         'sale.label.price', 'sale_id', readonly=True,
         states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
+    model_id = fields.Many2one("textile.model", "Model",
+                               domain=[('model_type', '=', 'model'),
+                                       ('state', '=', 'approved')])

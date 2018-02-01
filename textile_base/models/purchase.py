@@ -181,3 +181,24 @@ class PurchaseOrder(models.Model):
     grouped_line_ids = fields.One2many('group.po.line', 'order_id',
                                        'Grouped Lines')
     line_note = fields.Text('Line Note')
+    origin_sale_id = fields.Many2one('sale.order', 'Origin sale',
+                                     compute='_get_from_sale_id')
+    origin_model_id = fields.Many2one('textile.model', 'Origin model',
+                                      related='origin_sale_id.model_id')
+
+    @api.multi
+    def _get_from_sale_id(self):
+        for po in self:
+            origin_sale_id = False
+            sale_objs = []
+            for pol in po.order_line:
+                for wip_line in pol.wip_line_ids:
+                    if not wip_line.sale_id:
+                        continue
+                    if wip_line.sale_id.id not in sale_objs:
+                        sale_objs.append(wip_line.sale_id)
+                if not sale_objs and pol.related_sale_id:
+                    sale_objs.append(wip_line.sale_id)
+            if len(sale_objs) == 1:
+                origin_sale_id = sale_objs[0].id
+            po.origin_sale_id = origin_sale_id
