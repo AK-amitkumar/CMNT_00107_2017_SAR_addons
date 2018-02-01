@@ -185,6 +185,10 @@ class PurchaseOrder(models.Model):
                                      compute='_get_from_sale_id')
     origin_model_id = fields.Many2one('textile.model', 'Origin model',
                                       related='origin_sale_id.model_id')
+    origin_model_name = fields.Char('Origin model name',
+                                    related='origin_model_id.name')
+    origin_sale_name = fields.Char('Origin model name',
+                                   related='origin_sale_id.name')
 
     @api.multi
     def _get_from_sale_id(self):
