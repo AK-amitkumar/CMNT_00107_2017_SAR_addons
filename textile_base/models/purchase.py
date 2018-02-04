@@ -208,7 +208,7 @@ class PurchaseOrder(models.Model):
                     if wip_line.sale_id.id not in sale_ids:
                         sale_ids.append(wip_line.sale_id.id)
                 if not sale_ids and pol.related_sale_id:
-                    sale_ids.append(pol.sale_id.id)
+                    sale_ids.append(pol.related_sale_id.id)
             if len(sale_ids) == 1:
                 origin_sale = self.env['sale.order'].browse(sale_ids[0])
                 origin_model = origin_sale.model_id
