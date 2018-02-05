@@ -9,3 +9,4 @@ access_textile_model,access_textile_model,model_textile_model,base.group_user,1,
 access_label_type,access_label_type,model_label_type,base.group_user,1,1,1,1
 access_sale_label_price,access_sale_label_price,model_sale_label_price,base.group_user,1,1,1,1
 access_label_location,access_label_location,model_label_location,base.group_user,1,1,1,1
+access_group_po_line,access_group_po_line,model_group_po_line,base.group_user,1,1,1,1
