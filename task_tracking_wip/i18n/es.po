@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-12 16:06+0000\n"
-"PO-Revision-Date: 2017-12-12 16:06+0000\n"
+"POT-Creation-Date: 2018-02-05 16:56+0000\n"
+"PO-Revision-Date: 2018-02-05 16:56+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr "Ubicación asociada"
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_move_id
 msgid "Associated Move"
-msgstr "Movimiento asociadp"
+msgstr "Movimiento asociado"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_picking_id
@@ -164,6 +164,7 @@ msgid "Destination move"
 msgstr "Movimiento de destino"
 
 #. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_group_po_line_display_name
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_display_name
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_display_name
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_display_name
@@ -199,6 +200,12 @@ msgid "For Sale"
 msgstr "Para la venta"
 
 #. module: task_tracking_wip
+#: model:ir.model,name:task_tracking_wip.model_group_po_line
+msgid "Groping Purchase Order Lines"
+msgstr "Agrupar líneas de compra"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_group_po_line_id
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_id
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_id
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_id
@@ -215,6 +222,7 @@ msgid "Initial Project"
 msgstr "Proyecto inicial"
 
 #. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_group_po_line___last_update
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd___last_update
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines___last_update
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip___last_update
@@ -252,7 +260,7 @@ msgstr "Planificar Líneas"
 #. module: task_tracking_wip
 #: model:ir.model,name:task_tracking_wip.model_mrp_production
 msgid "Manufacturing Order"
-msgstr "Fabricación"
+msgstr "Manufacturing Order"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_model_id
@@ -326,6 +334,11 @@ msgid "Purchase Order Line"
 msgstr "Línea pedido de compra"
 
 #. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_group_po_line_qty
+msgid "Qty"
+msgstr "Cant."
+
+#. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_qty
 #: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_qty
 msgid "Quantity"
@@ -335,6 +348,11 @@ msgstr "Cantidad"
 #: model:ir.model,name:task_tracking_wip.model_stock_quant
 msgid "Quants"
 msgstr "Quants"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_purchase_order_line_related_sale_id
+msgid "Related Sale"
+msgstr "Venta asociada"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_task_id
@@ -422,7 +440,7 @@ msgstr "Tareas"
 #: code:addons/task_tracking_wip/models/tracking_wip.py:53
 #, python-format
 msgid "The selected model can not be tracked because is not related with task model"
-msgstr "El modelo seleccionado no puede ser seguido porque no está relacionado contra el modelo de tareas"
+msgstr "El modelo seleccionado no puede ser seguido porque no está relacionado con el modelo de tareas"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_location_id

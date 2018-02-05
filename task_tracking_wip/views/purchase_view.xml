@@ -13,8 +13,12 @@
                         icon="fa-list-ul"
                        
                     />
-                    <!--  attrs="{'invisible': [('state', 'not in', ('draft', 'sent'))]}" -->
+                 <!--    <field name="related_sale_id"/> -->
                 </xpath>
+                <xpath expr="//field[@name='order_line']//tree//field[@name='discount']" position="after">
+                    <field name="related_sale_id"/>
+                </xpath>
+
                 <xpath expr="//field[@name='order_line']/form/sheet/group[1]" position="after">
                     <group>
                         <field name="related_sale_id"/>
