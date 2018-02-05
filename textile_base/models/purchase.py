@@ -32,6 +32,7 @@ class GroupPoLine(models.Model):
                              compute='_get_detail')
     order_id = fields.Many2one('purchase.order', 'Order', readonly=True)
     color_id = fields.Many2one('product.attribute.value', readonly=True)
+    sale_id = fields.Many2one('sale.order', readonly=True)
     width = fields.Float('Width', readonly=True)
     grammage = fields.Float('Grammage', readonly=True)
     gauge = fields.Float('Gauge', readonly=True)
@@ -115,28 +116,35 @@ class GroupPoLine(models.Model):
 
     @api.multi
     def _get_sales_str(self):
+        # for gpl in self:
+        #     sales_str = ""
+        #     sale_ids = []
+        #     for pol in gpl._get_lines_ungruped():
+        #         for wip_line in pol.wip_line_ids:
+        #             if not wip_line.sale_id:
+        #                 continue
+        #             if wip_line.sale_id.id not in sale_ids:
+        #                 sale_ids.append(wip_line.sale_id.id)
+        #         if not sale_ids and pol.related_sale_id:
+        #             sale_ids.append(wip_line.sale_id.ids)
+
+        #     domain = [('id', 'in', sale_ids)]
+        #     sale_objs = self.env['sale.order'].search(domain, order='id')
+        #     for sale in sale_objs:
+        #         if not sales_str:
+        #             sales_str += sale.name
+        #         else:
+        #             sales_str += ', ' + sale.name
+
+        #         if sale.model_id:
+        #             sales_str += '/' + sale.model_id.name
+        #     gpl.sales_str = sales_str
         for gpl in self:
-            sales_str = ""
-            sale_ids = []
-            for pol in gpl._get_lines_ungruped():
-                for wip_line in pol.wip_line_ids:
-                    if not wip_line.sale_id:
-                        continue
-                    if wip_line.sale_id.id not in sale_ids:
-                        sale_ids.append(wip_line.sale_id.id)
-                if not sale_ids and pol.related_sale_id:
-                    sale_ids.append(wip_line.sale_id.ids)
-
-            domain = [('id', 'in', sale_ids)]
-            sale_objs = self.env['sale.order'].search(domain, order='id')
-            for sale in sale_objs:
-                if not sales_str:
-                    sales_str += sale.name
-                else:
-                    sales_str += ', ' + sale.name
-
-                if sale.model_id:
-                    sales_str += '/' + sale.model_id.name
+            sales_str = ''
+            if gpl.sale_id:
+                sales_str += gpl.sale_id.name
+            if gpl.sale_id.model_id:
+                sales_str += '/' + gpl.sale_id.model_id.name
             gpl.sales_str = sales_str
 
     @api.model_cr
@@ -147,22 +155,50 @@ class GroupPoLine(models.Model):
         tools.drop_view_if_exists(self._cr, 'group_po_line')
         self._cr.execute("""
 CREATE OR REPLACE VIEW group_po_line AS (
+select * from
+(
 SELECT
 min(pol.id) as id,
 pp.product_tmpl_id AS template_id,
 pol.order_id AS order_id,
 pol.color_id AS color_id,
+pol.related_sale_id as sale_id,
 pol.product_uom as uom_id,
-coalesce(sum(pol.width), 0) as width,
-coalesce(sum(pol.grammage), 0) as grammage,
-coalesce(sum(pt.gauge), 0) as gauge,
-coalesce(sum(pt.thread), 0) as thread,
+coalesce(avg(pol.width), 0) as width,
+coalesce(avg(pol.grammage), 0) as grammage,
+coalesce(avg(pt.gauge), 0) as gauge,
+coalesce(avg(pt.thread), 0) as thread,
 coalesce(sum(pol.product_qty), 0) AS qty,
-coalesce(sum(pol.price_unit), 0) AS price
+coalesce(pol.price_unit, 0) AS price
 FROM purchase_order_line pol
 LEFT JOIN product_product pp ON pp.id = pol.product_id
 LEFT JOIN product_template pt on pt.id = pp.product_tmpl_id
-GROUP BY pol.order_id, pp.product_tmpl_id, pol.color_id, pol.product_uom
+WHERE not exists (select 1 from wip_distribution_line where pl_id = pol.id)
+GROUP BY pol.order_id, pp.product_tmpl_id, pol.color_id, pol.related_sale_id, pol.product_uom, pol.price_unit
+) s1
+UNION
+(
+SELECT
+min(wdl.id) as id,
+pp.product_tmpl_id AS template_id,
+pol.order_id AS order_id,
+pol.color_id AS color_id,
+wdl.sale_id as sale_id,
+pol.product_uom as uom_id,
+coalesce(avg(pol.width), 0) as width,
+coalesce(avg(pol.grammage), 0) as grammage,
+coalesce(avg(pt.gauge), 0) as gauge,
+coalesce(avg(pt.thread), 0) as thread,
+coalesce(sum(wdl.qty), 0) AS qty,
+coalesce(pol.price_unit, 0) AS price
+FROM wip_distribution_line wdl
+LEFT JOIN purchase_order_line pol on pol.id = wdl.pl_id
+LEFT JOIN product_product pp ON pp.id = pol.product_id
+LEFT JOIN product_template pt on pt.id = pp.product_tmpl_id
+WHERE exists (select 1 from wip_distribution_line where pl_id = pol.id)
+GROUP BY pol.order_id, wdl.sale_id, pp.product_tmpl_id, pol.color_id, pol.product_uom, pol.price_unit
+)
+
 )""")
 
 

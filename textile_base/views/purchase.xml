@@ -92,6 +92,7 @@
                         <field name="grouped_line_ids">
                             <tree>
                                 <field name="template_id"/>
+                                <field name="sale_id"/>
                                 <field name="ref_prov"/>
                                 <field name="color_id"/>
                                 <field name="width"/>
