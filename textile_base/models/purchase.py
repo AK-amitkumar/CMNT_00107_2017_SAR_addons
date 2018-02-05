@@ -32,7 +32,7 @@ class GroupPoLine(models.Model):
                              compute='_get_detail')
     order_id = fields.Many2one('purchase.order', 'Order', readonly=True)
     color_id = fields.Many2one('product.attribute.value', readonly=True)
-    sale_id = fields.Many2one('sale.order', readonly=True)
+    sale_id = fields.Many2one('sale.order', 'Related Sale', readonly=True)
     width = fields.Float('Width', readonly=True)
     grammage = fields.Float('Grammage', readonly=True)
     gauge = fields.Float('Gauge', readonly=True)
@@ -175,11 +175,11 @@ LEFT JOIN product_product pp ON pp.id = pol.product_id
 LEFT JOIN product_template pt on pt.id = pp.product_tmpl_id
 WHERE not exists (select 1 from wip_distribution_line where pl_id = pol.id)
 GROUP BY pol.order_id, pp.product_tmpl_id, pol.color_id, pol.related_sale_id, pol.product_uom, pol.price_unit
-) s1
+
 UNION
-(
+
 SELECT
-min(wdl.id) as id,
+min(wdl.id) * -1 as id,
 pp.product_tmpl_id AS template_id,
 pol.order_id AS order_id,
 pol.color_id AS color_id,
@@ -197,7 +197,7 @@ LEFT JOIN product_product pp ON pp.id = pol.product_id
 LEFT JOIN product_template pt on pt.id = pp.product_tmpl_id
 WHERE exists (select 1 from wip_distribution_line where pl_id = pol.id)
 GROUP BY pol.order_id, wdl.sale_id, pp.product_tmpl_id, pol.color_id, pol.product_uom, pol.price_unit
-)
+) SQ
 
 )""")
 
