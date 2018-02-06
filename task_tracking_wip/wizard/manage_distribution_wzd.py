@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 # © 2017 Comunitea Servicios Tecnológicos S.L. (http://comunitea.com)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
+from odoo.exceptions import ValidationError
 
 
 class ManageDistributionWzd(models.TransientModel):
@@ -18,6 +19,26 @@ class ManageDistributionWzd(models.TransientModel):
     location_id = fields.Many2one('stock.location', 'To Location',
                                   readonly=True)
     wip_lines = fields.One2many('manage.lines', 'wzd_id', 'Manage Lines')
+    line_qty = fields.Float('Line Quantity', compute='_get_qtys',
+                            readonly=True)
+    distributed_qty = fields.Float('Dritributed Quantity', compute='_get_qtys',
+                                   readonly=True)
+    remaining_qty = fields.Float('Remaining Quantity', compute='_get_qtys',
+                                 readonly=True)
+
+    @api.multi
+    @api.depends('pl_id.product_qty', 'wip_lines.qty')
+    def _get_qtys(self):
+        pl_id = self.env['purchase.order.line'].\
+            browse(self._context.get('active_id'))
+        self.ensure_one()
+        lines_qty = 0
+        for wl in self.wip_lines:
+            lines_qty += wl.qty
+        line_qty = pl_id.product_qty
+        self.line_qty = line_qty
+        self.distributed_qty = lines_qty
+        self.remaining_qty = line_qty - lines_qty
 
     @api.model
     def default_get(self, fields):
@@ -58,6 +79,12 @@ class ManageDistributionWzd(models.TransientModel):
 
     @api.multi
     def apply(self):
+        if self.remaining_qty > 0.00:
+            raise ValidationError(_('There is pending quantity to \
+                                    distribute yet'))
+        if self.remaining_qty < 0.00:
+            raise ValidationError(_('There is distributed more quantity than \
+                                    purchase line quantity'))
         track_model = self.env['tracking.wip']
         model = self.move_id if self.move_id else self.pl_id
         model.wip_line_ids.unlink()

@@ -6,8 +6,15 @@
         <field name="arch" type="xml">
             <form string="Manage Lines">
                 <group>
-                    <field name="product_id"/>
-                    <field name="location_id"/>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="location_id"/>
+                    </group>
+                    <group>
+                        <field name="line_qty"/>
+                        <field name="distributed_qty"/>
+                        <field name="remaining_qty"/>
+                    </group>
                 </group>
                 <group string="Manage Lines">
                     <field name="wip_lines" nolabel="1">

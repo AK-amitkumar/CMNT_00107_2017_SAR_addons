@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-05 16:56+0000\n"
-"PO-Revision-Date: 2018-02-05 16:56+0000\n"
+"POT-Creation-Date: 2018-02-06 16:03+0000\n"
+"PO-Revision-Date: 2018-02-06 16:03+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -38,32 +38,32 @@ msgstr "Cliente asociado"
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_location_id
 msgid "Associated Location"
-msgstr "Ubicación asociada"
+msgstr "Associated Location"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_move_id
 msgid "Associated Move"
-msgstr "Movimiento asociado"
+msgstr "Associated Move"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_picking_id
 msgid "Associated Picking"
-msgstr "Albarán asociado"
+msgstr "Associated Picking"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_product_id
 msgid "Associated Product"
-msgstr "Producto asociado"
+msgstr "Associated Product"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_production_id
 msgid "Associated Production"
-msgstr "Producción asociada"
+msgstr "Associated Production"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_sale_id
 msgid "Associated Sale"
-msgstr "Venta asociada"
+msgstr "Associated Sale"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_project_task_shipping_sale_id
@@ -164,7 +164,6 @@ msgid "Destination move"
 msgstr "Movimiento de destino"
 
 #. module: task_tracking_wip
-#: model:ir.model.fields,field_description:task_tracking_wip.field_group_po_line_display_name
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_display_name
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_display_name
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_display_name
@@ -189,6 +188,11 @@ msgid "Distribution Wip Lines"
 msgstr "Lineas de distribución"
 
 #. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_distributed_qty
+msgid "Dritributed Quantity"
+msgstr "Cantidad distribuida"
+
+#. module: task_tracking_wip
 #: model:ir.ui.view,arch_db:task_tracking_wip.tracking_wip_form_view
 msgid "Evaluations"
 msgstr "Evaluaciones"
@@ -200,12 +204,6 @@ msgid "For Sale"
 msgstr "Para la venta"
 
 #. module: task_tracking_wip
-#: model:ir.model,name:task_tracking_wip.model_group_po_line
-msgid "Groping Purchase Order Lines"
-msgstr "Agrupar líneas de compra"
-
-#. module: task_tracking_wip
-#: model:ir.model.fields,field_description:task_tracking_wip.field_group_po_line_id
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_id
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_id
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip_id
@@ -222,7 +220,6 @@ msgid "Initial Project"
 msgstr "Proyecto inicial"
 
 #. module: task_tracking_wip
-#: model:ir.model.fields,field_description:task_tracking_wip.field_group_po_line___last_update
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd___last_update
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines___last_update
 #: model:ir.model.fields,field_description:task_tracking_wip.field_tracking_wip___last_update
@@ -245,6 +242,11 @@ msgstr "Última actualización por"
 #: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_write_date
 msgid "Last Updated on"
 msgstr "Última actualización el"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_line_qty
+msgid "Line Quantity"
+msgstr "Cantidad línea"
 
 #. module: task_tracking_wip
 #: model:ir.actions.act_window,name:task_tracking_wip.action_manage_distribution_wzd
@@ -334,11 +336,6 @@ msgid "Purchase Order Line"
 msgstr "Línea pedido de compra"
 
 #. module: task_tracking_wip
-#: model:ir.model.fields,field_description:task_tracking_wip.field_group_po_line_qty
-msgid "Qty"
-msgstr "Cant."
-
-#. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_qty
 #: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_qty
 msgid "Quantity"
@@ -352,13 +349,18 @@ msgstr "Quants"
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_purchase_order_line_related_sale_id
 msgid "Related Sale"
-msgstr "Venta asociada"
+msgstr "Venta relacionada"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_lines_task_id
 #: model:ir.model.fields,field_description:task_tracking_wip.field_wip_distribution_line_task_id
 msgid "Related Task"
-msgstr "Tarea asociada"
+msgstr "Tarea relacionada"
+
+#. module: task_tracking_wip
+#: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_remaining_qty
+msgid "Remaining Quantity"
+msgstr "Cantidad restante"
 
 #. module: task_tracking_wip
 #: model:ir.ui.view,arch_db:task_tracking_wip.stock_view_move_picking_form_add_task
@@ -440,7 +442,19 @@ msgstr "Tareas"
 #: code:addons/task_tracking_wip/models/tracking_wip.py:53
 #, python-format
 msgid "The selected model can not be tracked because is not related with task model"
-msgstr "El modelo seleccionado no puede ser seguido porque no está relacionado con el modelo de tareas"
+msgstr "El modelo seleccionado no puede ser seguido porque no está relaccionado con el modelo de tareas"
+
+#. module: task_tracking_wip
+#: code:addons/task_tracking_wip/wizard/manage_distribution_wzd.py:86
+#, python-format
+msgid "There is distributed more quantity than                                     purchase line quantity"
+msgstr "Hay más cantidad distribuida de la que existe en la línea de compra"
+
+#. module: task_tracking_wip
+#: code:addons/task_tracking_wip/wizard/manage_distribution_wzd.py:83
+#, python-format
+msgid "There is pending quantity to                                     distribute yet"
+msgstr "Todavía hay cantidad pendiente de distribuir"
 
 #. module: task_tracking_wip
 #: model:ir.model.fields,field_description:task_tracking_wip.field_manage_distribution_wzd_location_id

@@ -92,7 +92,7 @@ class GroupPoLine(models.Model):
                     att_qty = pol.product_qty
                     if gpl.sale_id and pol.wip_line_ids:
                         att_qty = 0
-                        wip_lines =  pol.wip_line_ids.\
+                        wip_lines = pol.wip_line_ids.\
                             filtered(lambda l: l.sale_id.id == gpl.sale_id.id)
                         for wl in wip_lines:
                             att_qty += wl.qty
