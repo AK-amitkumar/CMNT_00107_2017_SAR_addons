@@ -89,7 +89,14 @@ class GroupPoLine(models.Model):
                 size_att = pol.product_id.attribute_value_ids.\
                     filtered(lambda v: v.is_color is False)
                 if size_att:
-                    detail_dic[size_att.name] = pol.product_qty
+                    att_qty = pol.product_qty
+                    if gpl.sale_id and pol.wip_line_ids:
+                        att_qty = 0
+                        wip_lines =  pol.wip_line_ids.\
+                            filtered(lambda l: l.sale_id.id == gpl.sale_id.id)
+                        for wl in wip_lines:
+                            att_qty += wl.qty
+                    detail_dic[size_att.name] = att_qty
 
             gpl.att_detail = self._get_att_detail_str(gpl, detail_dic)
 
@@ -109,36 +116,13 @@ class GroupPoLine(models.Model):
             ref_prov = ""
             for seller in gpl.template_id.seller_ids:
                 if seller.name.id == gpl.order_id.partner_id.id:
-                    ref_prov = seller.product_code
+                    ref_prov = seller.product_code or ""
             if ref_prov:
                 ref_prov = ref_prov
             gpl.ref_prov = ref_prov
 
     @api.multi
     def _get_sales_str(self):
-        # for gpl in self:
-        #     sales_str = ""
-        #     sale_ids = []
-        #     for pol in gpl._get_lines_ungruped():
-        #         for wip_line in pol.wip_line_ids:
-        #             if not wip_line.sale_id:
-        #                 continue
-        #             if wip_line.sale_id.id not in sale_ids:
-        #                 sale_ids.append(wip_line.sale_id.id)
-        #         if not sale_ids and pol.related_sale_id:
-        #             sale_ids.append(wip_line.sale_id.ids)
-
-        #     domain = [('id', 'in', sale_ids)]
-        #     sale_objs = self.env['sale.order'].search(domain, order='id')
-        #     for sale in sale_objs:
-        #         if not sales_str:
-        #             sales_str += sale.name
-        #         else:
-        #             sales_str += ', ' + sale.name
-
-        #         if sale.model_id:
-        #             sales_str += '/' + sale.model_id.name
-        #     gpl.sales_str = sales_str
         for gpl in self:
             sales_str = ''
             if gpl.sale_id:
