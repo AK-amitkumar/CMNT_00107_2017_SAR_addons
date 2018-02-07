@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-31 18:16+0000\n"
-"PO-Revision-Date: 2018-01-31 18:16+0000\n"
+"POT-Creation-Date: 2018-02-07 17:19+0000\n"
+"PO-Revision-Date: 2018-02-07 17:19+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -271,6 +271,7 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line_display_name
 #: model:ir.model.fields,field_description:textile_base.field_label_location_display_name
 #: model:ir.model.fields,field_description:textile_base.field_label_type_display_name
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_display_name
@@ -329,6 +330,7 @@ msgid "Harmonized System Code. (Taric)"
 msgstr "Sistema harmonizado de códigos. (Taric)"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line_id
 #: model:ir.model.fields,field_description:textile_base.field_label_location_id
 #: model:ir.model.fields,field_description:textile_base.field_label_type_id
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs_id
@@ -382,6 +384,7 @@ msgid "Lapdip"
 msgstr "Lapdip"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line___last_update
 #: model:ir.model.fields,field_description:textile_base.field_label_location___last_update
 #: model:ir.model.fields,field_description:textile_base.field_label_type___last_update
 #: model:ir.model.fields,field_description:textile_base.field_product_attribute_value_color_refs___last_update
@@ -549,6 +552,22 @@ msgid "Origin Sales and Models"
 msgstr "Origen ventas y modelos"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_purchase_order_origin_model_id
+msgid "Origin model"
+msgstr "Modelo origen"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_purchase_order_origin_model_name
+#: model:ir.model.fields,field_description:textile_base.field_purchase_order_origin_sale_name
+msgid "Origin model name"
+msgstr "Nombre origen modelo"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_purchase_order_origin_sale_id
+msgid "Origin sale"
+msgstr "Venta origen"
+
+#. module: textile_base
 #: selection:product.composition,fabric_type:0
 msgid "Other"
 msgstr "Otro"
@@ -646,6 +665,11 @@ msgid "Purchase Origin"
 msgstr "Pedido Compra Origen"
 
 #. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line_qty
+msgid "Qty"
+msgstr "Cant."
+
+#. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_group_po_line_ref_prov
 msgid "Ref Prov"
 msgstr "Ref Prov"
@@ -680,6 +704,11 @@ msgstr "Referencia"
 #: model:ir.ui.view,arch_db:textile_base.size_refs_tree_view
 msgid "References"
 msgstr "Referencias"
+
+#. module: textile_base
+#: model:ir.model.fields,field_description:textile_base.field_group_po_line_sale_id
+msgid "Related Sale"
+msgstr "Venta asociada"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_sale_label_price_sale_id
@@ -789,7 +818,7 @@ msgstr "Versiones"
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_mrp_bom_line_weight_per
 msgid "Weigth %"
-msgstr "Weigth %"
+msgstr "Peso %"
 
 #. module: textile_base
 #: model:ir.model.fields,field_description:textile_base.field_group_po_line_width
