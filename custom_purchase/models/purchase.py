@@ -10,24 +10,30 @@ class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
     origin_po_id = fields.Many2one('purchase.order', 'Purchase Origin')
-    attn = fields.Char('Attention Of')
+    attn = fields.Char(string='To Attention Of')
 
     grouped_line_ids = fields.One2many('group.po.line', 'order_id',
                                        'Grouped Lines')
-    line_note = fields.Text('Line Note')
-    lines_sale_id = fields.Many2one('sale.order', 'Sale purchase lines')
-    lines_model_id = fields.Many2one('textile.model', 'Model Purchase lines')
-    origin_sale_id = fields.Many2one('sale.order', 'Origin sale',
+    line_note = fields.Text('Notes')
+    lines_sale_id = fields.Many2one('sale.order', 'Sale for lines')
+    lines_model_id = fields.Many2one('textile.model', 'Model for lines')
+    origin_sale_id = fields.Many2one('sale.order', 'Unique Origin Sale',
                                      compute='_get_from_sale_id')
-    origin_model_id = fields.Many2one('textile.model', 'Origin model',
+    origin_model_id = fields.Many2one('textile.model', 'Unique Origin model',
                                       compute='_get_from_sale_id',
                                       readonly=True)
+    # For purchase jasper report
     origin_model_name = fields.Char('Origin model name',
                                     compute='_get_from_sale_id',
                                     readonly=True)
     origin_sale_name = fields.Char('Origin model name',
                                    compute='_get_from_sale_id',
                                    readonly=True)
+
+    @api.onchange('lines_sale_id')
+    def onchange_sale_id(self):
+        if self.lines_sale_id and self.lines_sale_id.model_id:
+            self.lines_model_id = self.lines_sale_id.model_id.id
 
     @api.multi
     def _get_from_sale_id(self):
