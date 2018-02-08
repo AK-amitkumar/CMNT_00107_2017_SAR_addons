@@ -14,7 +14,7 @@
         'sale',
         'stock',
         'mrp',
-        'custom_purchase',  # For related sale id
+        'purchase',
         'project_model_to_task',
         'sale_order_dates',
         'project_native',
