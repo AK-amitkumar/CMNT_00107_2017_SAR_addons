@@ -12,12 +12,6 @@ class PurchaseOrder(models.Model):
     origin_po_id = fields.Many2one('purchase.order', 'Purchase Origin')
     attn = fields.Char('Attention Of')
 
-    @api.depends('product_id')
-    def _get_color(self):
-        for pol in self:
-            colors = pol.product_id.attribute_value_ids.filtered('is_color')
-            pol.color_id = colors[0] if colors else False
-
     grouped_line_ids = fields.One2many('group.po.line', 'order_id',
                                        'Grouped Lines')
     line_note = fields.Text('Line Note')
@@ -79,6 +73,12 @@ class PurchaseOrderLine(models.Model):
     def onchange_sale_id(self):
         if self.related_sale_id and self.related_sale_id.model_id:
             self.related_model_id = self.related_sale_id.model_id.id
+
+    @api.depends('product_id')
+    def _get_color(self):
+        for pol in self:
+            colors = pol.product_id.attribute_value_ids.filtered('is_color')
+            pol.color_id = colors[0] if colors else False
 
     @api.model
     def default_get(self, field_list):
