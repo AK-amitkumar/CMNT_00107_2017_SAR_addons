@@ -12,7 +12,8 @@
     "depends": [
         'purchase',
         'textile_base',
-        'task_tracking_wip'
+        'task_tracking_wip',
+        'purchase_order_variant_mgmt'
     ],
     "data": [
         'security/ir.model.access.csv',

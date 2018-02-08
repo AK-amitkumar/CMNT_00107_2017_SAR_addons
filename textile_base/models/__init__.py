@@ -11,4 +11,3 @@ from . import textile_model
 from . import product
 from . import label
 from . import sale
-# from . import purchase
