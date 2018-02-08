@@ -79,7 +79,7 @@ class ManageDistributionWzd(models.TransientModel):
 
     @api.multi
     def apply(self):
-        if self.remaining_qty > 0.00:
+        if self.remaining_qty > 0.00 and self.remaining_qty != self.line_qty:
             raise ValidationError(_('There is pending quantity to \
                                     distribute yet'))
         if self.remaining_qty < 0.00:

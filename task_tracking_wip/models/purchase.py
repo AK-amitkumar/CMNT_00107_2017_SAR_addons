@@ -11,7 +11,13 @@ class PurchaseOrderLine(models.Model):
 
     wip_line_ids = fields.One2many('wip.distribution.line', 'pl_id',
                                    'Distribution Lines')
-    related_sale_id = fields.Many2one('sale.order', 'Related Sale')
+    # related_sale_id = fields.Many2one('sale.order', 'Related Sale')
+    # related_model_id = fields.Many2one('textile.model', 'Related Model')
+
+    # @api.onchange('related_sale_id')
+    # def onchange_sale_id(self):
+    #     if self.related_sale_id and self.related_sale_id.model_id:
+    #         self.related_model_id = self.related_sale_id.model_id.id
 
     @api.multi
     def _prepare_stock_moves(self, picking):
