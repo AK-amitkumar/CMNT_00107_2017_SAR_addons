@@ -21,6 +21,8 @@ class PurchaseOrder(models.Model):
     grouped_line_ids = fields.One2many('group.po.line', 'order_id',
                                        'Grouped Lines')
     line_note = fields.Text('Line Note')
+    lines_sale_id = fields.Many2one('sale.order', 'Sale purchase lines')
+    lines_model_id = fields.Many2one('textile.model', 'Model Purchase lines')
     origin_sale_id = fields.Many2one('sale.order', 'Origin sale',
                                      compute='_get_from_sale_id')
     origin_model_id = fields.Many2one('textile.model', 'Origin model',
@@ -40,15 +42,15 @@ class PurchaseOrder(models.Model):
             origin_model_id = False
             origin_sale_name = ""
             origin_model_name = ""
-            sale_ids = []
+            set_sale_ids = set()
             for pol in po.order_line:
                 for wip_line in pol.wip_line_ids:
                     if not wip_line.sale_id:
                         continue
-                    if wip_line.sale_id.id not in sale_ids:
-                        sale_ids.append(wip_line.sale_id.id)
-                if not sale_ids and pol.related_sale_id:
-                    sale_ids.append(pol.related_sale_id.id)
+                    set_sale_ids.add(wip_line.sale_id.id)
+                if pol.related_sale_id and not pol.wip_line_ids:
+                    set_sale_ids.add(pol.related_sale_id.id)
+            sale_ids = list(set_sale_ids)
             if len(sale_ids) == 1:
                 origin_sale = self.env['sale.order'].browse(sale_ids[0])
                 origin_model = origin_sale.model_id
@@ -77,6 +79,17 @@ class PurchaseOrderLine(models.Model):
     def onchange_sale_id(self):
         if self.related_sale_id and self.related_sale_id.model_id:
             self.related_model_id = self.related_sale_id.model_id.id
+
+    @api.model
+    def default_get(self, field_list):
+        res = super(PurchaseOrderLine, self).default_get(field_list)
+        related_sale_id = self._context.get('lines_sale_id', False)
+        related_model_id = self._context.get('lines_model_id', False)
+        res.update({
+            'related_sale_id': related_sale_id,
+            'related_model_id': related_model_id
+        })
+        return res
 
 
 class GroupPoLine(models.Model):

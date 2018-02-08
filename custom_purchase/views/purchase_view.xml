@@ -11,7 +11,13 @@
                     <field name="attn"/>
                     <field name="origin_sale_id"/>
                     <field name="origin_model_id"/>
+                    <field name="lines_sale_id"/>
+                    <field name="lines_model_id"/>
                 </field>
+
+                <xpath expr="//field[@name='order_line']" position="attributes">
+                       <attribute name="context">{'lines_sale_id': lines_sale_id,'lines_model_id': lines_model_id}</attribute>
+                </xpath>
 
                 <xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="after">
                         <field name="related_sale_id"/>
