@@ -133,6 +133,10 @@ class GroupPoLine(models.Model):
         for line in self.order_id.order_line:
             if line.color_id.id == self.color_id.id and \
                     line.product_id.product_tmpl_id.id == self.template_id.id:
+                if self.sale_id.id != line.related_sale_id.id:
+                    continue
+                if self.model_id.id != line.related_model_id.id:
+                    continue
                 res += line
         return res
 
